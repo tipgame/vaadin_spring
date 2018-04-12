@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
-
-<body>
-<!DOCTYPE html>
-<html>
-<!--
+<!-- 
 Hint to Vaadin that if this page is ever sent back as response to a UIDL request, the user should be redirected.
 
 Vaadin-Refresh: context://login.html
 -->
 <head>
     <title>Tippspiel </title>
-
-    <link rel="shortcut icon" href="VAADIN/themes/apptheme/favicon.ico" />
+    <link rel="shortcut icon" href="VAADIN/themes/apptheme/favicon.ico">
+    </link>
 
     <link rel="icon" sizes="192x192" href="VAADIN/themes/apptheme/icon-192.png">
+    </link>
     <link rel="icon" sizes="96x96" href="VAADIN/themes/apptheme/icon-96.png">
+    </link>
 
     <link rel="apple-touch-icon" sizes="192x192" href="VAADIN/themes/apptheme/icon-192.png">
+    </link>
     <link rel="apple-touch-icon" sizes="96x96" href="VAADIN/themes/apptheme/icon-96.png">
+    </link>
 
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"></meta>
 
     <!-- Enable these to hide browser controls when app is started from homescreen:
     <meta name="mobile-web-app-capable" content="yes">
@@ -36,8 +36,10 @@ Vaadin-Refresh: context://login.html
           document.body.className = "error";
       }
     }
+    
 
-  </script>
+
+    </script>
     <style>
 		@font-face {
 			font-family: "Open Sans";
@@ -51,7 +53,7 @@ Vaadin-Refresh: context://login.html
 			font-weight: 600;
 			font-style: normal;
 		}
-
+		
     html {
      background: linear-gradient(145deg, #484962 30%, #d06b41 100%);
     }
@@ -65,6 +67,17 @@ Vaadin-Refresh: context://login.html
     }
     button {
       background-color: #4b4b65;
+    }
+    #logo {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+      background-image: url(VAADIN/themes/apptheme/icon-96.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-color: rgba(255,255,255,0.2);
+      box-shadow: 3px 3px 8px rgba(0,0,0,.2);
     }
 
 		/* Layout */
@@ -87,14 +100,14 @@ Vaadin-Refresh: context://login.html
 			background-color: #fff;
 			justify-content: center;
     }
-
-    /* Responsive behaviour */
+    
+    /* Responsive behaviour */	
 		@media (max-width: 1000px) {
 		  h2 {
         display: none;
       }
 		}
-
+		
 		@media (min-width: 1001px) {
 	    body {
 	      display: flex;
@@ -120,39 +133,39 @@ Vaadin-Refresh: context://login.html
 	      border-radius: 0 5px 5px 0;
 	    }
     }
-
+		
 		/* Elements / components theme */
-
+		
 		h1 {
 			font-size: 36px;
 			font-weight: 100;
-		}
+		}	
 		h2 {
 			font-size: 28px;
 			font-weight: 100;
 			margin-bottom: 14px;
-		}
+		}	
 		form {
 			max-width: 320px;
 		}
 		label {
 			font-size: 14px;
 			padding: 16px 0 5px 0;
-			display: inline-block;
-		}
+			display: inline-block; 
+		}	
 		input[type='text'],
 		input[type='password'] {
 			width: 100%;
-
+			
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			-ms-appearance: none;
 			-o-appearance: none;
 			appearance: none;
-
+			
 			font: inherit;
 			font-size: 14px;
-
+			
 			height: 37px;
 			border-radius: 4px;
 			padding: 4px 9px;
@@ -184,67 +197,42 @@ Vaadin-Refresh: context://login.html
 			left: -2px;
 			border-radius: inherit;
 		}
-	</style>
+		.error input {
+			display: block;
+			border-color: red;
+		}
+		.error form:after {
+			content: "The username and password you entered do not match our records. Please double-check and try again.";
+			display: block;
+			border: 1px solid red;
+			border-radius: 4px;
+			width: 100%;
+			margin-top: 16px;
+			font-size: 14px;
+			padding: 8px;
+		}
+		.registration {
+			text-align:center;
+			display:block;
+		}
+
+
+    </style>
 </head>
-<body onload="init()">
+<body>
+<div id="info">
+    <div id="logo"></div>
+    <h1>Tippspiel</h1>
+</div>
 <div id="form">
     <form method="post" action="login" id="theform">
         <label id="login-label" for="login">Benutzername</label>
-        <input type="text" id="login" name="username" aria-labelledby="login-label" autofocus>
+        <input type="text" id="login" name="username" aria-labelledby="login-label" autofocus="true"></input>
         <label id="password-label" for="password">Passwort</label>
-        <input type="password" id="password" name="password" aria-labelledby="password-label">
-        <button id="button-submit" type="submit">Foo</button>
+        <input type="password" id="password" name="password" aria-labelledby="password-label"></input>
+        <button id="button-submit" type="submit">Einloggen</button>
+        <a class="registration" style="margin=5" href="/user/register">Registrierung</a>
     </form>
 </div>
-
-<script type="text/javascript">
-var serverContext = [[@{/}]];
-$(document).ready(function () {
-	$('form').submit(function(event) {
-		register(event);
-	});
-});
-function register(event){
-	event.preventDefault();
-    $(".alert").html("").hide();
-    $(".error-list").html("");
-    if($("#password").val() != $("#matchPassword").val()){
-    	$("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
-    	return;
-    }
-    var formData= $('form').serialize();
-    $.post(serverContext + "user/registration",formData ,function(data){
-        if(data.message == "success"){
-            window.location.href = serverContext + "successRegister.html";
-        }
-
-    })
-    .fail(function(data) {
-        if(data.responseJSON.error.indexOf("MailError") > -1)
-        {
-            window.location.href = serverContext + "emailError.html";
-        }
-        else if(data.responseJSON.error == "UserAlreadyExist"){
-            $("#emailError").show().html(data.responseJSON.message);
-        }
-        else if(data.responseJSON.error.indexOf("InternalError") > -1){
-            window.location.href = serverContext + "login?message=" + data.responseJSON.message;
-        }
-        else{
-        	var errors = $.parseJSON(data.responseJSON.message);
-            $.each( errors, function( index,item ){
-            	if (item.field){
-            		$("#"+item.field+"Error").show().append(item.defaultMessage+"<br/>");
-            	}
-            	else {
-            		$("#globalError").show().append(item.defaultMessage+"<br/>");
-            	}
-
-            });
-        }
-    });
-}
-</script>
 </body>
-
 </html>

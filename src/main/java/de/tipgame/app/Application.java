@@ -1,6 +1,7 @@
 package de.tipgame.app;
 
 import de.tipgame.app.security.SecurityConfig;
+import de.tipgame.backend.controller.UserController;
 import de.tipgame.backend.repository.UserRepository;
 import de.tipgame.backend.service.UserService;
 import de.tipgame.ui.AppUI;
@@ -14,7 +15,7 @@ import org.vaadin.spring.events.annotation.EnableEventBus;
 
 
 @SpringBootApplication(scanBasePackageClasses = { AppUI.class, Application.class, UserService.class,
-        SecurityConfig.class, UserRepository.class})
+        SecurityConfig.class, UserRepository.class, UserController.class})
 @EnableEventBus
 @EntityScan("de.tipgame.backend.data.entity")
 @EnableJpaRepositories("de.tipgame.backend.repository")

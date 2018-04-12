@@ -6,7 +6,7 @@ public class RegistrationDto {
     private String email;
     private String username;
     private String password;
-    private String registrationCode;
+    private String registrationcode;
 
     public String getFirstname() {
         return firstname;
@@ -48,11 +48,11 @@ public class RegistrationDto {
         this.password = password;
     }
 
-    public String getRegistrationCode() {
-        return registrationCode;
+    public String getRegistrationcode() {
+        return registrationcode;
     }
 
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
+    public void setRegistrationcode(String registrationcode) {
+        this.registrationcode = registrationcode;
     }
 }

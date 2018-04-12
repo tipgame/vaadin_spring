@@ -1,6 +1,8 @@
 package de.tipgame.ui;
 
 import de.tipgame.app.HasLogger;
+import de.tipgame.ui.ChartsTheme;
+import de.tipgame.ui.MainView;
 import de.tipgame.ui.navigation.NavigationManager;
 import de.tipgame.ui.view.AccessDeniedView;
 import org.springframework.beans.factory.annotation.Autowired;

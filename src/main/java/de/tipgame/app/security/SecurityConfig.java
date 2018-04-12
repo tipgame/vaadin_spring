@@ -17,41 +17,43 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-	private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-	private final RedirectAuthenticationSuccessHandler successHandler;
+    private final RedirectAuthenticationSuccessHandler successHandler;
 
-	@Autowired
-	public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder,
-			RedirectAuthenticationSuccessHandler successHandler) {
-		this.userDetailsService = userDetailsService;
-		this.passwordEncoder = passwordEncoder;
-		this.successHandler = successHandler;
-	}
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder,
+                          RedirectAuthenticationSuccessHandler successHandler) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.successHandler = successHandler;
+    }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		super.configure(auth);
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// Not using Spring CSRF here to be able to use plain HTML for the login
-		// page
-		http.csrf().disable();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // Not using Spring CSRF here to be able to use plain HTML for the login
+        // page
+        http.csrf().disable();
+
 
 		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry reg = http
 				.authorizeRequests();
 
 		// Allow access to static resources ("/VAADIN/**")
 		reg = reg.antMatchers("/VAADIN/**").permitAll();
+		reg = reg.antMatchers("user/register", "/registration").permitAll();
 
 		// Require authentication for all URLS ("/**")
 		reg = reg
-				.antMatchers("/**").permitAll();//.hasAnyAuthority(Role.getAllRoles());
+				.antMatchers("/").hasAnyAuthority(Role.getAllRoles());
 		HttpSecurity sec = reg.and();
 
 		// Allow access to login page without login
@@ -59,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		login = login.loginPage(Application.LOGIN_URL).loginProcessingUrl(Application.LOGIN_PROCESSING_URL)
 				.failureUrl(Application.LOGIN_FAILURE_URL).successHandler(successHandler);
 		login.and().logout().logoutSuccessUrl(Application.LOGOUT_URL);
-	}
+
+    }
 
 }

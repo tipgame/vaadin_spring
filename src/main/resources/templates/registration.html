@@ -1,40 +1,5 @@
-<!DOCTYPE html>
-<html>
-<!-- 
-Hint to Vaadin that if this page is ever sent back as response to a UIDL request, the user should be redirected.
-
-Vaadin-Refresh: context://login.html
--->
-<head>
-  <title>Tippspiel </title>
-  
-  <link rel="shortcut icon" href="VAADIN/themes/apptheme/favicon.ico" />
-  
-  <link rel="icon" sizes="192x192" href="VAADIN/themes/apptheme/icon-192.png">
-  <link rel="icon" sizes="96x96" href="VAADIN/themes/apptheme/icon-96.png">
-  
-  <link rel="apple-touch-icon" sizes="192x192" href="VAADIN/themes/apptheme/icon-192.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="VAADIN/themes/apptheme/icon-96.png">
-  
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-  
-  <!-- Enable these to hide browser controls when app is started from homescreen:
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  -->
-    
-  <script type="text/javascript">
-    var init = function() {
-      if (window.location.hash) {
-        document.getElementById("theform").action += window.location.hash;
-      }
-      if (window.location.search.indexOf("error")>0) {
-          document.body.className = "error";
-      }
-    }
-    
-  </script>
-	<style>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<style>
 		@font-face {
 			font-family: "Open Sans";
 			src: url(VAADIN/themes/valo/fonts/open-sans/OpenSans-Light-webfont.woff) format("woff");
@@ -47,7 +12,7 @@ Vaadin-Refresh: context://login.html
 			font-weight: 600;
 			font-style: normal;
 		}
-		
+
     html {
      background: linear-gradient(145deg, #484962 30%, #d06b41 100%);
     }
@@ -94,14 +59,14 @@ Vaadin-Refresh: context://login.html
 			background-color: #fff;
 			justify-content: center;
     }
-    
-    /* Responsive behaviour */	
+
+    /* Responsive behaviour */
 		@media (max-width: 1000px) {
 		  h2 {
         display: none;
       }
 		}
-		
+
 		@media (min-width: 1001px) {
 	    body {
 	      display: flex;
@@ -127,39 +92,31 @@ Vaadin-Refresh: context://login.html
 	      border-radius: 0 5px 5px 0;
 	    }
     }
-		
+
 		/* Elements / components theme */
-		
-		h1 {
-			font-size: 36px;
-			font-weight: 100;
-		}	
-		h2 {
-			font-size: 28px;
-			font-weight: 100;
-			margin-bottom: 14px;
-		}	
+
 		form {
 			max-width: 320px;
 		}
 		label {
 			font-size: 14px;
 			padding: 16px 0 5px 0;
-			display: inline-block; 
-		}	
+			display: inline-block;
+		}
 		input[type='text'],
+		input[type='email'],
 		input[type='password'] {
 			width: 100%;
-			
+
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			-ms-appearance: none;
 			-o-appearance: none;
 			appearance: none;
-			
+
 			font: inherit;
 			font-size: 14px;
-			
+
 			height: 37px;
 			border-radius: 4px;
 			padding: 4px 9px;
@@ -191,40 +148,43 @@ Vaadin-Refresh: context://login.html
 			left: -2px;
 			border-radius: inherit;
 		}
-		.error input {
-			display: block;
-			border-color: red;
-		}
-		.error form:after {
-			content: "The username and password you entered do not match our records. Please double-check and try again.";
-			display: block;
-			border: 1px solid red;
-			border-radius: 4px;
-			width: 100%;
-			margin-top: 16px;
-			font-size: 14px;
-			padding: 8px;
-		}
+
 		.registration {
 			text-align:center;
 			display:block;
 		}
-	</style>
-</head>
+		</style>
 <body>
-	<div id="info">
-		<div id="logo"></div>
-		<h1>Tippspiel</h1>
-	</div>
-	<div id="form">
-		<form method="post" action="login" id="theform">
-			<label id="login-label" for="login">Benutzername</label>
-			<input type="text" id="login" name="username" aria-labelledby="login-label" autofocus>
-			<label id="password-label" for="password">Passwort</label>
-			<input type="password" id="password" name="password" aria-labelledby="password-label">
-			<button id="button-submit" type="submit">Einloggen</button>
-			<a class="registration" href="/user/register">Registrierung</a>
-		</form>
-	</div>
+    <form action="register" th:object="${user}" method="POST" enctype="utf8">
+        <div>
+            <label th:text="Vorname">first</label>
+            <input type="text" th:field="*{firstname}"/>
+            <p th:each="error: ${#fields.errors('firstname')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <div>
+            <label th:text="Nachname">last</label>
+            <input type="text" th:field="*{lastname}"/>
+            <p th:each="error : ${#fields.errors('lastname')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <div>
+            <label th:text="E-Mail">email</label>
+            <input type="email" th:field="*{email}"/>
+            <p th:each="error : ${#fields.errors('email')}"
+               th:text="${error} ">Validation error</p>
+        </div>
+        <div>
+            <label th:text="Passwort">password</label>
+            <input type="password" th:field="*{password}"/>
+        </div>
+        <div>
+            <label th:text="Regirstierungscode">first</label>
+            <input type="text" th:field="*{registrationcode}"/>
+        </div>
+        <button type="submit" th:text="Registrieren">submit</button>
+    </form>
+
+
 </body>
 </html>

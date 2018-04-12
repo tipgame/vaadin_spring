@@ -6,7 +6,8 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.spring.internal.Conventions;
 import com.vaadin.spring.navigator.SpringNavigator;
-import org.springframework.context.annotation.Role;
+import de.tipgame.app.security.SecurityUtils;
+import de.tipgame.backend.data.Role;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,6 +49,8 @@ public class NavigationManager extends SpringNavigator {
         if (!getState().isEmpty()) {
             return;
         }
+
+        navigateTo(SecurityUtils.isCurrentUserInRole(Role.ADMIN) ? de.tipgame.ui.view.dashboard.DashboardView.class : de.tipgame.ui.view.storefront.StorefrontView.class);
     }
 
     /**
