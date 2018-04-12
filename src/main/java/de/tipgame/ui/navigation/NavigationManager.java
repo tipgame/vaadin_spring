@@ -8,6 +8,8 @@ import com.vaadin.spring.internal.Conventions;
 import com.vaadin.spring.navigator.SpringNavigator;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.Role;
+import de.tipgame.ui.view.tipps.TippsView;
+import de.tipgame.ui.view.home.HomeView;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,13 +46,13 @@ public class NavigationManager extends SpringNavigator {
 
     public void navigateToDefaultView() {
         // If the user wants a specific view, it's in the URL.
-        // Otherwise admin goes to DashboardView and everybody else to
+        // Otherwise admin goes to TippsView and everybody else to
         // OrderListView
         if (!getState().isEmpty()) {
             return;
         }
 
-        navigateTo(SecurityUtils.isCurrentUserInRole(Role.ADMIN) ? de.tipgame.ui.view.dashboard.DashboardView.class : de.tipgame.ui.view.storefront.StorefrontView.class);
+        navigateTo(SecurityUtils.isCurrentUserInRole(Role.ADMIN) ? TippsView.class : HomeView.class);
     }
 
     /**

@@ -62,7 +62,7 @@ public class UserController {
             user.setRole("player");
             userRepository.save(user);
         } else {
-            result.rejectValue("email", "message.regError");
+            result.rejectValue("firstname", "error.firstname", "foo");
         }
 
         if (result.hasErrors()) {

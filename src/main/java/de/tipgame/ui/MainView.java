@@ -9,8 +9,8 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import de.tipgame.ui.navigation.NavigationManager;
-import de.tipgame.ui.view.dashboard.DashboardView;
-import de.tipgame.ui.view.storefront.StorefrontView;
+import de.tipgame.ui.view.home.HomeView;
+import de.tipgame.ui.view.tipps.TippsView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -34,8 +34,8 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 
     @PostConstruct
     public void init() {
-        attachNavigation(storefront, StorefrontView.class);
-        attachNavigation(dashboard, DashboardView.class);
+        attachNavigation(home, HomeView.class);
+        attachNavigation(tipps, TippsView.class);
 
         logout.addClickListener(e -> logout());
     }
