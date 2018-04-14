@@ -12,5 +12,4 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
     List<UserEntity> findAll();
 
-    UserEntity findById(int id);
 }

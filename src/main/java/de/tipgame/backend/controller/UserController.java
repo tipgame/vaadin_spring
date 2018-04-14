@@ -2,13 +2,11 @@ package de.tipgame.backend.controller;
 
 
 import de.tipgame.backend.data.entity.UserEntity;
-import de.tipgame.backend.dtos.RegistrationDto;
+import de.tipgame.backend.data.dtos.RegistrationDto;
 import de.tipgame.backend.repository.UserRepository;
 import de.tipgame.backend.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -37,7 +34,7 @@ public class UserController {
         this.userRepository = userRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-        this.modelMapper = new ModelMapper();;
+        this.modelMapper = new ModelMapper();
     }
 
     // Return registration form template

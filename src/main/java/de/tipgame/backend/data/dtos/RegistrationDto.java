@@ -1,4 +1,4 @@
-package de.tipgame.backend.dtos;
+package de.tipgame.backend.data.dtos;
 
 public class RegistrationDto {
     private String firstname;

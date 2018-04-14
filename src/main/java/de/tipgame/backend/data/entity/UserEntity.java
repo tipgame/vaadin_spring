@@ -3,7 +3,7 @@ package de.tipgame.backend.data.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,7 +14,6 @@ public class UserEntity {
     private String password;
     private String email;
     private String role;
-
 
     public int getId() {
         return id;
