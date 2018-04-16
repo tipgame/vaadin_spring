@@ -2,14 +2,16 @@ package de.tipgame.ui.view.tipps;
 
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
-import de.tipgame.backend.repository.UserMatchConnectionRepository;
+import com.vaadin.ui.Accordion;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.ui.navigation.NavigationManager;
 import de.tipgame.ui.view.tipps.component.TippsCustomComponent;
+import de.tipgame.ui.view.tipps.component.TippsCustomComponentForPrelimGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * The tipps view showing statistics about sales and deliveries.
@@ -37,10 +39,37 @@ public class TippsView extends TippsViewDesign implements View {
     @PostConstruct
     public void init() {
         setResponsive(true);
-        TippsCustomComponent tippsCustomComponent = new TippsCustomComponent(
-                userMatchConnectionService,
-                gameMatchService);
-        this.addComponent(tippsCustomComponent.init());
+        buildTippsLayout();
     }
 
+    private void buildTippsLayout() {
+        List<String> rounds = gameMatchService.getDistinctRounds();
+        Accordion tippsAccordionBaseLayout = new Accordion();
+        for(String round : rounds) {
+
+            if(round.equalsIgnoreCase("Vorrunde")) {
+                buildLayoutForPrelimGroups(tippsAccordionBaseLayout);
+            } else {
+                TippsCustomComponent tippsCustomComponent = new TippsCustomComponent(
+                        userMatchConnectionService,
+                        gameMatchService,
+                        round);
+                tippsAccordionBaseLayout.addTab(tippsCustomComponent.init(), round);
+            }
+        }
+
+        this.addComponent(tippsAccordionBaseLayout);
+    }
+
+    private void buildLayoutForPrelimGroups(Accordion tippsAccordionBaseLayout) {
+        List<String> distinctPrelimGroups = gameMatchService.getDistinctPrelimGroups();
+
+        for (String prelimGroup : distinctPrelimGroups) {
+            TippsCustomComponentForPrelimGroups tippsCustomComponentForPrelimGroups = new TippsCustomComponentForPrelimGroups(
+                    userMatchConnectionService,
+                    gameMatchService,
+                    prelimGroup);
+            tippsAccordionBaseLayout.addTab(tippsCustomComponentForPrelimGroups.init(), "Gruppe " + prelimGroup);
+        }
+    }
 }

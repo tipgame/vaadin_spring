@@ -31,6 +31,7 @@ public class GameMatchEntity {
     @Column(name = "prelim_group")
     private String prelimGroup;
 
+    @Column(name = "round")
     private String round;
 
     public int getMatchId() {

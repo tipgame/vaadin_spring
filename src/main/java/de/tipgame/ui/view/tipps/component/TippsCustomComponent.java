@@ -12,17 +12,20 @@ import java.util.List;
 
 public class TippsCustomComponent extends CustomComponent {
 
-    private Grid<GameMatchDto> grid;
+    Grid<GameMatchDto> grid;
     private TippsEditor tippsEditor;
     private HorizontalLayout mainLayout;
     private UserMatchConnectionService userMatchConnectionService;
-    private GameMatchService gameMatchService;
+    GameMatchService gameMatchService;
+    String filterArgumentForGettingAllMatches;
 
     public TippsCustomComponent(UserMatchConnectionService userMatchConnectionService,
-                                GameMatchService gameMatchService) {
+                                GameMatchService gameMatchService,
+                                String filterArgumentForGettingAllMatches) {
         this.userMatchConnectionService = userMatchConnectionService;
         this.gameMatchService = gameMatchService;
         this.tippsEditor = new TippsEditor(userMatchConnectionService);
+        this.filterArgumentForGettingAllMatches = filterArgumentForGettingAllMatches;
     }
 
     public HorizontalLayout init() {
@@ -36,15 +39,15 @@ public class TippsCustomComponent extends CustomComponent {
         });
 
         tippsEditor.setChangeHandler(() -> {
-            listMatches(gameMatchService.getAllMatches());
+            listMatches();
         });
 
-        listMatches(gameMatchService.getAllMatches());
+        listMatches();
 
         return mainLayout;
     }
 
-    private void listMatches(List<GameMatchDto> matches) {
-        grid.setItems(matches);
+    protected void listMatches() {
+        grid.setItems(gameMatchService.getAllMatchesByRound(filterArgumentForGettingAllMatches));
     }
 }
