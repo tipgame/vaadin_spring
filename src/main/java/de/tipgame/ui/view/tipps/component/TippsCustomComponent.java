@@ -1,14 +1,12 @@
 package de.tipgame.ui.view.tipps.component;
 
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DescriptionGenerator;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import de.tipgame.backend.data.dtos.GameMatchDto;
-import de.tipgame.backend.repository.UserMatchConnectionRepository;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
-
-import java.util.List;
 
 public class TippsCustomComponent extends CustomComponent {
 
@@ -32,7 +30,8 @@ public class TippsCustomComponent extends CustomComponent {
         grid = new Grid<>(GameMatchDto.class);
         mainLayout = new HorizontalLayout(grid, tippsEditor);
 
-        grid.setColumns("kickOff", "fixture", "tipp");
+        grid.setColumns("kickOff", "fixture", "tipp", "resultGame");
+        grid.getColumn("fixture").setDescriptionGenerator(GameMatchDto::getFixtureLongNameTooltip);
 
         grid.asSingleSelect().addValueChangeListener(e -> {
             tippsEditor.editTipp(e.getValue());
@@ -48,6 +47,6 @@ public class TippsCustomComponent extends CustomComponent {
     }
 
     protected void listMatches() {
-        grid.setItems(gameMatchService.getAllMatchesByRound(filterArgumentForGettingAllMatches));
+        grid.setItems(gameMatchService.buildGameMatchDtosToMatchesPerRound(filterArgumentForGettingAllMatches));
     }
 }

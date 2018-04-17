@@ -7,7 +7,6 @@ import java.util.Set;
 @Entity
 @Table(name = "user_statistic")
 public class UserStatisticEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

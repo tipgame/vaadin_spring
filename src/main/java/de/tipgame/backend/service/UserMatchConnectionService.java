@@ -7,6 +7,8 @@ import de.tipgame.backend.data.entity.UserMatchConnectionEntity;
 import de.tipgame.backend.repository.UserMatchConnectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserMatchConnectionService {
     private UserMatchConnectionRepository userMatchConnectionRepository;
@@ -27,6 +29,10 @@ public class UserMatchConnectionService {
         userMatchConnection.setResultTippAwayTeam(gameMatchDto.getTippAwayTeam());
 
         userMatchConnectionRepository.save(userMatchConnection);
+    }
+
+    public void saveUserMatchConnections(List<UserMatchConnectionEntity> userMatchConnectionEntities) {
+        userMatchConnectionRepository.save(userMatchConnectionEntities);
     }
 
     public UserMatchConnectionEntity getUserMatchConnectionToGameMatchId(Integer gameMatchId) {

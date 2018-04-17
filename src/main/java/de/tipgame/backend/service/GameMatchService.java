@@ -2,6 +2,7 @@ package de.tipgame.backend.service;
 
 import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.data.entity.GameMatchEntity;
+import de.tipgame.backend.data.entity.GameResultEntity;
 import de.tipgame.backend.data.entity.UserMatchConnectionEntity;
 import de.tipgame.backend.repository.MatchRepository;
 import de.tipgame.backend.repository.PrelimGroupOnly;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -19,11 +19,13 @@ import java.util.stream.Collectors;
 public class GameMatchService {
 
     private MatchRepository matchRepository;
-    private  UserMatchConnectionService userMatchConnectionService;
+    private UserMatchConnectionService userMatchConnectionService;
+    private GameResultService gameResultService;
 
-    public GameMatchService(MatchRepository matchRepository, UserMatchConnectionService userMatchConnectionService) {
+    public GameMatchService(MatchRepository matchRepository, UserMatchConnectionService userMatchConnectionService, GameResultService gameResultService) {
         this.matchRepository = matchRepository;
         this.userMatchConnectionService = userMatchConnectionService;
+        this.gameResultService = gameResultService;
     }
 
     public List<String> getDistinctRounds() {
@@ -33,41 +35,64 @@ public class GameMatchService {
     }
 
     public List<String> getDistinctPrelimGroups() {
-        List<PrelimGroupOnly> distinctBy = matchRepository.findPrelimGroupDistinctBy();
+        List<PrelimGroupOnly> distinctBy = matchRepository.findDistinctPrelimGroupByRound("Vorrunde");
 
         return distinctBy.stream().map(prelimGroupOnly -> prelimGroupOnly.getPrelimGroup()).collect(Collectors.toList());
     }
 
-    public List<GameMatchDto> getAllMatchesByRound(String round) {
+    public List<GameMatchEntity> getAllMatchesByRound(String round) {
         List<GameMatchEntity> matches = matchRepository.findByRoundOrderByPrelimGroupAscKickOffAsc(round);
+        return matches;
+    }
+
+    public Iterable<GameMatchEntity> getAllMatches() {
+        return matchRepository.findAll();
+    }
+
+    public List<GameMatchDto> buildGameMatchDtosToMatchesPerRound(String round) {
+        List<GameMatchEntity> matches = getAllMatchesByRound(round);
         List<GameMatchDto> gameMatchDtos = matches.stream()
                 .map(gameMatchEntity -> buildGameMatchDto(gameMatchEntity,
-                        userMatchConnectionService.getUserMatchConnectionToGameMatchId(gameMatchEntity.getMatchId())))
+                        userMatchConnectionService.getUserMatchConnectionToGameMatchId(gameMatchEntity.getMatchId()),
+                        gameResultService.getGameResultToMatch(gameMatchEntity.getMatchId())))
                 .collect(Collectors.toList());
 
         return gameMatchDtos;
     }
 
     public List<GameMatchDto> getAllMatchesByPrelimGroup(String prelimGroup) {
-        List<GameMatchEntity> matches = matchRepository.findByPrelimGroupOrderByPrelimGroupAscKickOffAsc(prelimGroup);
+        List<GameMatchEntity> matches = matchRepository.findByRoundAndPrelimGroupOrderByPrelimGroupAscKickOffAsc(
+                "Vorrunde", prelimGroup);
         List<GameMatchDto> gameMatchDtos = matches.stream()
                 .map(gameMatchEntity -> buildGameMatchDto(gameMatchEntity,
-                        userMatchConnectionService.getUserMatchConnectionToGameMatchId(gameMatchEntity.getMatchId())))
+                        userMatchConnectionService.getUserMatchConnectionToGameMatchId(gameMatchEntity.getMatchId()),
+                        gameResultService.getGameResultToMatch(gameMatchEntity.getMatchId())))
                 .collect(Collectors.toList());
 
         return gameMatchDtos;
     }
 
-    private GameMatchDto buildGameMatchDto(GameMatchEntity match, UserMatchConnectionEntity userMatchConnectionEntity) {
+    private GameMatchDto buildGameMatchDto(GameMatchEntity match,
+                                           UserMatchConnectionEntity userMatchConnectionEntity,
+                                           GameResultEntity gameResultEntity) {
         GameMatchDto gameMatchDto = new GameMatchDto();
         gameMatchDto.setFixture(match.getHomeTeamShortName() + " : " + match.getAwayTeamShortName());
         gameMatchDto.setKickOff(match.getKickOff().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                 .withLocale(new Locale("de"))));
-        if(userMatchConnectionEntity != null) {
+
+        if (userMatchConnectionEntity != null) {
             gameMatchDto.setTippHomeTeam(userMatchConnectionEntity.getResultTippHomeTeam());
             gameMatchDto.setTippAwayTeam(userMatchConnectionEntity.getResultTippAwayTeam());
         }
+        if(gameResultEntity != null) {
+            gameMatchDto.setResultAwayTeam(String.valueOf(gameResultEntity.getResultAwayTeam()));
+            gameMatchDto.setResultHomeTeam(String.valueOf(gameResultEntity.getResultHomeTeam()));
+        }
+        gameMatchDto.setRound(match.getRound());
         gameMatchDto.setGamcheMatchId(match.getMatchId());
+        gameMatchDto.setLongNameAwayTeam(match.getAwayTeamName());
+        gameMatchDto.setLongNameHomeTeam(match.getHomeTeamName());
+
         return gameMatchDto;
     }
 }

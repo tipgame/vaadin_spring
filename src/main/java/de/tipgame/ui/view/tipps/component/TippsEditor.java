@@ -1,8 +1,11 @@
 package de.tipgame.ui.view.tipps.component;
 
+import com.vaadin.server.Page;
+import com.vaadin.ui.*;
 import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.repository.UserMatchConnectionRepository;
 import de.tipgame.backend.service.UserMatchConnectionService;
+import de.tipgame.backend.utils.TipgameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Binder;
@@ -10,10 +13,6 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SpringComponent
@@ -46,26 +45,41 @@ public class TippsEditor extends VerticalLayout {
     }
 
     private void saveTipp(GameMatchDto gameMatchDto) {
+        if (gameMatchDto == null) {
+            new Notification("Hinweis: ",
+                    "Bitte wähle in der Liste links eine Begegnung aus für welche der Tipp abgegeben werden soll",
+                    Notification.Type.ASSISTIVE_NOTIFICATION, false)
+                    .show(Page.getCurrent());
+            return;
+        }
         userMatchConnectionService.saveTipp(gameMatchDto);
+
+        new Notification("Tipp gespeichert!",
+                "",
+                Notification.Type.ASSISTIVE_NOTIFICATION, false)
+                .show(Page.getCurrent());
     }
 
     public interface ChangeHandler {
-
         void onChange();
     }
 
-    public final void editTipp(GameMatchDto c) {
-        if (c == null) {
+    public final void editTipp(GameMatchDto gameMatchDto) {
+        if (gameMatchDto == null) {
             tippAwayTeam.setValue("");
             tippHomeTeam.setValue("");
             return;
         }
-        gameMatchDto = c;
-        binder.setBean(c);
+        tippHomeTeam.setCaption("Ergebnis für " + gameMatchDto.getLongNameHomeTeam());
+        tippAwayTeam.setCaption("Ergebnis für " + gameMatchDto.getLongNameAwayTeam());
 
-        setVisible(true);
+        tippAwayTeam.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
+        tippHomeTeam.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
+        save.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
+        delete.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
 
-        save.focus();
+        this.gameMatchDto = gameMatchDto;
+        binder.setBean(gameMatchDto);
     }
 
     public void setChangeHandler(ChangeHandler h) {

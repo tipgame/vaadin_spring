@@ -3,6 +3,9 @@ package de.tipgame.ui.view.tipps;
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Accordion;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.ui.navigation.NavigationManager;
@@ -58,7 +61,14 @@ public class TippsView extends TippsViewDesign implements View {
             }
         }
 
+        selectFirstEntryOnTippsView(tippsAccordionBaseLayout);
         this.addComponent(tippsAccordionBaseLayout);
+    }
+
+    private void selectFirstEntryOnTippsView(Accordion tippsAccordionBaseLayout) {
+        HorizontalLayout vL = (HorizontalLayout) tippsAccordionBaseLayout.getTab(0).getComponent();
+        Grid component = (Grid) vL.getComponent(0);
+        component.select(component.getDataCommunicator().fetchItemsWithRange(0,1).get(0));
     }
 
     private void buildLayoutForPrelimGroups(Accordion tippsAccordionBaseLayout) {
