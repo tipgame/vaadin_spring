@@ -62,6 +62,11 @@ public class TippsView extends TippsViewDesign implements View {
         }
 
         selectFirstEntryOnTippsView(tippsAccordionBaseLayout);
+        tippsAccordionBaseLayout.addSelectedTabChangeListener(e -> {
+            HorizontalLayout vL = (HorizontalLayout) e.getTabSheet().getSelectedTab();
+            Grid component = (Grid) vL.getComponent(0);
+            component.select(component.getDataCommunicator().fetchItemsWithRange(0,1).get(0));
+        });
         this.addComponent(tippsAccordionBaseLayout);
     }
 

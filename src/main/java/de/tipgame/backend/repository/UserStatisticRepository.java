@@ -11,4 +11,6 @@ import java.util.List;
 public interface UserStatisticRepository extends CrudRepository<UserStatisticEntity, Integer> {
 
     List<UserStatisticEntity> findAll();
+    UserStatisticEntity findByUserId(Integer userId);
+    List<UserStatisticEntity> findAllByOrderByPointsDesc();
 }

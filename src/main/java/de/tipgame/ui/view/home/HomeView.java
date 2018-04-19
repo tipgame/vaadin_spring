@@ -9,6 +9,7 @@ import com.vaadin.ui.Panel;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.dtos.User;
 import de.tipgame.backend.data.entity.UserEntity;
+import de.tipgame.backend.service.StatisticService;
 import de.tipgame.backend.service.UserService;
 import de.tipgame.ui.navigation.NavigationManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,12 @@ public class HomeView extends HomeViewDesign implements View {
 
     private final NavigationManager navigationManager;
     private UserService userService;
-
+    private StatisticService statisticService;
     @Autowired
-    public HomeView(NavigationManager navigationManager, UserService userService){
+    public HomeView(NavigationManager navigationManager, UserService userService, StatisticService statisticService){
         this.userService = userService;
         this.navigationManager = navigationManager;
+        this.statisticService = statisticService;
     }
 
     @PostConstruct
@@ -33,6 +35,7 @@ public class HomeView extends HomeViewDesign implements View {
         createSalutationLabel();
         createPanelAndGridForUserRanking();
         createPanelAndGridForTeamRanking();
+        statisticService.startCalculation();
     }
 
     private void createSalutationLabel() {

@@ -1,7 +1,12 @@
 package de.tipgame.app;
 
+import com.vaadin.server.CustomizedSystemMessages;
+import com.vaadin.server.SystemMessages;
+import com.vaadin.server.SystemMessagesInfo;
+import com.vaadin.server.SystemMessagesProvider;
 import de.tipgame.app.security.SecurityConfig;
 import de.tipgame.backend.controller.UserController;
+import de.tipgame.backend.processor.PointsProcessor;
 import de.tipgame.backend.repository.UserRepository;
 import de.tipgame.backend.service.UserService;
 import de.tipgame.ui.AppUI;
@@ -10,12 +15,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.vaadin.spring.events.annotation.EnableEventBus;
 
 
 @SpringBootApplication(scanBasePackageClasses = { AppUI.class, Application.class, UserService.class,
-        SecurityConfig.class, UserRepository.class, UserController.class})
+        SecurityConfig.class, UserRepository.class, UserController.class, PointsProcessor.class})
 @EnableEventBus
 @EntityScan("de.tipgame.backend.data.entity")
 @EnableJpaRepositories("de.tipgame.backend.repository")

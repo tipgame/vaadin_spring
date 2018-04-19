@@ -8,6 +8,7 @@ import de.tipgame.backend.repository.UserMatchConnectionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserMatchConnectionService {
@@ -31,6 +32,10 @@ public class UserMatchConnectionService {
         userMatchConnectionRepository.save(userMatchConnection);
     }
 
+    public void saveUserMatchConnection(UserMatchConnectionEntity userMatchConnectionEntities) {
+        userMatchConnectionRepository.save(userMatchConnectionEntities);
+    }
+
     public void saveUserMatchConnections(List<UserMatchConnectionEntity> userMatchConnectionEntities) {
         userMatchConnectionRepository.save(userMatchConnectionEntities);
     }
@@ -39,5 +44,16 @@ public class UserMatchConnectionService {
         UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
         return userMatchConnectionRepository.findByUserIdAndGameMatchId(
                 currentUser.getId(), gameMatchId);
+    }
+
+    public List<UserMatchConnectionEntity> getAllTippsFromUser(Integer userId, List<Integer> gameMatchIds) {
+        List<UserMatchConnectionEntity> userMatchConnections =
+                userMatchConnectionRepository.findByUserIdAndGameMatchIdIn(userId, gameMatchIds);
+
+        return userMatchConnections.stream()
+                .filter(e -> !e.getAlreadyProcessed())
+                .filter(e -> !e.getResultTippAwayTeam().equals(""))
+                .filter(e -> !e.getResultTippHomeTeam().equals(""))
+                .collect(Collectors.toList());
     }
 }

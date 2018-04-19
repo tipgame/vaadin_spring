@@ -14,6 +14,10 @@ public class UserEntity {
     private String password;
     private String email;
     private String role;
+    @Column(name = "winner_tipp")
+    private String winnerTipp;
+    @Column(name = "germany_tipp")
+    private String germanyTipp;
 
     public int getId() {
         return id;
@@ -69,5 +73,21 @@ public class UserEntity {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getWinnerTipp() {
+        return winnerTipp;
+    }
+
+    public void setWinnerTipp(String winnerTipp) {
+        this.winnerTipp = winnerTipp;
+    }
+
+    public String getGermanyTipp() {
+        return germanyTipp;
+    }
+
+    public void setGermanyTipp(String germanyTipp) {
+        this.germanyTipp = germanyTipp;
     }
 }

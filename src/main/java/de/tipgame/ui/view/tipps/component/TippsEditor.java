@@ -25,8 +25,8 @@ public class TippsEditor extends VerticalLayout {
     TextField tippHomeTeam = new TextField("Ergebnis Heimmanschaft");
     TextField tippAwayTeam = new TextField("Ergebnis Auswärtsmannschaft");
 
-    Button save = new Button("Save", VaadinIcons.CHECK);
-    Button delete = new Button("Delete", VaadinIcons.TRASH);
+    Button save = new Button("Speichern", VaadinIcons.CHECK);
+    Button delete = new Button("Löschen", VaadinIcons.TRASH);
     CssLayout actions = new CssLayout(save, delete);
 
     Binder<GameMatchDto> binder = new Binder<>(GameMatchDto.class);
@@ -42,13 +42,30 @@ public class TippsEditor extends VerticalLayout {
         save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         save.addClickListener(e -> saveTipp(gameMatchDto));
+        delete.addClickListener(e -> deleteTipp(gameMatchDto));
+    }
+
+    private void deleteTipp (GameMatchDto gameMatchDto) {
+        if (gameMatchDto == null) {
+            tippHomeTeam.setValue("");
+            tippAwayTeam.setValue("");
+            return;
+        }
+        gameMatchDto.setTippHomeTeam("");
+        gameMatchDto.setTippAwayTeam("");
+        userMatchConnectionService.saveTipp(gameMatchDto);
+
+        new Notification("Tipp gelöscht!",
+                "",
+                Notification.Type.HUMANIZED_MESSAGE, false)
+                .show(Page.getCurrent());
     }
 
     private void saveTipp(GameMatchDto gameMatchDto) {
         if (gameMatchDto == null) {
             new Notification("Hinweis: ",
                     "Bitte wähle in der Liste links eine Begegnung aus für welche der Tipp abgegeben werden soll",
-                    Notification.Type.ASSISTIVE_NOTIFICATION, false)
+                    Notification.Type.WARNING_MESSAGE, false)
                     .show(Page.getCurrent());
             return;
         }
@@ -56,7 +73,7 @@ public class TippsEditor extends VerticalLayout {
 
         new Notification("Tipp gespeichert!",
                 "",
-                Notification.Type.ASSISTIVE_NOTIFICATION, false)
+                Notification.Type.HUMANIZED_MESSAGE, false)
                 .show(Page.getCurrent());
     }
 

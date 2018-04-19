@@ -28,4 +28,8 @@ public class TipgameUtils {
         }
         return result;
     }
+
+    public static Boolean isTimeToCalcFinalResults(String timeToCalcFinalResults) {
+        return isTimeToDisable(timeToCalcFinalResults);
+    }
 }
