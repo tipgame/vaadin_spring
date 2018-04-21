@@ -52,7 +52,7 @@ public class GameMatchService {
         return matches;
     }
 
-    public Iterable<GameMatchEntity> getAllMatches() {
+    public List<GameMatchEntity> getAllMatches() {
         return matchRepository.findAll();
     }
 

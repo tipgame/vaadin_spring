@@ -5,7 +5,6 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.ui.navigation.NavigationManager;

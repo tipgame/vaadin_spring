@@ -1,7 +1,6 @@
 package de.tipgame.ui.view.tipps.component;
 
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DescriptionGenerator;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import de.tipgame.backend.data.dtos.GameMatchDto;
@@ -10,7 +9,7 @@ import de.tipgame.backend.service.UserMatchConnectionService;
 
 public class TippsCustomComponent extends CustomComponent {
 
-    Grid<GameMatchDto> grid;
+    private Grid<GameMatchDto> grid;
     private TippsEditor tippsEditor;
     private HorizontalLayout mainLayout;
     private UserMatchConnectionService userMatchConnectionService;

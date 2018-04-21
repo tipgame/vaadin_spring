@@ -35,7 +35,6 @@ public class HomeView extends HomeViewDesign implements View {
         createSalutationLabel();
         createPanelAndGridForUserRanking();
         createPanelAndGridForTeamRanking();
-        statisticService.startCalculation();
     }
 
     private void createSalutationLabel() {

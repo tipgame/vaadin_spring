@@ -9,6 +9,7 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import de.tipgame.ui.navigation.NavigationManager;
+import de.tipgame.ui.view.admin.AdminView;
 import de.tipgame.ui.view.home.HomeView;
 import de.tipgame.ui.view.tipps.TippsView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class MainView extends MainViewDesign implements ViewDisplay {
     public void init() {
         attachNavigation(home, HomeView.class);
         attachNavigation(tipps, TippsView.class);
+        attachNavigation(admin, AdminView.class);
 
         logout.addClickListener(e -> logout());
     }

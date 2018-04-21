@@ -8,6 +8,7 @@ import com.vaadin.spring.internal.Conventions;
 import com.vaadin.spring.navigator.SpringNavigator;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.Role;
+import de.tipgame.ui.view.admin.AdminView;
 import de.tipgame.ui.view.tipps.TippsView;
 import de.tipgame.ui.view.home.HomeView;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class NavigationManager extends SpringNavigator {
             return;
         }
 
-        navigateTo(SecurityUtils.isCurrentUserInRole(Role.ADMIN) ? TippsView.class : HomeView.class);
+        navigateTo(SecurityUtils.isCurrentUserInRole(Role.ADMIN) ? AdminView.class : HomeView.class);
     }
 
     /**

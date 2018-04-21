@@ -3,7 +3,6 @@ package de.tipgame.ui.view.tipps.component;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import de.tipgame.backend.data.dtos.GameMatchDto;
-import de.tipgame.backend.repository.UserMatchConnectionRepository;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.backend.utils.TipgameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
