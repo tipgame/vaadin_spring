@@ -9,7 +9,7 @@ import de.tipgame.backend.service.UserMatchConnectionService;
 
 public class TippsCustomComponent extends CustomComponent {
 
-    private Grid<GameMatchDto> grid;
+    protected Grid<GameMatchDto> grid;
     private TippsEditor tippsEditor;
     private HorizontalLayout mainLayout;
     private UserMatchConnectionService userMatchConnectionService;

@@ -56,6 +56,15 @@ public class GameMatchService {
         return matchRepository.findAll();
     }
 
+    public List<GameMatchDto> getAllMatchesAsGameMatchDto() {
+        List<GameMatchEntity> matches = getAllMatches();
+        return matches.stream()
+                .map(gameMatchEntity -> buildGameMatchDto(gameMatchEntity,
+                        null,
+                        null))
+                .collect(Collectors.toList());
+    }
+
     public List<GameMatchDto> buildGameMatchDtosToMatchesPerRound(String round) {
         List<GameMatchEntity> matches = getAllMatchesByRound(round);
         List<GameMatchDto> gameMatchDtos = matches.stream()
@@ -86,6 +95,29 @@ public class GameMatchService {
                 .collect(Collectors.toMap(GameResultEntity::getGameMatchId, Function.identity()));
     }
 
+    public void updateGameMatch(GameMatchDto gameMatchDto) {
+        GameMatchEntity gameMatchEntity = new GameMatchEntity();
+        gameMatchEntity.setMatchId(gameMatchDto.getGamcheMatchId());
+        gameMatchEntity.setKickOff(gameMatchDto.getOriginalKickOff());
+        gameMatchEntity.setAwayTeamName(gameMatchDto.getLongNameAwayTeam());
+        gameMatchEntity.setAwayTeamShortName(gameMatchDto.getShortNameAwayTeam());
+        gameMatchEntity.setHomeTeamName(gameMatchDto.getLongNameHomeTeam());
+        gameMatchEntity.setHomeTeamShortName(gameMatchDto.getShortNameHomeTeam());
+
+        matchRepository.save(gameMatchEntity);
+    }
+
+    public void saveGameMatch(GameMatchDto gameMatchDto) {
+        GameMatchEntity gameMatchEntity = new GameMatchEntity();
+        gameMatchEntity.setKickOff(gameMatchDto.getOriginalKickOff());
+        gameMatchEntity.setAwayTeamName(gameMatchDto.getLongNameAwayTeam());
+        gameMatchEntity.setAwayTeamShortName(gameMatchDto.getShortNameAwayTeam());
+        gameMatchEntity.setHomeTeamName(gameMatchDto.getLongNameHomeTeam());
+        gameMatchEntity.setHomeTeamShortName(gameMatchDto.getShortNameHomeTeam());
+
+        matchRepository.save(gameMatchEntity);
+    }
+
     private GameMatchDto buildGameMatchDto(GameMatchEntity match,
                                            UserMatchConnectionEntity userMatchConnectionEntity,
                                            GameResultEntity gameResultEntity) {
@@ -106,6 +138,7 @@ public class GameMatchService {
         gameMatchDto.setGamcheMatchId(match.getMatchId());
         gameMatchDto.setLongNameAwayTeam(match.getAwayTeamName());
         gameMatchDto.setLongNameHomeTeam(match.getHomeTeamName());
+        gameMatchDto.setOriginalKickOff(match.getKickOff());
 
         return gameMatchDto;
     }

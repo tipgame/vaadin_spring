@@ -1,5 +1,7 @@
 package de.tipgame.backend.data.dtos;
 
+import java.time.LocalDateTime;
+
 public class GameMatchDto {
     private String fixture;
     private String kickOff;
@@ -16,6 +18,8 @@ public class GameMatchDto {
     private String resultAwayTeam;
     private String resultGame;
     private String fixtureLongNameTooltip;
+    private String prelimGroup;
+    private LocalDateTime originalKickOff;
 
     public String getFixture() {
         return fixture;
@@ -133,4 +137,19 @@ public class GameMatchDto {
         return longNameHomeTeam + " : " + longNameAwayTeam;
     }
 
+    public String getPrelimGroup() {
+        return prelimGroup;
+    }
+
+    public void setPrelimGroup(String prelimGroup) {
+        this.prelimGroup = prelimGroup;
+    }
+
+    public LocalDateTime getOriginalKickOff() {
+        return originalKickOff;
+    }
+
+    public void setOriginalKickOff(LocalDateTime originalKickOff) {
+        this.originalKickOff = originalKickOff;
+    }
 }

@@ -3,16 +3,20 @@ package de.tipgame.ui.view.admin.component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.data.entity.GameMatchEntity;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AdminViewCustomComponent extends CustomComponent {
 
-    private Grid<GameMatchEntity> grid;
+    private Grid<GameMatchDto> grid;
     private AdminViewCustomEditor adminViewCustomEditor;
-    private HorizontalLayout mainLayout;
+    private VerticalLayout mainLayout;
     GameMatchService gameMatchService;
 
     public AdminViewCustomComponent(GameMatchService gameMatchService) {
@@ -20,12 +24,39 @@ public class AdminViewCustomComponent extends CustomComponent {
         this.adminViewCustomEditor = new AdminViewCustomEditor(gameMatchService);
     }
 
-    public HorizontalLayout init() {
-        grid = new Grid<>(GameMatchEntity.class);
-        mainLayout = new HorizontalLayout(grid, adminViewCustomEditor);
+    public VerticalLayout init() {
+        grid = new Grid<>(GameMatchDto.class);
+        grid.setWidth(100, Unit.PERCENTAGE);
+        mainLayout = new VerticalLayout(grid, adminViewCustomEditor);
 
-        grid.setColumns("kickOff", "fixture", "tipp", "resultGame");
+        grid.setColumns(
+                "originalKickOff",
+                "longNameHomeTeam",
+                "longNameAwayTeam",
+                "shortNameHomeTeam",
+                "shortNameAwayTeam",
+                "prelimGroup",
+                "round",
+                "resultHomeTeam",
+                "resultAwayTeam");
 
+        List<String> captions = Arrays.asList(
+                "Anpfiff",
+                "Heimmannschaft (lang)",
+                "Heimmannschaft (kurz)",
+                "Auswärtsmannschaft (lang)",
+                "Auswärtsmannschaft (kurz)",
+                "Gruppe",
+                "Runde",
+                "Ergebnis Heimmannschaft",
+                "Ergebnis Auswärtsmannschaft");
+
+        List<Grid.Column<GameMatchDto, ?>> columns = grid.getColumns();
+        Integer index = 0;
+        for(Grid.Column col : columns) {
+            col.setCaption(captions.get(index));
+            index++;
+        }
         grid.asSingleSelect().addValueChangeListener(e -> {
             adminViewCustomEditor.editTipp(e.getValue());
         });
@@ -38,6 +69,6 @@ public class AdminViewCustomComponent extends CustomComponent {
     }
 
     protected void listMatches() {
-        grid.setItems(gameMatchService.getAllMatches());
+        grid.setItems(gameMatchService.getAllMatchesAsGameMatchDto());
     }
 }

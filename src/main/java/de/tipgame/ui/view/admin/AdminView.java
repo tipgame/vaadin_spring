@@ -2,6 +2,8 @@ package de.tipgame.ui.view.admin;
 
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
 import de.tipgame.backend.data.Role;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.ui.view.admin.component.AdminViewCustomComponent;
@@ -28,7 +30,7 @@ public class AdminView extends AdminViewDesign implements View {
 
     private void createLayout() {
         AdminViewCustomComponent adminViewCustomComponent = new AdminViewCustomComponent(gameMatchService);
-        this.addComponent(adminViewCustomComponent);
+        this.addComponent(adminViewCustomComponent.init());
     }
 
 }

@@ -11,15 +11,11 @@ public class GameMatchEntity {
     @Column(name = "match_id")
     private int matchId;
 
-    @Column(name = "away_team_image")
-    private String awayTeamImage;
     @Column(name = "away_team_name")
     private String awayTeamName;
     @Column(name = "away_team_short_name")
     private String awayTeamShortName;
 
-    @Column(name = "home_team_image")
-    private String homeTeamImage;
     @Column(name = "home_team_name")
     private String homeTeamName;
     @Column(name = "home_team_short_name")
@@ -42,14 +38,6 @@ public class GameMatchEntity {
         this.matchId = matchId;
     }
 
-    public String getAwayTeamImage() {
-        return awayTeamImage;
-    }
-
-    public void setAwayTeamImage(String awayTeamImage) {
-        this.awayTeamImage = awayTeamImage;
-    }
-
     public String getAwayTeamName() {
         return awayTeamName;
     }
@@ -64,14 +52,6 @@ public class GameMatchEntity {
 
     public void setAwayTeamShortName(String awayTeamShortName) {
         this.awayTeamShortName = awayTeamShortName;
-    }
-
-    public String getHomeTeamImage() {
-        return homeTeamImage;
-    }
-
-    public void setHomeTeamImage(String homeTeamImage) {
-        this.homeTeamImage = homeTeamImage;
     }
 
     public String getHomeTeamName() {
