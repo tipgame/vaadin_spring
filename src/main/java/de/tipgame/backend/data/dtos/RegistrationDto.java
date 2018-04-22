@@ -7,6 +7,7 @@ public class RegistrationDto {
     private String username;
     private String password;
     private String registrationcode;
+    private String retypepassword;
 
     public String getFirstname() {
         return firstname;
@@ -54,5 +55,13 @@ public class RegistrationDto {
 
     public void setRegistrationcode(String registrationcode) {
         this.registrationcode = registrationcode;
+    }
+
+    public String getRetypepassword() {
+        return retypepassword;
+    }
+
+    public void setRetypepassword(String retypepassword) {
+        this.retypepassword = retypepassword;
     }
 }

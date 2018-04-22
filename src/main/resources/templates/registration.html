@@ -1,4 +1,11 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrierung</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <style>
 		@font-face {
 			font-family: "Open Sans";
@@ -78,7 +85,7 @@
         height:96px;
 	    }
 	    #info, #form {
-	      height: 450px;
+	      height: 600px;
 	      box-shadow: 0 2px 3px rgba(0,0,0,.2);
 	    }
 	    #info {
@@ -87,7 +94,7 @@
 	      border-radius: 5px 0 0 5px;
 	    }
 	    #form {
-	      width: 320px;
+	      width: 350px;
 	      padding: 28px;
 	      border-radius: 0 5px 5px 0;
 	    }
@@ -95,6 +102,15 @@
 
 		/* Elements / components theme */
 
+		h1 {
+			font-size: 36px;
+			font-weight: 100;
+		}
+		h2 {
+			font-size: 28px;
+			font-weight: 100;
+			margin-bottom: 14px;
+		}
 		form {
 			max-width: 320px;
 		}
@@ -104,8 +120,8 @@
 			display: inline-block;
 		}
 		input[type='text'],
-		input[type='email'],
-		input[type='password'] {
+		input[type='password']
+		{
 			width: 100%;
 
 			-webkit-appearance: none;
@@ -120,6 +136,7 @@
 			height: 37px;
 			border-radius: 4px;
 			padding: 4px 9px;
+			margin: 10px;
 			border: 1px solid rgba(0,0,0,.2);
 		}
 		button {
@@ -148,49 +165,62 @@
 			left: -2px;
 			border-radius: inherit;
 		}
-
-		.registration {
+		.loginLink {
 			text-align:center;
 			display:block;
+			margin:10px;
 		}
-		</style>
-<body>
-    <form action="register" th:object="${user}" method="POST" enctype="utf8">
-        <div>
-            <label th:text="Vorname">first</label>
-            <input type="text" th:field="*{firstname}"/>
-            <p th:each="error: ${#fields.errors('firstname')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label th:text="Nachname">last</label>
-            <input type="text" th:field="*{lastname}"/>
-            <p th:each="error : ${#fields.errors('lastname')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label th:text="Benutzername">last</label>
-            <input type="text" th:field="*{username}"/>
-            <p th:each="error : ${#fields.errors('username')}"
-               th:text="${error}">Validation error</p>
-        </div>
-        <div>
-            <label th:text="E-Mail">email</label>
-            <input type="email" th:field="*{email}"/>
-            <p th:each="error : ${#fields.errors('email')}"
-               th:text="${error} ">Validation error</p>
-        </div>
-        <div>
-            <label th:text="Passwort">password</label>
-            <input type="password" th:field="*{password}"/>
-        </div>
-        <div>
-            <label th:text="Regirstierungscode">first</label>
-            <input type="text" th:field="*{registrationcode}"/>
-        </div>
-        <button type="submit" th:text="Registrieren">submit</button>
-    </form>
+		.validation-message{
+		    font-size=8px;
+		    font-color=red;
+		}
+	</style>
+    <body>
+        <div id="form">
+            <form autocomplete="off" action="#" th:action="@{/user/register}"
+                  th:object="${registrationDto}" method="post" role="form" id="theform">
+
+                        <label th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
+                               class="validation-message"></label>
+                        <input type="text" th:field="*{firstname}" placeholder="Vorname"/>
+
+                        <label	th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"
+                                  class="validation-message"></label>
+                        <input type="text" th:field="*{lastname}"
+                               placeholder="Nachname"  />
+
+                        <input type="text" th:field="*{email}" placeholder="Email"
+                                /> <label
+                            th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                            class="validation-message"></label>
+
+                        <input type="text" th:field="*{username}" placeholder="Benutzername"
+                                /> <label
+                            th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                            class="validation-message"></label>
+
+                        <input type="password" th:field="*{password}"
+                               placeholder="Passwort"  /> <label
+                            th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                            class="validation-message"></label>
+
+                        <input type="password" th:field="*{retypepassword}"
+                               placeholder="Passwort erneut eingeben"  /> <label
+                            th:if="${#fields.hasErrors('retypepassword')}" th:errors="*{retypepassword}"
+                            class="validation-message"></label>
+
+                        <input type="text" th:field="*{registrationcode}"
+                               placeholder="Registrierungscode"  /> <label
+                            th:if="${#fields.hasErrors('registrationcode')}" th:errors="*{registrationcode}"
+                            class="validation-message"></label>
+
+                        <button type="submit" class="btn btn-primary btn-block">Benutzer anlegen</button>
 
 
-</body>
+                <span th:utext="${successMessage}"></span>
+                <a class="loginLink" href="/">Zurück zur Login-Seite</a>
+
+            </form>
+        </div>
+    </body>
 </html>

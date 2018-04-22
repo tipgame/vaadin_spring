@@ -32,6 +32,11 @@ public class TippsCustomComponent extends CustomComponent {
         grid.setColumns("kickOff", "fixture", "tipp", "resultGame");
         grid.getColumn("fixture").setDescriptionGenerator(GameMatchDto::getFixtureLongNameTooltip);
 
+        grid.getColumn("kickOff").setCaption("Anpfiff");
+        grid.getColumn("fixture").setCaption("Begegnung");
+        grid.getColumn("tipp").setCaption("Dein Tipp");
+        grid.getColumn("resultGame").setCaption("Ergebnis");
+
         grid.asSingleSelect().addValueChangeListener(e -> {
             tippsEditor.editTipp(e.getValue());
         });

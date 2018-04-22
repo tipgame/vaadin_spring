@@ -61,7 +61,7 @@ public class GameMatchService {
         return matches.stream()
                 .map(gameMatchEntity -> buildGameMatchDto(gameMatchEntity,
                         null,
-                        null))
+                        gameResultService.getGameResultToMatch(gameMatchEntity.getMatchId())))
                 .collect(Collectors.toList());
     }
 
@@ -103,7 +103,8 @@ public class GameMatchService {
         gameMatchEntity.setAwayTeamShortName(gameMatchDto.getShortNameAwayTeam());
         gameMatchEntity.setHomeTeamName(gameMatchDto.getLongNameHomeTeam());
         gameMatchEntity.setHomeTeamShortName(gameMatchDto.getShortNameHomeTeam());
-
+        gameMatchEntity.setPrelimGroup(gameMatchDto.getPrelimGroup());
+        gameMatchEntity.setRound(gameMatchDto.getRound());
         matchRepository.save(gameMatchEntity);
     }
 
@@ -138,6 +139,9 @@ public class GameMatchService {
         gameMatchDto.setGamcheMatchId(match.getMatchId());
         gameMatchDto.setLongNameAwayTeam(match.getAwayTeamName());
         gameMatchDto.setLongNameHomeTeam(match.getHomeTeamName());
+        gameMatchDto.setShortNameAwayTeam(match.getAwayTeamShortName());
+        gameMatchDto.setShortNameHomeTeam(match.getHomeTeamShortName());
+        gameMatchDto.setPrelimGroup(match.getPrelimGroup());
         gameMatchDto.setOriginalKickOff(match.getKickOff());
 
         return gameMatchDto;

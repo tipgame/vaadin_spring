@@ -196,7 +196,7 @@ Vaadin-Refresh: context://login.html
 			border-color: red;
 		}
 		.error form:after {
-			content: "The username and password you entered do not match our records. Please double-check and try again.";
+			content: "Benutzername oder Passwort stimmen nicht.";
 			display: block;
 			border: 1px solid red;
 			border-radius: 4px;
@@ -211,7 +211,7 @@ Vaadin-Refresh: context://login.html
 		}
 	</style>
 </head>
-<body>
+<body onLoad="init()">
 	<div id="info">
 		<div id="logo"></div>
 		<h1>Tippspiel</h1>
