@@ -29,9 +29,8 @@ public class AdminViewCustomEditor extends VerticalLayout {
 
     Button saveNew = new Button("Neuer Eintrag", VaadinIcons.CHECK);
     Button saveChanges = new Button("Änderungen Speichern", VaadinIcons.CHECK);
-    Button delete = new Button("Löschen", VaadinIcons.TRASH);
-    Button clear = new Button("Eingabe leeren", VaadinIcons.DEL);
-    CssLayout actions = new CssLayout(saveNew, saveChanges, delete, clear);
+    Button clear = new Button("Eingabe leeren", VaadinIcons.TRASH);
+    CssLayout actions = new CssLayout(saveNew, saveChanges, clear);
 
     Binder<GameMatchDto> binder = new Binder<>(GameMatchDto.class);
 
@@ -72,17 +71,8 @@ public class AdminViewCustomEditor extends VerticalLayout {
         setSpacing(true);
 
         saveChanges.addClickListener(e -> updateMatch(gameMatchDto));
-        delete.addClickListener(e -> deleteTipp(gameMatchDto));
         clear.addClickListener(e -> clearInput());
         saveNew.addClickListener(e -> saveMatch(gameMatchDto));
-    }
-
-    private void deleteTipp(GameMatchDto gameMatchDto) {
-
-        new Notification("Eintrag gelöscht!",
-                "",
-                Notification.Type.HUMANIZED_MESSAGE, false)
-                .show(Page.getCurrent());
     }
 
     private void updateMatch(GameMatchDto gameMatchDto) {
@@ -121,6 +111,6 @@ public class AdminViewCustomEditor extends VerticalLayout {
 
     public void setChangeHandler(ChangeHandler h) {
         saveChanges.addClickListener(e -> h.onChange());
-        delete.addClickListener(e -> h.onChange());
+        saveNew.addClickListener(e -> h.onChange());
     }
 }

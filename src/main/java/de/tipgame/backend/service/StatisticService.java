@@ -38,7 +38,7 @@ public class StatisticService {
         this.teamService = teamService;
     }
 
-    public void startCalculation() {
+    public boolean startCalculation() {
         Integer points = 0;
         gameMatchs = gameMatchService.getGameResultMapForFinishedGames();
 
@@ -57,7 +57,7 @@ public class StatisticService {
         }
 
         CalculateFullPointsAfterLastMatch(currentUser);
-
+        return true;
     }
 
     public void CalculateTeamPointsAndRankForAllTeams()

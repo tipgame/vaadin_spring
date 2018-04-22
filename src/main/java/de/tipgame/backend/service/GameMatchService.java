@@ -96,8 +96,19 @@ public class GameMatchService {
     }
 
     public void updateGameMatch(GameMatchDto gameMatchDto) {
-        GameMatchEntity gameMatchEntity = new GameMatchEntity();
+        GameMatchEntity gameMatchEntity = fillGameMatchEntity(gameMatchDto);
         gameMatchEntity.setMatchId(gameMatchDto.getGamcheMatchId());
+        matchRepository.save(gameMatchEntity);
+    }
+
+    public void saveGameMatch(GameMatchDto gameMatchDto) {
+        GameMatchEntity gameMatchEntity = fillGameMatchEntity(gameMatchDto);
+        matchRepository.save(gameMatchEntity);
+    }
+
+    private GameMatchEntity fillGameMatchEntity(GameMatchDto gameMatchDto) {
+        GameMatchEntity gameMatchEntity = new GameMatchEntity();
+
         gameMatchEntity.setKickOff(gameMatchDto.getOriginalKickOff());
         gameMatchEntity.setAwayTeamName(gameMatchDto.getLongNameAwayTeam());
         gameMatchEntity.setAwayTeamShortName(gameMatchDto.getShortNameAwayTeam());
@@ -105,18 +116,8 @@ public class GameMatchService {
         gameMatchEntity.setHomeTeamShortName(gameMatchDto.getShortNameHomeTeam());
         gameMatchEntity.setPrelimGroup(gameMatchDto.getPrelimGroup());
         gameMatchEntity.setRound(gameMatchDto.getRound());
-        matchRepository.save(gameMatchEntity);
-    }
 
-    public void saveGameMatch(GameMatchDto gameMatchDto) {
-        GameMatchEntity gameMatchEntity = new GameMatchEntity();
-        gameMatchEntity.setKickOff(gameMatchDto.getOriginalKickOff());
-        gameMatchEntity.setAwayTeamName(gameMatchDto.getLongNameAwayTeam());
-        gameMatchEntity.setAwayTeamShortName(gameMatchDto.getShortNameAwayTeam());
-        gameMatchEntity.setHomeTeamName(gameMatchDto.getLongNameHomeTeam());
-        gameMatchEntity.setHomeTeamShortName(gameMatchDto.getShortNameHomeTeam());
-
-        matchRepository.save(gameMatchEntity);
+        return gameMatchEntity;
     }
 
     private GameMatchDto buildGameMatchDto(GameMatchEntity match,
