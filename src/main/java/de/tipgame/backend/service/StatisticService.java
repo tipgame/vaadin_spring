@@ -1,13 +1,14 @@
 package de.tipgame.backend.service;
 
-import com.sun.org.glassfish.external.statistics.Statistic;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.entity.*;
 import de.tipgame.backend.processor.PointsProcessor;
 import de.tipgame.backend.utils.TipgameUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class StatisticService {
@@ -20,6 +21,7 @@ public class StatisticService {
     private UserStatisticService userStatisticService;
     private FinalResultService finalResultService;
     private TeamService teamService;
+    private StatisticTimelineService statisticTimelineService;
 
 
     public StatisticService(GameMatchService gameMatchService,
@@ -27,8 +29,9 @@ public class StatisticService {
                             UserMatchConnectionService userMatchConnectionService,
                             PointsProcessor pointsProcessor,
                             UserStatisticService userStatisticService,
-                            FinalResultService finalResultService, 
-                            TeamService teamService) {
+                            FinalResultService finalResultService,
+                            TeamService teamService,
+                            StatisticTimelineService statisticTimelineService) {
         this.gameMatchService = gameMatchService;
         this.userService = userService;
         this.userMatchConnectionService = userMatchConnectionService;
@@ -36,6 +39,7 @@ public class StatisticService {
         this.userStatisticService = userStatisticService;
         this.finalResultService = finalResultService;
         this.teamService = teamService;
+        this.statisticTimelineService = statisticTimelineService;
     }
 
     public boolean startCalculation() {
@@ -56,23 +60,23 @@ public class StatisticService {
             }
         }
 
-        CalculateFullPointsAfterLastMatch(currentUser);
+        calculateFullPointsAfterLastMatch(currentUser);
+        calculateTeamPointsAndRankForAllTeams();
+
         return true;
     }
 
-    public void CalculateTeamPointsAndRankForAllTeams()
-    {
-        List<TeamEntity> teams= teamService.getAllTeams();
-        
-        for(TeamEntity team : teams) {
+    private void calculateTeamPointsAndRankForAllTeams() {
+        List<TeamEntity> teams = teamService.getAllTeams();
+
+        for (TeamEntity team : teams) {
             String[] userIDs = team.getUserIds().split(";");
             Float sumOfPoints = 0F;
             for (String userId : userIDs) {
                 sumOfPoints = sumOfPoints + getAllPointsForUser(Integer.parseInt(userId));
             }
 
-            if(userIDs.length > 0)
-            {
+            if (userIDs.length > 0) {
                 float teamPoints = ((sumOfPoints / userIDs.length) * 5);
                 team.setPoints(teamPoints);
                 teamService.saveTeam(team);
@@ -81,14 +85,13 @@ public class StatisticService {
         computeTeamRank();
     }
 
-    private void computeTeamRank(){
+    private void computeTeamRank() {
 
         List<TeamEntity> allTeamsOrderdByPointsDesc = teamService.getAllTeamsOrderdByPointsDesc();
         int rank = 1;
         float points = 0;
-        for (TeamEntity team : allTeamsOrderdByPointsDesc)
-        {
-            if(team.getPoints() < points)
+        for (TeamEntity team : allTeamsOrderdByPointsDesc) {
+            if (team.getPoints() < points)
                 rank++;
             team.setRank(rank);
             teamService.saveTeam(team);
@@ -96,16 +99,14 @@ public class StatisticService {
             points = team.getPoints();
         }
     }
-    
-    private int getAllPointsForUser(int userId)
-    {
+
+    private int getAllPointsForUser(int userId) {
         UserStatisticEntity userStatisticForUserId = userStatisticService.getUserStatisticForUserId(userId);
         return userStatisticForUserId.getPoints();
     }
 
 
-    private void savePoints(Integer points, Integer userId)
-    {
+    private void savePoints(Integer points, Integer userId) {
         UserStatisticEntity userStatisticForUserId = userStatisticService.getUserStatisticForUserId(userId);
         Integer pointsSum = points + userStatisticForUserId.getPoints();
         userStatisticForUserId.setPoints(pointsSum);
@@ -127,20 +128,33 @@ public class StatisticService {
         pointsProcessor.setAwayTeamTipp(awayTeamTipp);
         pointsProcessor.setHomeTeamTipp(homeTeamTipp);
 
-        return pointsProcessor.computePoints();
+        Integer points = pointsProcessor.computePoints();
+
+        setStatisticTimeline(userMatchConnection, points);
+
+        return points;
     }
 
-    private void CalculateFullPointsAfterLastMatch(UserEntity user)
-    {
+    private void setStatisticTimeline(UserMatchConnectionEntity userMatchConnection,
+                                      Integer points) {
+        StatisticTimelineEntity statisticTimelineEntity = new StatisticTimelineEntity();
+        statisticTimelineEntity.setMatchId(userMatchConnection.getGameMatchId());
+        statisticTimelineEntity.setUserId(userMatchConnection.getUserId());
+        statisticTimelineEntity.setPoints(points);
+
+        statisticTimelineService.saveStatisticTimeline(statisticTimelineEntity);
+    }
+
+    private void calculateFullPointsAfterLastMatch(UserEntity user) {
         Integer points = 0;
-        if(TipgameUtils.isTimeToCalcFinalResults("10.07.2018 00:01")) {
+        if (TipgameUtils.isTimeToCalcFinalResults("10.07.2018 00:01")) {
 
             String winner = user.getWinnerTipp();
             String tippGermany = user.getGermanyTipp();
 
             Iterable<FinalResultEntity> finalResults = finalResultService.getFinalResults();
-            for(FinalResultEntity finalResultEntity : finalResults) {
-                if (finalResultEntity.getResultGermany().equalsIgnoreCase(tippGermany)){
+            for (FinalResultEntity finalResultEntity : finalResults) {
+                if (finalResultEntity.getResultGermany().equalsIgnoreCase(tippGermany)) {
                     points = points + 10;
                 }
                 if (finalResultEntity.getWinner().equalsIgnoreCase(winner)) {
