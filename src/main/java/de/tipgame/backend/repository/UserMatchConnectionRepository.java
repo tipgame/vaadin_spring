@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserMatchConnectionRepository extends CrudRepository<UserMatchConnectionEntity, Integer> {
     UserMatchConnectionEntity findByUserIdAndGameMatchId(final Integer userId, final Integer gameMatchId);
     List<UserMatchConnectionEntity> findByUserIdAndGameMatchIdIn(Integer userId, List<Integer> gameMatchId);
+    List<UserMatchConnectionEntity> findByUserId(Integer userId);
 }

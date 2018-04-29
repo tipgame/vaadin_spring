@@ -35,14 +35,10 @@ $app-background-gradient: unquote("linear-gradient(145deg, #484962 30%, #d06b41 
 $app-background-image: url('bg.jpg');
 
 @import '../valo/valo.scss';
-@import 'ordersgrid';
-@import 'ordersview';
-@import 'dashboardview';
 @import 'menu';
 
 @mixin apptheme {
   @include valo;
-  @include dashboardview;
   @include menu;
 
   .v-errorindicator {

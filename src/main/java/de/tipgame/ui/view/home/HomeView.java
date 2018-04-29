@@ -10,6 +10,7 @@ import de.tipgame.backend.data.entity.UserEntity;
 import de.tipgame.backend.service.NewsService;
 import de.tipgame.backend.service.StatisticService;
 import de.tipgame.backend.service.UserService;
+import de.tipgame.ui.charts.TippgameChart;
 import de.tipgame.ui.navigation.NavigationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,40 +24,46 @@ public class HomeView extends HomeViewDesign implements View {
     private UserService userService;
     private StatisticService statisticService;
     private NewsService newsService;
+    private VerticalLayout mainLayout;
+    private TippgameChart tippgameChart;
 
     @Autowired
     public HomeView(NavigationManager navigationManager,
                     UserService userService,
                     StatisticService statisticService,
-                    NewsService newsService){
+                    NewsService newsService, TippgameChart tippgameChart) {
         this.userService = userService;
         this.navigationManager = navigationManager;
         this.statisticService = statisticService;
         this.newsService = newsService;
+        this.tippgameChart = tippgameChart;
     }
 
     @PostConstruct
     public void init() {
         setResponsive(true);
+        this.setSizeFull();
+        mainLayout = new VerticalLayout();
         createSalutationLabel();
         createNewsSection();
+        createChartStatisticTimelineLayout();
         createRankingLayout();
+        this.addComponent(mainLayout);
+    }
+    private void createSalutationLabel() {
+        UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
+        VerticalLayout vL = new VerticalLayout();
+        Label salutation = new Label("Herzlich willkommen " + currentUser.getFirstname() + " " + currentUser.getLastname());
+        salutation.addStyleName("h2");
+        vL.addComponent(salutation);
+        vL.setComponentAlignment(salutation, Alignment.TOP_CENTER);
+        mainLayout.addComponent(vL);
     }
 
-    private void createRankingLayout() {
-        HorizontalLayout hL = new HorizontalLayout();
-        hL.setWidth(90, Unit.PERCENTAGE);
-        hL.addComponent(createPanelAndGridForUserRanking());
-        hL.addComponent(createPanelAndGridForTeamRanking());
-
-        this.addComponent(hL);
-    }
     private void createNewsSection() {
         Panel panel = new Panel();
-        panel.setWidth(90, Unit.PERCENTAGE);
+        VerticalLayout vL = new VerticalLayout();
         panel.setCaption("Neuigkeiten");
-        this.addComponent(panel);
-        setComponentAlignment(panel, Alignment.TOP_CENTER);
 
         List<NewsEntity> newsEntityList = newsService.getAllNewsOrderdByIdDesc();
 
@@ -66,14 +73,30 @@ public class HomeView extends HomeViewDesign implements View {
         newsLabel.setValue(newsEntity.getTimestamp().toString() + " " + newsEntity.getMessage());
 
         panel.setContent(newsLabel);
+
+        vL.addComponent(panel);
+        mainLayout.addComponent(vL);
+
     }
 
-    private void createSalutationLabel() {
-        UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
-        Label salutation = new Label( "Herzlich willkommen "+ currentUser.getFirstname() + " " + currentUser.getLastname() );
-        salutation.addStyleName( "h2" );
-        this.addComponent(salutation);
-        this.setComponentAlignment(salutation, Alignment.TOP_CENTER);
+    private void createRankingLayout() {
+        HorizontalLayout hL = new HorizontalLayout();
+        VerticalLayout vL = new VerticalLayout();
+        hL.addComponentsAndExpand(createPanelAndGridForUserRanking(), createPanelAndGridForTeamRanking());
+        vL.addComponent(hL);
+
+        mainLayout.addComponent(vL);
+
+    }
+
+    private void createChartStatisticTimelineLayout() {
+        Panel panel = new Panel();
+        VerticalLayout vL = new VerticalLayout();
+        panel.setCaption("Punkteverlauf");
+        panel.setContent(createChart());
+
+        vL.addComponent(panel);
+        mainLayout.addComponent(vL);
     }
 
     private Panel createPanelAndGridForUserRanking() {
@@ -81,8 +104,6 @@ public class HomeView extends HomeViewDesign implements View {
         panel.setCaption("Ranking der Teilnehmer");
 
         Grid<User> grid = new Grid<>();
-        grid.setWidth(100, Unit.PERCENTAGE);
-        grid.setHeight(100, Unit.PERCENTAGE);
         grid.setItems(userService.getAllUsersSortedByRank());
         grid.addColumn(User::getFirstname).setCaption("Vorname");
         grid.addColumn(User::getLastname).setCaption("Nachname");
@@ -97,8 +118,6 @@ public class HomeView extends HomeViewDesign implements View {
         panel.setCaption("Ranking der Teams");
 
         Grid<User> grid = new Grid<>();
-        grid.setWidth(100, Unit.PERCENTAGE);
-        grid.setHeight(100, Unit.PERCENTAGE);
         grid.setItems(userService.getAllUsersSortedByRank());
         grid.addColumn(User::getFirstname).setCaption("Vorname");
         grid.addColumn(User::getLastname).setCaption("Nachname");
@@ -106,6 +125,10 @@ public class HomeView extends HomeViewDesign implements View {
         panel.setContent(grid);
 
         return panel;
+    }
+
+    private Component createChart() {
+        return tippgameChart.getChart();
     }
 
 }

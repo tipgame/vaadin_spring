@@ -14,6 +14,6 @@ public interface MatchRepository extends CrudRepository<GameMatchEntity, Integer
 
     List<RoundOnly> findDistinctBy();
     List<PrelimGroupOnly> findDistinctPrelimGroupByRound(@Param("round") final String round);
-    List<GameMatchEntity> findByMatchId(List<Integer> matchIds);
+    List<GameMatchEntity> findByMatchIdIn(List<Integer> matchIds);
     List<GameMatchEntity> findAll();
 }

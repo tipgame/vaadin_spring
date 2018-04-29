@@ -46,7 +46,7 @@ public class UserMatchConnectionService {
                 currentUser.getId(), gameMatchId);
     }
 
-    public List<UserMatchConnectionEntity> getAllTippsFromUser(Integer userId, List<Integer> gameMatchIds) {
+    public List<UserMatchConnectionEntity> getAllTippsFromUserByMatchIds(Integer userId, List<Integer> gameMatchIds) {
         List<UserMatchConnectionEntity> userMatchConnections =
                 userMatchConnectionRepository.findByUserIdAndGameMatchIdIn(userId, gameMatchIds);
 
@@ -54,6 +54,14 @@ public class UserMatchConnectionService {
                 .filter(e -> !e.getAlreadyProcessed())
                 .filter(e -> !e.getResultTippAwayTeam().equals(""))
                 .filter(e -> !e.getResultTippHomeTeam().equals(""))
+                .collect(Collectors.toList());
+    }
+
+    public List<UserMatchConnectionEntity> getAllProcessedTippsFromUser(Integer userId) {
+        List<UserMatchConnectionEntity> allTippsFromUser = userMatchConnectionRepository.findByUserId(userId);
+
+        return allTippsFromUser.stream()
+                .filter(e -> e.getAlreadyProcessed().equals(true))
                 .collect(Collectors.toList());
     }
 }

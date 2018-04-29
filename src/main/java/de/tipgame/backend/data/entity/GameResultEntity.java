@@ -6,10 +6,6 @@ import javax.persistence.*;
 @Table(name = "game_result")
 public class GameResultEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "game_match_id")
     private int gameMatchId;
 
@@ -18,14 +14,6 @@ public class GameResultEntity {
 
     @Column(name = "result_home_team")
     private int resultHomeTeam;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getGameMatchId() {
         return gameMatchId;

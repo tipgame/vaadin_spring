@@ -1,12 +1,12 @@
 /**
  * Checks if a list contains a certain value.
- * 
+ *
  * @param {list} $list - the list to check
  * @param {value} $var - the value to search for
  * @param {bool} $recursive (false) - should any contained lists be checked for the value
- * 
+ *
  * @return {bool} true if the value is found from the list, false otherwise
- * 
+ *
  * @group lists
  */
 
@@ -283,9 +283,9 @@
 
 /**
  * Outputs cross-browser Valo-specific linear gradient background-image declarations.
- * 
+ *
  * @group style
- * 
+ *
  * @param {color} $color ($v-background-color) - The base color for the gradient color stops
  * @param {list} $gradient ($v-gradient) - Valo-specific gradient value. See the documentation for $v-gradient.
  * @param {color} $fallback (null) - A fallback color for browser which do not support linear gradients (IE8 and IE9 in particular). If null, the base $color is used instead.
@@ -307,11 +307,11 @@
 
 /**
  * Ouput selectors and properties to vertically center elements inside their parent.
- * 
+ *
  * @param {string} $to-align (()) - The selector to match the elements which you wish to align vertically. The targeted elements should be inline or inline-block elements.
  * @param {string} $align (middle) - The vertical-align value, e.g. top, middle, bottom
  * @param {string} $pseudo-element (after) - Which pseudo element to use for the vertical align guide
- * 
+ *
  * @group util
  */
 
@@ -546,7 +546,7 @@
 
 /**
  * Outputs the context menu selectors and styles, which is used by Table and Tree for instance.
- * 
+ *
  * @requires {mixin} valo-selection-item-style
  * @requires {mixin} valo-selection-item-selected-style
  */
@@ -568,7 +568,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-absolutelayout) - 
+ * @param {string} $primary-stylename (v-absolutelayout) -
  *
  * @group absolutelayout
  */
@@ -591,16 +591,16 @@
  */
 
 /**
- * A list of colors for custom event colors. Can be an empty list of you don't 
+ * A list of colors for custom event colors. Can be an empty list of you don't
  * need any custom event colors.
- * 
+ *
  * @example javascript
  * // Java code
  * // 'event' is an instance of EditableCalendarEvent
  * event.setStyleName("color1"); // 1st color in the list
  * event.setStyleName("color2"); // 2nd color in the list
  * // etc.
- * 
+ *
  * @group calendar
  */
 
@@ -634,14 +634,14 @@
 /**
  * The amount of spacing between different widgets in a component group.
  * If null, a computed value is used ($v-border size * -1, or 1px if $v-border size is 0)
- * 
+ *
  * @group csslayout
  */
 
 /**
  *
  *
- * @param {string} $primary-stylename (v-customcomponent) - 
+ * @param {string} $primary-stylename (v-customcomponent) -
  *
  * @group customcomponent
  */
@@ -649,7 +649,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-customlayout) - 
+ * @param {string} $primary-stylename (v-customlayout) -
  *
  * @group customlayout
  */
@@ -665,16 +665,16 @@
 
 /**
  * Outputs the styles and selectors for the DragAndDropWrapper component.
- * 
+ *
  * @param {string} $primary-stylename (v-ddwrapper) - the primary style name for the selectors
- * 
+ *
  * @group drag-n-drop
  */
 
 /**
  *
  *
- * @param {string} $primary-stylename (v-form) - 
+ * @param {string} $primary-stylename (v-form) -
  *
  * @group form
  */
@@ -741,14 +741,14 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-gridlayout) - 
+ * @param {string} $primary-stylename (v-gridlayout) -
  *
  * @group gridlayout
  */
 
 /**
  * The font weight for headers.
- * 
+ *
  * @group label
  */
 
@@ -760,7 +760,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-loginform) - 
+ * @param {string} $primary-stylename (v-loginform) -
  *
  * @group loginform
  */
@@ -768,8 +768,8 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-menubar) - 
- * @param {bool} $include-additional-styles - 
+ * @param {string} $primary-stylename (v-menubar) -
+ * @param {bool} $include-additional-styles -
  *
  * @group menubar
  */
@@ -777,7 +777,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-nativebutton) - 
+ * @param {string} $primary-stylename (v-nativebutton) -
  *
  * @group nativebutton
  */
@@ -785,7 +785,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-select) - 
+ * @param {string} $primary-stylename (v-select) -
  *
  * @group nativeselect
  */
@@ -798,8 +798,8 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-select-optiongroup) - 
- * @param {bool} $include-additional-styles - 
+ * @param {string} $primary-stylename (v-select-optiongroup) -
+ * @param {bool} $include-additional-styles -
  *
  * @group optiongroup
  */
@@ -856,8 +856,8 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-splitpanel) - 
- * @param {bool} $include-additional-styles - 
+ * @param {string} $primary-stylename (v-splitpanel) -
+ * @param {bool} $include-additional-styles -
  *
  * @group splitpanel
  */
@@ -995,7 +995,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-treetable) - 
+ * @param {string} $primary-stylename (v-treetable) -
  *
  * @group treetable
  */
@@ -1003,7 +1003,7 @@
 /**
  *
  *
- * @param {string} $primary-stylename (v-select-twincol) - 
+ * @param {string} $primary-stylename (v-select-twincol) -
  *
  * @group twin-column-select
  */
@@ -1081,7 +1081,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "8.1.5";
+	content: "8.3.3";
 }
 
 .v-widget {
@@ -1172,7 +1172,7 @@
 	overflow: auto;
 }
 
-.v-assistive-device-only {
+.v-assistive-device-only, .v-assistive-device-only-label label {
 	position: absolute;
 	top: -2000px;
 	left: -2000px;
@@ -2041,6 +2041,61 @@ div.v-layout.v-horizontal.v-widget {
 	content: "!";
 }
 
+.apptheme .v-errorindicator-info {
+	color: #00a7f5;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.apptheme .v-errorindicator-info:before {
+	content: "!";
+}
+
+.apptheme .v-errorindicator-warning {
+	color: #fc9c00;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.apptheme .v-errorindicator-warning:before {
+	content: "!";
+}
+
+.apptheme .v-errorindicator-error {
+	color: #ed473b;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.apptheme .v-errorindicator-error:before {
+	content: "!";
+}
+
+.apptheme .v-errorindicator-critical {
+	color: #fa007d;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.apptheme .v-errorindicator-critical:before {
+	content: "!";
+}
+
+.apptheme .v-errorindicator-system {
+	color: #bb00ff;
+	font-weight: 600;
+	width: 19px;
+	text-align: center;
+}
+
+.apptheme .v-errorindicator-system:before {
+	content: "!";
+}
+
 .apptheme .v-required-field-indicator {
 	color: #ed473b;
 	padding: 0 0.2em;
@@ -2118,6 +2173,26 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-tooltip .v-errormessage h2:only-child {
 	font: inherit;
 	line-height: inherit;
+}
+
+.apptheme .v-tooltip .v-errormessage-info {
+	color: #00a7f5;
+}
+
+.apptheme .v-tooltip .v-errormessage-warning {
+	color: #fc9c00;
+}
+
+.apptheme .v-tooltip .v-errormessage-error {
+	color: #ed473b;
+}
+
+.apptheme .v-tooltip .v-errormessage-critical {
+	color: #fa007d;
+}
+
+.apptheme .v-tooltip .v-errormessage-system {
+	color: #bb00ff;
 }
 
 .apptheme .v-tooltip .v-tooltip-text {
@@ -2369,8 +2444,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -2462,8 +2537,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #ededf0;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #3b3b4f;
 	border-top-color: #3f3f56;
@@ -2506,8 +2581,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #eaf4e9;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #227719;
 	border-top-color: #257d1a;
@@ -2547,8 +2622,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #f9f0ef;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #bb382e;
 	border-top-color: #bc3c31;
@@ -2685,10 +2760,10 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-button-tiny {
 	height: 28px;
 	padding: 0 13px;
-	
-	
+
+
 	font-size: 12px;
-	
+
 	border-radius: 4px;
 }
 
@@ -2703,10 +2778,10 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-button-small {
 	height: 31px;
 	padding: 0 14px;
-	
-	
+
+
 	font-size: 14px;
-	
+
 	border-radius: 4px;
 }
 
@@ -2721,10 +2796,10 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-button-large {
 	height: 44px;
 	padding: 0 19px;
-	
-	
+
+
 	font-size: 20px;
-	
+
 	border-radius: 4px;
 }
 
@@ -2739,10 +2814,10 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-button-huge {
 	height: 59px;
 	padding: 0 26px;
-	
-	
+
+
 	font-size: 26px;
-	
+
 	border-radius: 4px;
 }
 
@@ -2870,8 +2945,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 9px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -2998,8 +3073,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 7px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -3126,8 +3201,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 10px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -3217,7 +3292,7 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 37px;
@@ -3375,6 +3450,61 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-filterselect-error .v-filterselect-button {
 	color: #ed473b;
 	border-color: #ed473b;
+}
+
+.apptheme .v-filterselect-error-info .v-filterselect-input {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.apptheme .v-filterselect-error-info .v-filterselect-button {
+	color: #00a7f5;
+	border-color: #00a7f5;
+}
+
+.apptheme .v-filterselect-error-warning .v-filterselect-input {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.apptheme .v-filterselect-error-warning .v-filterselect-button {
+	color: #fc9c00;
+	border-color: #fc9c00;
+}
+
+.apptheme .v-filterselect-error-error .v-filterselect-input {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.apptheme .v-filterselect-error-error .v-filterselect-button {
+	color: #ed473b;
+	border-color: #ed473b;
+}
+
+.apptheme .v-filterselect-error-critical .v-filterselect-input {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.apptheme .v-filterselect-error-critical .v-filterselect-button {
+	color: #fa007d;
+	border-color: #fa007d;
+}
+
+.apptheme .v-filterselect-error-system .v-filterselect-input {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
+.apptheme .v-filterselect-error-system .v-filterselect-button {
+	color: #bb00ff;
+	border-color: #bb00ff;
 }
 
 .apptheme .v-filterselect-suggestpopup {
@@ -3652,7 +3782,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme .v-filterselect-tiny {
 	height: 28px;
-	
+
 	font-size: 12px;
 }
 
@@ -3669,14 +3799,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 28px;
-	
+
 	padding: 3px 5px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -3696,7 +3826,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-filterselect-tiny span.v-icon {
-	
+
 	width: 28px;
 	line-height: 1;
 	padding-top: 0.12em;
@@ -3773,7 +3903,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme .v-filterselect-compact, .apptheme .v-filterselect-small {
 	height: 31px;
-	
+
 }
 
 .apptheme .v-filterselect-compact [class*="input"], .apptheme .v-filterselect-small [class*="input"] {
@@ -3789,14 +3919,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 31px;
-	
+
 	padding: 3px 6px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -3816,7 +3946,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-filterselect-compact span.v-icon, .apptheme .v-filterselect-small span.v-icon {
-	
+
 	width: 31px;
 	line-height: 1;
 	padding-top: 0.12em;
@@ -3897,7 +4027,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme .v-filterselect-large {
 	height: 44px;
-	
+
 	font-size: 20px;
 }
 
@@ -3914,14 +4044,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 44px;
-	
+
 	padding: 5px 8px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -3941,7 +4071,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-filterselect-large span.v-icon {
-	
+
 	width: 44px;
 	line-height: 1;
 	padding-top: 0.12em;
@@ -4018,7 +4148,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme .v-filterselect-huge {
 	height: 59px;
-	
+
 	font-size: 26px;
 }
 
@@ -4035,14 +4165,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 59px;
-	
+
 	padding: 7px 10px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -4062,7 +4192,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-filterselect-huge span.v-icon {
-	
+
 	width: 59px;
 	line-height: 1;
 	padding-top: 0.12em;
@@ -4288,7 +4418,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-left: 37px;
 }
 
-.apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4, .apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  >  text.highcharts-title {
+.apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4 {
 	left: 37px;
 }
 
@@ -4296,7 +4426,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 37px;
 }
 
-.apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4, .apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  >  text.highcharts-title {
+.apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4 {
 	right: 37px;
 }
 
@@ -4330,7 +4460,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: 400;
 }
 
-.apptheme .v-formlayout-contentcell  > .v-label-h2, .apptheme .v-formlayout-contentcell  > .v-label-h3, .apptheme .v-formlayout-contentcell  > .v-label-h4, .apptheme .v-formlayout-contentcell  >  text.highcharts-title {
+.apptheme .v-formlayout-contentcell  > .v-label-h2, .apptheme .v-formlayout-contentcell  > .v-label-h3, .apptheme .v-formlayout-contentcell  > .v-label-h4 {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -4381,13 +4511,13 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 37px;
 	border-radius: 0;
 	padding: 4px 7px;
-	
+
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	-webkit-transition: box-shadow 180ms, border 180ms;
@@ -4427,13 +4557,13 @@ div.v-layout.v-horizontal.v-widget {
 	height: auto;
 }
 
-.apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  >  text.highcharts-title {
+.apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4 {
 	border-bottom: none;
 	left: 0;
 	right: 0;
 }
 
-.apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  >  text.highcharts-title {
+.apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4 {
 	margin-top: 0;
 }
 
@@ -4750,7 +4880,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-grid-row-focused > td {
-	
+
 }
 
 .apptheme .v-grid-header th {
@@ -4760,7 +4890,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: inherit;
 	border-left: 1px solid #d4d4d4;
 	border-bottom: 1px solid #d4d4d4;
-	
+
 	text-align: left;
 }
 
@@ -4821,7 +4951,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-left: 1px solid #d4d4d4;
 	border-top: 1px solid #d4d4d4;
 	border-bottom: none;
-	
+
 }
 
 .apptheme .v-grid-footer td:first-child {
@@ -5351,7 +5481,7 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 37px;
@@ -5407,6 +5537,36 @@ div.v-layout.v-horizontal.v-widget {
 	color: #6c2621;
 }
 
+.apptheme .v-textfield-error-info {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.apptheme .v-textfield-error-warning {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.apptheme .v-textfield-error-error {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.apptheme .v-textfield-error-critical {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.apptheme .v-textfield-error-system {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
 .apptheme .v-textfield-borderless {
 	border: none;
 	border-radius: 0;
@@ -5439,14 +5599,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 28px;
 	border-radius: 4px;
 	padding: 3px 7px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5465,14 +5625,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 31px;
 	border-radius: 4px;
 	padding: 3px 8px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5494,14 +5654,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 44px;
 	border-radius: 4px;
 	padding: 5px 10px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5520,14 +5680,14 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 59px;
 	border-radius: 4px;
 	padding: 7px 12px;
-	
-	
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5788,7 +5948,7 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 37px;
@@ -5879,15 +6039,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 28px;
 	border-radius: 4px;
 	padding: 6px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5909,15 +6069,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 31px;
 	border-radius: 4px;
 	padding: 6px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5939,15 +6099,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 44px;
 	border-radius: 4px;
 	padding: 6px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -5969,15 +6129,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 59px;
 	border-radius: 4px;
 	padding: 6px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -6015,7 +6175,7 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 37px;
@@ -6151,6 +6311,61 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-datefield-error .v-datefield-button {
 	color: #ed473b;
 	border-color: #ed473b;
+}
+
+.apptheme .v-datefield-error-info .v-datefield-textfield {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.apptheme .v-datefield-error-info .v-datefield-button {
+	color: #00a7f5;
+	border-color: #00a7f5;
+}
+
+.apptheme .v-datefield-error-warning .v-datefield-textfield {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.apptheme .v-datefield-error-warning .v-datefield-button {
+	color: #fc9c00;
+	border-color: #fc9c00;
+}
+
+.apptheme .v-datefield-error-error .v-datefield-textfield {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.apptheme .v-datefield-error-error .v-datefield-button {
+	color: #ed473b;
+	border-color: #ed473b;
+}
+
+.apptheme .v-datefield-error-critical .v-datefield-textfield {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.apptheme .v-datefield-error-critical .v-datefield-button {
+	color: #fa007d;
+	border-color: #fa007d;
+}
+
+.apptheme .v-datefield-error-system .v-datefield-textfield {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
+.apptheme .v-datefield-error-system .v-datefield-button {
+	color: #bb00ff;
+	border-color: #bb00ff;
 }
 
 .apptheme .v-datefield-full {
@@ -6633,15 +6848,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 28px;
 	border-radius: 4px;
 	padding: 3px 7px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -6740,15 +6955,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 31px;
 	border-radius: 4px;
 	padding: 3px 8px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -6852,15 +7067,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 44px;
 	border-radius: 4px;
 	padding: 5px 10px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -6960,15 +7175,15 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 59px;
 	border-radius: 4px;
 	padding: 7px 12px;
-	
-	
-	
+
+
+
 	-webkit-transition: box-shadow 180ms, border 180ms;
 	-moz-transition: box-shadow 180ms, border 180ms;
 	transition: box-shadow 180ms, border 180ms;
@@ -7273,7 +7488,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
+
 	cursor: default;
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
@@ -7353,7 +7568,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 15px;
 	color: inherit;
 	font-weight: 400;
-	
+
 	cursor: pointer;
 	border-radius: 0;
 	border: 1px solid #c5c5c5;
@@ -7450,9 +7665,9 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme .v-menubar > .v-menubar-menuitem-selected {
 	color: #ededf0;
-	
-	
-	
+
+
+
 	border-radius: 0;
 	border: 1px solid #3b3b4f;
 	border-top-color: #3f3f56;
@@ -7601,9 +7816,9 @@ div.v-layout.v-horizontal.v-widget {
 .apptheme .v-menubar-small {
 	height: 31px;
 	padding: 0 14px;
-	
+
 	font-weight: 400;
-	
+
 	cursor: default;
 	border-radius: 4px;
 	padding: 0;
@@ -7752,8 +7967,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 9px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -7913,8 +8128,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 7px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -8040,8 +8255,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 7px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -8201,8 +8416,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 10px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -8328,8 +8543,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 10px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -8649,6 +8864,30 @@ div.v-layout.v-horizontal.v-widget {
 	color: inherit;
 }
 
+.apptheme .v-window-closebox:focus::after {
+	content: "";
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	bottom: 6px;
+	left: 2px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 0 0 2px rgba(75, 75, 101, 0.5);
+	box-shadow: 0 0 0 2px rgba(75, 75, 101, 0.5);
+}
+
+.apptheme .v-window-maximizebox:focus::after, .apptheme .v-window-restorebox:focus::after {
+	content: "";
+	position: absolute;
+	top: 6px;
+	right: 2px;
+	bottom: 6px;
+	left: 6px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 0 0 2px rgba(75, 75, 101, 0.5);
+	box-shadow: 0 0 0 2px rgba(75, 75, 101, 0.5);
+}
+
 .apptheme .v-window-closebox {
 	padding-right: 4px;
 	border-radius: 0 4px 0 4px;
@@ -8676,6 +8915,10 @@ div.v-layout.v-horizontal.v-widget {
 	width: 37px;
 	padding-right: 0;
 	border-bottom-left-radius: 4px;
+}
+
+.apptheme .v-window-closebox-disabled  + .v-window-closebox:focus::after, .apptheme .v-window-resizebox-disabled  + .v-window-closebox:focus::after, .apptheme .v-window-restorebox-disabled  + .v-window-closebox:focus::after, .apptheme .v-window-maximizebox-disabled  + .v-window-closebox:focus::after {
+	left: 6px;
 }
 
 .apptheme .v-window-maximizebox:before {
@@ -8728,7 +8971,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-left: 12px;
 }
 
-.apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  >  text.highcharts-title {
+.apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-left"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4 {
 	left: 12px;
 }
 
@@ -8736,7 +8979,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 12px;
 }
 
-.apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  >  text.highcharts-title {
+.apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h2, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h3, .apptheme .v-window-contents  > .v-scrollable  > .v-formlayout [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"]  > .v-label-h4 {
 	right: 12px;
 }
 
@@ -9283,7 +9526,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-tree8-row-focused > td {
-	
+
 }
 
 .apptheme .v-tree8-header th {
@@ -9293,7 +9536,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: inherit;
 	border-left: 1px solid #d4d4d4;
 	border-bottom: 1px solid #d4d4d4;
-	
+
 	text-align: left;
 }
 
@@ -9354,7 +9597,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-left: 1px solid #d4d4d4;
 	border-top: 1px solid #d4d4d4;
 	border-bottom: none;
-	
+
 }
 
 .apptheme .v-tree8-footer td:first-child {
@@ -10359,7 +10602,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .apptheme .v-treegrid-row-focused > td {
-	
+
 }
 
 .apptheme .v-treegrid-header th {
@@ -10369,7 +10612,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: inherit;
 	border-left: 1px solid #d4d4d4;
 	border-bottom: 1px solid #d4d4d4;
-	
+
 	text-align: left;
 }
 
@@ -10430,7 +10673,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-left: 1px solid #d4d4d4;
 	border-top: 1px solid #d4d4d4;
 	border-bottom: none;
-	
+
 }
 
 .apptheme .v-treegrid-footer td:first-child {
@@ -11311,8 +11554,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -11424,8 +11667,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme tbody.v-drag-element tr {
 	display: block;
-	
-	
+
+
 	-webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 	border-radius: 4px;
@@ -11679,8 +11922,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -11739,8 +11982,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -11792,8 +12035,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -11866,8 +12109,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -11935,8 +12178,8 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: #4b4b65;
 	background-image: -webkit-linear-gradient(top, #51516d 2%, #424258 98%);
 	background-image: linear-gradient(to bottom,#51516d 2%, #424258 98%);
-	
-	
+
+
 	border: 1px solid #3b3b4f;
 	box-sizing: border-box;
 	max-width: 100%;
@@ -11963,8 +12206,8 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: #4b4b65;
 	background-image: -webkit-linear-gradient(top, #51516d 2%, #424258 98%);
 	background-image: linear-gradient(to bottom,#51516d 2%, #424258 98%);
-	
-	
+
+
 	border: 1px solid #3b3b4f;
 	box-sizing: border-box;
 	max-width: 100%;
@@ -12019,7 +12262,7 @@ div.v-layout.v-horizontal.v-widget {
 	margin: 16px 11px;
 	white-space: nowrap;
 	overflow: hidden;
-	
+
 }
 
 .apptheme .v-slider-base:before {
@@ -12039,8 +12282,8 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: #4b4b65;
 	background-image: -webkit-linear-gradient(top, #51516d 2%, #424258 98%);
 	background-image: linear-gradient(to bottom,#51516d 2%, #424258 98%);
-	
-	
+
+
 	border: 1px solid #3b3b4f;
 	box-sizing: border-box;
 	max-width: 100%;
@@ -12067,8 +12310,8 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0 16px;
 	color: #191919;
 	font-weight: 400;
-	
-	
+
+
 	border-radius: 4px;
 	border: 1px solid #c5c5c5;
 	border-top-color: #c5c5c5;
@@ -13026,6 +13269,36 @@ div.v-layout.v-horizontal.v-widget {
 	color: #6c2621;
 }
 
+.apptheme .v-select-twincol-error-info .v-select-twincol-options, .apptheme .v-select-twincol-error-info .v-select-twincol-selections {
+	border-color: #00a7f5 !important;
+	background: #fafdff;
+	color: #195774;
+}
+
+.apptheme .v-select-twincol-error-warning .v-select-twincol-options, .apptheme .v-select-twincol-error-warning .v-select-twincol-selections {
+	border-color: #fc9c00 !important;
+	background: #fffdfa;
+	color: #745119;
+}
+
+.apptheme .v-select-twincol-error-error .v-select-twincol-options, .apptheme .v-select-twincol-error-error .v-select-twincol-selections {
+	border-color: #ed473b !important;
+	background: #fffbfb;
+	color: #6c2621;
+}
+
+.apptheme .v-select-twincol-error-critical .v-select-twincol-options, .apptheme .v-select-twincol-error-critical .v-select-twincol-selections {
+	border-color: #fa007d !important;
+	background: #fffafc;
+	color: #741947;
+}
+
+.apptheme .v-select-twincol-error-system .v-select-twincol-options, .apptheme .v-select-twincol-error-system .v-select-twincol-selections {
+	border-color: #bb00ff !important;
+	background: #fefaff;
+	color: #5c1974;
+}
+
 .apptheme .v-select select {
 	border: 1px solid #c5c5c5;
 	background-color: #fafafa;
@@ -13513,13 +13786,13 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 2.4em;
 	margin-top: 1.4em;
 	margin-bottom: 1em;
-	
+
 	letter-spacing: -0.03em;
 }
 
 .apptheme h2, .apptheme .v-label-h2 {
 	font-size: 1.6em;
-	
+
 	margin-top: 1.6em;
 	margin-bottom: 0.77em;
 	letter-spacing: -0.02em;
@@ -13527,13 +13800,13 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme h3, .apptheme .v-label-h3 {
 	font-size: 1.2em;
-	
+
 	margin-top: 1.8em;
 	margin-bottom: 0.77em;
 	letter-spacing: 0;
 }
 
-.apptheme h4, .apptheme .v-label-h4, .apptheme vaadin-board text.highcharts-title {
+.apptheme h4, .apptheme .v-label-h4 {
 	line-height: 1.1;
 	font-weight: 500;
 	font-size: 14px;
@@ -13544,19 +13817,19 @@ div.v-layout.v-horizontal.v-widget {
 	margin-bottom: 0.8em;
 }
 
-.apptheme .v-csslayout  > h1:first-child, .apptheme .v-csslayout  > h2:first-child, .apptheme .v-csslayout  > h3:first-child, .apptheme .v-csslayout  > h4 > .v-label-h1:first-child, .apptheme .v-csslayout  > .v-label-h2:first-child, .apptheme .v-csslayout  > .v-label-h3:first-child, .apptheme .v-csslayout  > .v-label-h4:first-child, .apptheme .v-csslayout  > .apptheme vaadin-board text.highcharts-title:first-child {
+.apptheme .v-csslayout  > h1:first-child, .apptheme .v-csslayout  > h2:first-child, .apptheme .v-csslayout  > h3:first-child, .apptheme .v-csslayout  > h4 > .v-label-h1:first-child, .apptheme .v-csslayout  > .v-label-h2:first-child, .apptheme .v-csslayout  > .v-label-h3:first-child, .apptheme .v-csslayout  > .v-label-h4:first-child {
 	margin-top: 16px;
 }
 
-.apptheme .v-verticallayout > .v-slot:first-child h1, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h1, .apptheme .v-verticallayout > .v-slot:first-child h2, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h2, .apptheme .v-verticallayout > .v-slot:first-child h3, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h3, .apptheme .v-verticallayout > .v-slot:first-child h4, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h4, .apptheme .v-verticallayout > .v-slot:first-child  text.highcharts-title, .apptheme .v-verticallayout > div > .v-slot:first-child h1, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h1, .apptheme .v-verticallayout > div > .v-slot:first-child h2, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h2, .apptheme .v-verticallayout > div > .v-slot:first-child h3, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h3, .apptheme .v-verticallayout > div > .v-slot:first-child h4, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h4, .apptheme .v-verticallayout > div > .v-slot:first-child  text.highcharts-title {
+.apptheme .v-verticallayout > .v-slot:first-child h1, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h1, .apptheme .v-verticallayout > .v-slot:first-child h2, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h2, .apptheme .v-verticallayout > .v-slot:first-child h3, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h3, .apptheme .v-verticallayout > .v-slot:first-child h4, .apptheme .v-verticallayout > .v-slot:first-child .v-label-h4, .apptheme .v-verticallayout > div > .v-slot:first-child h1, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h1, .apptheme .v-verticallayout > div > .v-slot:first-child h2, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h2, .apptheme .v-verticallayout > div > .v-slot:first-child h3, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h3, .apptheme .v-verticallayout > div > .v-slot:first-child h4, .apptheme .v-verticallayout > div > .v-slot:first-child .v-label-h4 {
 	margin-top: 16px;
 }
 
-.apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h1, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h1, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h2, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h2, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h3, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h3, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h4, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h4, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell  text.highcharts-title, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h1, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h1, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h2, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h2, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h3, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h3, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h4, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h4, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell  text.highcharts-title {
+.apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h1, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h1, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h2, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h2, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h3, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h3, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell h4, .apptheme .v-verticallayout > .v-slot:first-child .v-formlayout-contentcell .v-label-h4, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h1, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h1, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h2, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h2, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h3, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h3, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell h4, .apptheme .v-verticallayout > div > .v-slot:first-child .v-formlayout-contentcell .v-label-h4 {
 	margin-top: -0.5em;
 }
 
-.apptheme h1.no-margin, .apptheme .v-label-h1.no-margin, .apptheme h2.no-margin, .apptheme .v-label-h2.no-margin, .apptheme h3.no-margin, .apptheme .v-label-h3.no-margin, .apptheme h4.no-margin, .apptheme .v-label-h4.no-margin, .apptheme .apptheme vaadin-board text.no-margin.highcharts-title {
+.apptheme h1.no-margin, .apptheme .v-label-h1.no-margin, .apptheme h2.no-margin, .apptheme .v-label-h2.no-margin, .apptheme h3.no-margin, .apptheme .v-label-h3.no-margin, .apptheme h4.no-margin, .apptheme .v-label-h4.no-margin {
 	margin: 0 !important;
 }
 
@@ -13576,7 +13849,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 12px;
 }
 
-.apptheme .v-label-huge, .apptheme vaadin-board .board-box-label h1 {
+.apptheme .v-label-huge {
 	font-size: 26px;
 }
 
@@ -13866,7 +14139,7 @@ div.v-layout.v-horizontal.v-widget {
 	user-select: text;
 	margin: 0;
 	font: inherit;
-	
+
 	font-weight: 400;
 	line-height: normal;
 	height: 37px;
@@ -14555,7 +14828,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: inherit;
 }
 
-.apptheme .valo-menu-title h1, .apptheme .valo-menu-title .v-label-h1, .apptheme .valo-menu-title h2, .apptheme .valo-menu-title .v-label-h2, .apptheme .valo-menu-title h3, .apptheme .valo-menu-title .v-label-h3, .apptheme .valo-menu-title h4, .apptheme .valo-menu-title .v-label-h4, .apptheme .valo-menu-title  text.highcharts-title {
+.apptheme .valo-menu-title h1, .apptheme .valo-menu-title .v-label-h1, .apptheme .valo-menu-title h2, .apptheme .valo-menu-title .v-label-h2, .apptheme .valo-menu-title h3, .apptheme .valo-menu-title .v-label-h3, .apptheme .valo-menu-title h4, .apptheme .valo-menu-title .v-label-h4 {
 	margin-top: 0;
 	margin-bottom: 0;
 	color: inherit;
@@ -15068,366 +15341,6 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	width: 19px;
 	overflow: hidden;
-}
-
-.apptheme .list-filters .v-textfield, .apptheme .list-filters .v-button, .apptheme .list-filters .v-checkbox {
-	margin-bottom: 12px;
-	margin-right: 12px;
-	vertical-align: middle;
-}
-
-.apptheme .v-grid.orders-grid  > div {
-	border-left: 0;
-	border-bottom: 0;
-}
-
-.apptheme .v-grid.orders-grid .v-grid-cell {
-	height: 100px;
-}
-
-.apptheme .v-grid.orders-grid .summary, .apptheme .v-grid.orders-grid .due {
-	padding: 12px;
-}
-
-.apptheme .v-grid.orders-grid .summary .header, .apptheme .v-grid.orders-grid .summary .content, .apptheme .v-grid.orders-grid .due .header, .apptheme .v-grid.orders-grid .due .content {
-	display: block;
-}
-
-.apptheme .v-grid.orders-grid .due {
-	text-align: center;
-	font-size: 14px;
-}
-
-.apptheme .v-grid.orders-grid .due .header {
-	font-size: 10px;
-	font-weight: 400;
-	padding: 2px 7px;
-	border-radius: 15px;
-	border: 1px solid transparent;
-	margin: 5px 0;
-}
-
-.apptheme .v-grid.orders-grid .today.ready .due .header, .apptheme .v-grid.orders-grid .today.delivered .due .header {
-	background-color: #4b4b65;
-	color: #fff;
-	opacity: 0.7;
-}
-
-.apptheme .v-grid.orders-grid .delivered .due:after {
-	content: "\e7c5";
-	font-family: Vaadin-Icons;
-	line-height: 1.55;
-	display: block;
-	margin-top: 6px;
-	color: #4b4b65;
-	opacity: 0.7;
-}
-
-.apptheme .v-grid.orders-grid .new .due .header {
-	border-color: #2c9720;
-	color: #2c9720;
-}
-
-.apptheme .v-grid.orders-grid .problem .due .header, .apptheme .v-grid.orders-grid .today.new .due .header, .apptheme .v-grid.orders-grid .today.confirmed .due .header {
-	border-color: transparent;
-	background-color: #ed473b;
-	color: #f1d3d1;
-}
-
-.apptheme .v-grid.orders-grid .cancelled .header, .apptheme .v-grid.orders-grid .cancelled .content {
-	text-decoration: line-through;
-	opacity: 0.5;
-}
-
-.apptheme .v-grid.orders-grid .summary .header {
-	font-size: 20px;
-}
-
-.apptheme .v-grid.orders-grid .summary .content {
-	font-size: 14px;
-}
-
-.apptheme .order-form {
-	max-width: 768px;
-}
-
-.apptheme .order-form .add-items {
-	text-align: left;
-	border: 1px dashed rgba(0, 0, 0, 0.2);
-}
-
-.apptheme .order-form .total {
-	text-align: right;
-	border-top: 2px solid black;
-}
-
-.apptheme .order-form .v-widget.header {
-	font-weight: bold;
-	text-transform: uppercase;
-	font-size: 12px;
-	margin-bottom: 12px;
-	margin-top: 12px;
-	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-}
-
-.apptheme .order-form .buttons {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-}
-
-.apptheme .order-form .buttons .v-button {
-	margin-top: 12px;
-}
-
-.apptheme .order-form .product-container {
-	margin-top: 0;
-}
-
-.apptheme .order-form .product-row {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-	padding-bottom: 12px;
-	margin-bottom: 24px;
-}
-
-.apptheme .order-form .product-row .times {
-	text-align: center;
-}
-
-.apptheme .order-form .product-row .quantity, .apptheme .order-form .product-row .price {
-	text-align: right;
-}
-
-.apptheme .order-form .product-row .delete {
-	border-radius: 4px 0 0 4px;
-	border-right: 0;
-}
-
-.apptheme .order-form .product-row .product {
-	border-radius: 0 4px 4px 0;
-}
-
-.apptheme .order-form .product-row .v-label.comment, .apptheme .order-form .product-row .apptheme .app-shell .comment.v-caption-logo {
-	font-size: 14px;
-	white-space: pre-wrap;
-	margin-bottom: 0;
-	margin-top: -12px;
-}
-
-.apptheme .order-form .product-row:last-child {
-	border-bottom: 0;
-	margin-bottom: 0;
-}
-
-.apptheme .order-form .history .v-caption {
-	padding-bottom: 0;
-}
-
-.apptheme .order-form .history .v-caption .v-captiontext, .apptheme .order-form .history .v-caption .v-icon {
-	font-size: 10px;
-	font-weight: bold;
-	line-height: 1;
-}
-
-.apptheme .order-form .v-textfield.v-readonly {
-	padding-left: 0;
-	border: 0;
-	font-weight: 100;
-}
-
-.apptheme .order-form .v-textfield.v-readonly::placeholder {
-	color: transparent;
-}
-
-.apptheme .order-form .v-textfield.v-readonly:-ms-input-placeholder {
-	color: transparent;
-}
-
-.apptheme .order-form .v-textfield.v-readonly::-webkit-input-placeholder {
-	color: transparent;
-}
-
-.apptheme .order-form .v-filterselect.v-readonly input {
-	padding-left: 0;
-	border: 0;
-	font-weight: 100;
-}
-
-.apptheme .order-form .v-filterselect.v-readonly .v-filterselect-button {
-	display: none;
-}
-
-.apptheme .order-form .v-datefield.v-readonly .v-datefield-button {
-	display: none;
-}
-
-.apptheme .responsive {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-}
-
-.apptheme .responsive  > .v-widget {
-	margin: 0 0 12px 0;
-}
-
-.apptheme .responsive .v-caption-half {
-	margin: -1px;
-}
-
-.apptheme .responsive[width-range~="-599px"] {
-	justify-content: flex-end;
-}
-
-.apptheme .responsive[width-range~="600px-"] .half {
-	width: calc(50% - 12px) !important;
-}
-
-.apptheme .responsive[width-range~="600px-"] .long {
-	width: calc(100% - 166px) !important;
-}
-
-.apptheme .responsive[width-range~="600px-"] .short {
-	width: 150px !important;
-}
-
-.apptheme vaadin-board {
-	padding: 37px;
-}
-
-.apptheme vaadin-board vaadin-board-row:nth-child(2) > .board-box-wrapper {
-	height: calc(20vh - 53px) !important;
-	min-height: 150px;
-}
-
-.apptheme vaadin-board vaadin-board-row:nth-child(3) > .board-box-wrapper {
-	height: calc(40vh - 53px) !important;
-	min-height: 200px;
-}
-
-.apptheme vaadin-board vaadin-board-row:nth-child(4) {
-	height: calc(40vh - 53px);
-	min-height: 200px;
-}
-
-.apptheme vaadin-board vaadin-board-row.medium:nth-child(2) > .board-box-wrapper {
-	height: calc(20vh - 53px * 2) !important;
-}
-
-.apptheme vaadin-board vaadin-board-row.medium:nth-child(3) > .board-box-wrapper {
-	height: calc(40vh - 53px * 2) !important;
-}
-
-.apptheme vaadin-board vaadin-board-row.medium:nth-child(4) {
-	height: calc(40vh - 53px * 2);
-}
-
-.apptheme vaadin-board .board-box {
-	padding: 12px;
-}
-
-.apptheme vaadin-board .board-box-needs-attention {
-	background-color: rgba(237, 71, 59, 0.04);
-}
-
-.apptheme vaadin-board .board-box-needs-attention h1, .apptheme vaadin-board .board-box-needs-attention h4 {
-	color: #ed473b;
-}
-
-.apptheme vaadin-board .board-box-label {
-	text-align: center;
-}
-
-.apptheme vaadin-board .board-box-label h1, .apptheme vaadin-board .board-box-label h4 {
-	margin: 12px 12px !important;
-	margin-top: 12px !important;
-	font-weight: 100;
-}
-
-.apptheme vaadin-board .board-row-group {
-	background: white;
-	color: #474747;
-	border-radius: 4px;
-	border: 1px solid #d5d5d5;
-	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
-	margin-bottom: 12px;
-}
-
-.apptheme vaadin-board .board-row-group .new h4 {
-	color: #2c9720;
-}
-
-.apptheme vaadin-board .board-row-group .na h4 {
-	color: #ed473b;
-}
-
-.apptheme vaadin-board .board-row-group.large .board-box-wrapper:not(:first-child) > .board-box {
-	border-left: 1px solid #eaeaea;
-}
-
-.apptheme vaadin-board .board-row-group.medium .board-box-wrapper:nth-child(even) > .board-box {
-	border-left: 1px solid #eaeaea;
-}
-
-.apptheme vaadin-board .board-row-group.medium .board-box-wrapper:nth-child(1n+3) > .board-box {
-	border-top: 1px solid #eaeaea;
-}
-
-.apptheme vaadin-board .board-row-group.small {
-	margin-bottom: 6px;
-}
-
-.apptheme vaadin-board .board-row-group.small .board-box-wrapper:nth-child(1n+2) > .board-box {
-	border-top: 1px solid #eaeaea;
-}
-
-.apptheme vaadin-board .board-row-panels .board-box-wrapper:first-child > .board-box {
-	padding-left: 0;
-}
-
-.apptheme vaadin-board .board-row-panels .board-box-wrapper:last-child > .board-box {
-	padding-right: 0;
-}
-
-.apptheme vaadin-board .board-row-panels .board-box-inner {
-	background: white;
-	color: #474747;
-	border-radius: 4px;
-	border: 1px solid #d5d5d5;
-	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
-	position: relative;
-	z-index: 0;
-	overflow: hidden;
-	padding: 12px;
-}
-
-.apptheme vaadin-board .board-row-panels.small .board-box {
-	padding: 6px 0;
-}
-
-.apptheme vaadin-board .board-row-panels .due-grid .board-box-inner {
-	padding: 0;
-}
-
-.apptheme vaadin-board .board-row-panels .due-grid .v-grid > div {
-	border: 0;
-}
-
-.apptheme .board-box-wrapper {
-	border: 0;
-	padding: 0;
-	margin: 0;
-}
-
-.apptheme .dashboard-view[width-range~="-599px"] vaadin-board {
-	padding: 0;
-}
-
-.apptheme .dashboard-view[width-range~="-599px"] vaadin-board .board-row-group, .apptheme .dashboard-view[width-range~="-599px"] vaadin-board .board-row-panels .board-box-inner {
-	border-radius: 0;
-	border-width: 1px 0px;
 }
 
 .apptheme .app-shell .logo, .apptheme .app-shell .v-caption-logo {

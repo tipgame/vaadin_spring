@@ -99,11 +99,16 @@ public class GameMatchService {
         GameMatchEntity gameMatchEntity = fillGameMatchEntity(gameMatchDto);
         gameMatchEntity.setMatchId(gameMatchDto.getGamcheMatchId());
         matchRepository.save(gameMatchEntity);
+        matchResultRepository.save(fillGameResultEntity(gameMatchDto));
     }
 
     public void saveGameMatch(GameMatchDto gameMatchDto) {
         GameMatchEntity gameMatchEntity = fillGameMatchEntity(gameMatchDto);
         matchRepository.save(gameMatchEntity);
+    }
+
+    public List<GameMatchEntity> getAllMatchesById(List<Integer> matchIds) {
+        return matchRepository.findByMatchIdIn(matchIds);
     }
 
     private GameMatchEntity fillGameMatchEntity(GameMatchDto gameMatchDto) {
@@ -118,6 +123,18 @@ public class GameMatchService {
         gameMatchEntity.setRound(gameMatchDto.getRound());
 
         return gameMatchEntity;
+    }
+
+    private GameResultEntity fillGameResultEntity(GameMatchDto gameMatchDto) {
+        GameResultEntity gameResultEntity = new GameResultEntity();
+        gameResultEntity.setGameMatchId(gameMatchDto.getGamcheMatchId());
+        if (!gameMatchDto.getResultAwayTeam().isEmpty())
+            gameResultEntity.setResultAwayTeam(Integer.valueOf(gameMatchDto.getResultAwayTeam()));
+
+        if(!gameMatchDto.getResultHomeTeam().isEmpty())
+            gameResultEntity.setResultHomeTeam(Integer.valueOf(gameMatchDto.getResultHomeTeam()));
+
+        return gameResultEntity;
     }
 
     private GameMatchDto buildGameMatchDto(GameMatchEntity match,

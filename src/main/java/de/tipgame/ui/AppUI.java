@@ -1,6 +1,5 @@
 package de.tipgame.ui;
 
-import com.vaadin.addon.charts.ChartOptions;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Viewport;
@@ -49,9 +48,6 @@ public class AppUI extends UI implements HasLogger {
                     messages.setSessionExpiredMessage("Bar");
                     return messages;
                 });
-
-        // Set the theme ("globally") for all Charts
-        ChartOptions.get(this).setTheme(new ChartsTheme());
 
         viewProvider.setAccessDeniedViewClass(AccessDeniedView.class);
         setContent(mainView);

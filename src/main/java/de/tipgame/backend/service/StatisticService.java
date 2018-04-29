@@ -49,7 +49,7 @@ public class StatisticService {
         UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
         if (!gameMatchs.isEmpty()) {
             List<UserMatchConnectionEntity> allTippsFromUser =
-                    userMatchConnectionService.getAllTippsFromUser(currentUser.getId(),
+                    userMatchConnectionService.getAllTippsFromUserByMatchIds(currentUser.getId(),
                             new ArrayList<>(gameMatchs.keySet()));
 
             for (UserMatchConnectionEntity userMatchConnection : allTippsFromUser) {
