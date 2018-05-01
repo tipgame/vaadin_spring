@@ -39,6 +39,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public List<UserEntity> findByUserIdIn(List<Integer> userIds) {
+        return userRepository.findByIdIn(userIds);
+    }
+
     public List<User> getAllUsersSortedByRank() {
         List<UserStatisticEntity> userStatisticEntities = userStatisticRepository.findAll();
 

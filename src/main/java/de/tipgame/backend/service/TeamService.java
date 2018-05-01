@@ -5,8 +5,6 @@ import de.tipgame.backend.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class TeamService {
@@ -16,7 +14,6 @@ public class TeamService {
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
-
 
     public List<TeamEntity> getAllTeams() {
         return teamRepository.findAll();

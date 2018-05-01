@@ -65,4 +65,5 @@ public class TeamEntity {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
+
 }
