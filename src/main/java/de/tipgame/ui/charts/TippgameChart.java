@@ -2,7 +2,6 @@ package de.tipgame.ui.charts;
 
 import com.byteowls.vaadin.chartjs.ChartJs;
 import com.byteowls.vaadin.chartjs.config.LineChartConfig;
-import com.byteowls.vaadin.chartjs.data.Dataset;
 import com.byteowls.vaadin.chartjs.data.LineDataset;
 import com.byteowls.vaadin.chartjs.options.InteractionMode;
 import com.byteowls.vaadin.chartjs.options.Position;
@@ -15,18 +14,22 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.entity.GameMatchEntity;
+import de.tipgame.backend.data.entity.StatisticTimelineEntity;
 import de.tipgame.backend.data.entity.UserEntity;
 import de.tipgame.backend.data.entity.UserMatchConnectionEntity;
 import de.tipgame.backend.service.GameMatchService;
+import de.tipgame.backend.service.StatisticTimelineService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.backend.service.UserService;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+
 
 @UIScope
 @SpringView
@@ -35,14 +38,17 @@ public class TippgameChart extends AbstractChartView {
     private UserMatchConnectionService userMatchConnectionService;
     private UserService userService;
     private GameMatchService gameMatchService;
-    private Map<String, GameMatchEntity> labelToEntityMap;
+    private MultiValuedMap<String, GameMatchEntity> labelToEntityMap;
+    private StatisticTimelineService statisticTimelineService;
 
     public TippgameChart(UserMatchConnectionService userMatchConnectionService,
                          UserService userService,
-                         GameMatchService gameMatchService) {
+                         GameMatchService gameMatchService,
+                         StatisticTimelineService statisticTimelineService) {
         this.userMatchConnectionService = userMatchConnectionService;
         this.userService = userService;
         this.gameMatchService = gameMatchService;
+        this.statisticTimelineService = statisticTimelineService;
     }
 
     @Override
@@ -72,9 +78,9 @@ public class TippgameChart extends AbstractChartView {
                         .display(true)
                         .scaleLabel()
                         .display(true)
-                        .labelString("Spiele")
+                        .labelString("Spieltag")
                         .and()
-                        .position(Position.TOP))
+                        .position(Position.BOTTOM))
                 .add(Axis.Y, new LinearScale()
                         .display(true)
                         .scaleLabel()
@@ -82,10 +88,8 @@ public class TippgameChart extends AbstractChartView {
                         .labelString("Punkte")
                         .and()
                         .ticks()
-                        .suggestedMin(0)
-                        .suggestedMax(250)
                         .and()
-                        .position(Position.RIGHT))
+                        .position(Position.LEFT))
                 .and()
                 .done();
 
@@ -104,8 +108,13 @@ public class TippgameChart extends AbstractChartView {
 
         List<String> labels = lineChartConfig.data().getLabels();
         List<Double> data = new ArrayList<>();
-        for(String ignored : labels) {
-            data.add(6D);
+        for (String label : labels) {
+            Double points = 0D;
+            final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
+            for (GameMatchEntity gameMatchEntity : gameMatchEntities) {
+                points = points + 6D;
+            }
+            data.add(points);
         }
 
         perfectPointsData.dataAsList(data);
@@ -122,10 +131,22 @@ public class TippgameChart extends AbstractChartView {
                 .fill(false);
         List<String> labels = lineChartConfig.data().getLabels();
         List<Double> data = new ArrayList<>();
-        data.add(2D);
-        data.add(4D);
-        data.add(2D);
-        data.add(6D);
+
+        UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
+
+        for (String label : labels) {
+            final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
+            Double points = 0D;
+            for(GameMatchEntity gameMatchEntity : gameMatchEntities) {
+                StatisticTimelineEntity statisticTimelineByUserIdAndMatchId =
+                        statisticTimelineService.getStatisticTimelineByUserIdAndMatchId(currentUser.getId(),
+                                gameMatchEntity.getMatchId());
+                if (statisticTimelineByUserIdAndMatchId != null) {
+                    points = points + statisticTimelineByUserIdAndMatchId.getPoints();
+                }
+            }
+            data.add(points);
+        }
 
         userPointsData.dataAsList(data);
         userPointsData.borderColor(ColorUtils.randomColor(0.3));
@@ -134,7 +155,7 @@ public class TippgameChart extends AbstractChartView {
     }
 
     private List<String> setLabels() {
-        labelToEntityMap = new HashMap<>();
+        labelToEntityMap = new ArrayListValuedHashMap<>();
         UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
         List<UserMatchConnectionEntity> allProcessedTippsFromUser = userMatchConnectionService.getAllProcessedTippsFromUser(currentUser.getId());
 
@@ -142,17 +163,13 @@ public class TippgameChart extends AbstractChartView {
                 .map(UserMatchConnectionEntity::getGameMatchId)
                 .collect(Collectors.toList()));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
 
-        return allMatchesById.stream()
-                .map(e -> {
-                    String label = String.format("%s %s:%s", e.getKickOff().format(formatter),
-                            e.getHomeTeamShortName(),
-                            e.getAwayTeamShortName());
-                    labelToEntityMap.put(label, e);
-                    return label;
-                })
-                .collect(Collectors.toList());
+        for(GameMatchEntity gameMatchEntity : allMatchesById) {
+            labelToEntityMap.put(String.format("%s", gameMatchEntity.getKickOff().format(formatter)), gameMatchEntity);
+        }
+
+         return new ArrayList<>(labelToEntityMap.keySet());
     }
 
 }

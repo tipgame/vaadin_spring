@@ -55,6 +55,10 @@ public class UserService {
         return users;
     }
 
+    public void saveUser(UserEntity userEntity) {
+        userRepository.save(userEntity);
+    }
+
     private User buildUserDtoFromEntities(UserStatisticEntity userStatisticEntity, UserEntity userEntity) {
         User user = new User();
         user.setFirstname(userEntity.getFirstname());

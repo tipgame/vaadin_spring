@@ -4,5 +4,5 @@ import de.tipgame.backend.data.entity.StatisticTimelineEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface StatisticTimelineRepository extends CrudRepository<StatisticTimelineEntity, Integer> {
-
+    StatisticTimelineEntity findByUserIdAndMatchId(Integer userId, Integer matchId);
 }

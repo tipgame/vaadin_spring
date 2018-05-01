@@ -16,4 +16,8 @@ public class StatisticTimelineService {
     public void saveStatisticTimeline(StatisticTimelineEntity statisticTimelineEntity) {
         statisticTimelineRepository.save(statisticTimelineEntity);
     }
+
+    public StatisticTimelineEntity getStatisticTimelineByUserIdAndMatchId(Integer userId, Integer matchId) {
+        return statisticTimelineRepository.findByUserIdAndMatchId(userId, matchId);
+    }
 }

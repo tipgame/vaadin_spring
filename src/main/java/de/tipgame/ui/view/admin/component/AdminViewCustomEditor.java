@@ -10,6 +10,11 @@ import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.service.GameMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
+
 @SpringComponent
 @UIScope
 public class AdminViewCustomEditor extends VerticalLayout {
@@ -92,6 +97,9 @@ public class AdminViewCustomEditor extends VerticalLayout {
     }
 
     private void saveMatch(GameMatchDto gameMatchDto) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(new Locale("de"));
+        gameMatchDto.setOriginalKickOff(LocalDateTime.parse(gameMatchDto.getKickOff(), formatter));
         gameMatchService.saveGameMatch(gameMatchDto);
         new Notification("Eintrag gespeichert!",
                 "",
