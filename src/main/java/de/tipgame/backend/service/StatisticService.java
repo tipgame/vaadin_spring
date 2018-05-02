@@ -1,6 +1,5 @@
 package de.tipgame.backend.service;
 
-import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.entity.*;
 import de.tipgame.backend.processor.PointsProcessor;
 import de.tipgame.backend.utils.TipgameUtils;
@@ -46,21 +45,24 @@ public class StatisticService {
         Integer points = 0;
         gameMatchs = gameMatchService.getGameResultMapForFinishedGames();
 
-        UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
-        if (!gameMatchs.isEmpty()) {
-            List<UserMatchConnectionEntity> allTippsFromUser =
-                    userMatchConnectionService.getAllTippsFromUserByMatchIds(currentUser.getId(),
-                            new ArrayList<>(gameMatchs.keySet()));
+        final List<UserEntity> allUsers = userService.findAllUsers();
 
-            for (UserMatchConnectionEntity userMatchConnection : allTippsFromUser) {
-                points = points + computePoints(userMatchConnection);
-                userMatchConnection.setAlreadyProcessed(true);
-                userMatchConnectionService.saveUserMatchConnection(userMatchConnection);
-                savePoints(points, currentUser.getId());
+        for(UserEntity currentUser : allUsers) {
+            if (!gameMatchs.isEmpty()) {
+                List<UserMatchConnectionEntity> allTippsFromUser =
+                        userMatchConnectionService.getAllTippsFromUserByMatchIds(currentUser.getId(),
+                                new ArrayList<>(gameMatchs.keySet()));
+
+                for (UserMatchConnectionEntity userMatchConnection : allTippsFromUser) {
+                    points = points + computePoints(userMatchConnection);
+                    userMatchConnection.setAlreadyProcessed(true);
+                    userMatchConnectionService.saveUserMatchConnection(userMatchConnection);
+                    savePoints(points, currentUser.getId());
+                }
             }
-        }
 
-        calculateFullPointsAfterLastMatch(currentUser);
+            calculateFullPointsAfterLastMatch(currentUser);
+        }
         calculateTeamPointsAndRankForAllTeams();
 
         return true;

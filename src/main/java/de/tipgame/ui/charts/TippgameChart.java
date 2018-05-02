@@ -88,6 +88,7 @@ public class TippgameChart extends AbstractChartView {
                         .labelString("Punkte")
                         .and()
                         .ticks()
+                        .suggestedMin(0)
                         .and()
                         .position(Position.LEFT))
                 .and()
