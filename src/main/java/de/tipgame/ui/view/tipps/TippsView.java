@@ -1,11 +1,14 @@
 package de.tipgame.ui.view.tipps;
 
+import com.vaadin.data.Result;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import de.tipgame.app.security.SecurityUtils;
+import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.data.entity.UserEntity;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
@@ -17,6 +20,10 @@ import de.tipgame.ui.view.tipps.component.TippsCustomComponentForPrelimGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,6 +42,8 @@ public class TippsView extends TippsViewDesign implements View {
     private final GameMatchService gameMatchService;
     private UserMatchConnectionService userMatchConnectionService;
     private UserService userService;
+    private
+    Accordion tippsAccordionBaseLayout = new Accordion();
 
     @Autowired
     public TippsView(NavigationManager navigationManager,
@@ -50,12 +59,55 @@ public class TippsView extends TippsViewDesign implements View {
     @PostConstruct
     public void init() {
         setResponsive(true);
+        VerticalLayout verticalBaseLayout = new VerticalLayout();
         buildTippsLayout();
+        verticalBaseLayout.addComponents(buildFilterLayout(), tippsAccordionBaseLayout);
+
+        this.addComponent(verticalBaseLayout);
+    }
+
+    private HorizontalLayout buildFilterLayout() {
+        HorizontalLayout hL = new HorizontalLayout();
+
+        DateField date = new DateField("Filter über Datum") {
+            @Override
+            protected Result<LocalDate> handleUnparsableDateString(
+                    String dateString) {
+                try {
+                    // try to parse with alternative format
+                    LocalDate parsedAtServer = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
+                    return Result.ok(parsedAtServer);
+                } catch (DateTimeParseException e) {
+                    return Result.error("Falsche Eingabe");
+                }
+            }
+        };
+
+        date.setDateFormat("dd.MM.yyyy");
+        date.setLenient(true);
+
+        date.addValueChangeListener(e -> filterTippViewByDay(e.getValue()));
+        hL.addComponent(date);
+
+        TextField freeFilterTextField = new TextField("Filter über Land");
+        freeFilterTextField.addValueChangeListener(s -> filterByFreeTextField(s.getValue()));
+        hL.addComponent(freeFilterTextField);
+
+        final Button button = new Button("Filter entfernen");
+        button.setIcon(VaadinIcons.TRASH);
+        button.addClickListener(s -> {
+            date.setValue(null);
+            freeFilterTextField.setValue("");
+        });
+
+        hL.addComponent(button);
+        hL.setComponentAlignment(button, Alignment.BOTTOM_CENTER);
+
+        return hL;
     }
 
     private void buildTippsLayout() {
         List<String> rounds = gameMatchService.getDistinctRounds();
-        Accordion tippsAccordionBaseLayout = new Accordion();
         for (String round : rounds) {
 
             if (round.equalsIgnoreCase("Vorrunde")) {
@@ -77,12 +129,63 @@ public class TippsView extends TippsViewDesign implements View {
                 component.select(component.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));
             }
         });
+
         buildAdditionalTippsLayout(tippsAccordionBaseLayout);
-        this.addComponent(tippsAccordionBaseLayout);
+    }
+
+    private void filterTippViewByDay(LocalDate selectedValue) {
+        Iterator<Component> tabs = tippsAccordionBaseLayout.iterator();
+        while (tabs.hasNext()) {
+            final Component next = tabs.next();
+            if (next instanceof HorizontalLayout) {
+                try {
+                    HorizontalLayout vL = (HorizontalLayout) next;
+                    Grid grid = (Grid) vL.getComponent(0);
+                    ListDataProvider<GameMatchDto> dataProvider = (ListDataProvider<GameMatchDto>) grid.getDataProvider();
+                    dataProvider.setFilter(GameMatchDto::getKickOff, s -> filterByDate(s, selectedValue));
+                } catch (Exception e) {
+
+                }
+            }
+        }
+    }
+
+    private void filterByFreeTextField(String inputValue) {
+        Iterator<Component> tabs = tippsAccordionBaseLayout.iterator();
+        while (tabs.hasNext()) {
+            final Component next = tabs.next();
+            if (next instanceof HorizontalLayout) {
+                try {
+                    HorizontalLayout vL = (HorizontalLayout) next;
+                    Grid grid = (Grid) vL.getComponent(0);
+                    ListDataProvider<GameMatchDto> dataProvider = (ListDataProvider<GameMatchDto>) grid.getDataProvider();
+                    dataProvider.setFilter(gameMatchDto -> filterByTeam(gameMatchDto, inputValue));
+                } catch (Exception e) {
+
+                }
+            }
+        }
+    }
+
+    private Boolean filterByTeam(GameMatchDto gameMatchDto, String inputValue) {
+        if (inputValue.isEmpty())
+            return true;
+        else
+            return gameMatchDto.getLongNameHomeTeam().equalsIgnoreCase(inputValue)
+                    || gameMatchDto.getLongNameAwayTeam().equalsIgnoreCase(inputValue);
+    }
+
+    private Boolean filterByDate(String kickOff, LocalDate selectedValue) {
+        if (selectedValue == null)
+            return true;
+
+        LocalDate kickOffDate = LocalDate.parse(kickOff, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+
+        return kickOffDate.compareTo(selectedValue) == 0;
     }
 
     private void selectFirstEntryOnTippsView(Accordion tippsAccordionBaseLayout) {
-        if(tippsAccordionBaseLayout.getTab(0) != null) {
+        if (tippsAccordionBaseLayout.getTab(0) != null) {
             HorizontalLayout vL = (HorizontalLayout) tippsAccordionBaseLayout.getTab(0).getComponent();
             Grid component = (Grid) vL.getComponent(0);
             component.select(component.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));

@@ -1,7 +1,6 @@
 package de.tipgame.ui.view.tipps.component;
 
 import com.vaadin.data.Binder;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -37,7 +36,6 @@ public class TippsEditor extends VerticalLayout {
         binder.bindInstanceFields(this);
         setSpacing(true);
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
-        save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         save.addClickListener(e -> saveTipp(gameMatchDto));
         delete.addClickListener(e -> deleteTipp(gameMatchDto));
