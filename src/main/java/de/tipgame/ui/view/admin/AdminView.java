@@ -3,11 +3,14 @@ package de.tipgame.ui.view.admin;
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.Role;
 import de.tipgame.backend.data.entity.NewsEntity;
+import de.tipgame.backend.data.entity.UserEntity;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.NewsService;
 import de.tipgame.backend.service.StatisticService;
+import de.tipgame.backend.service.UserService;
 import de.tipgame.ui.view.admin.component.AdminViewCustomComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -24,15 +27,18 @@ public class AdminView extends AdminViewDesign implements View {
     private final GameMatchService gameMatchService;
     private StatisticService statisticService;
     private NewsService newsService;
+    private UserService userService;
 
     @Autowired
     public AdminView(GameMatchService gameMatchService,
                      StatisticService statisticService,
-                     NewsService newsService) {
+                     NewsService newsService,
+                     UserService userService) {
 
         this.gameMatchService = gameMatchService;
         this.statisticService = statisticService;
         this.newsService = newsService;
+        this.userService = userService;
     }
 
     @PostConstruct
@@ -94,7 +100,24 @@ public class AdminView extends AdminViewDesign implements View {
         });
         hL.addComponent(calcStatistic);
         panel.setContent(hL);
-        verticalLayout.addComponent(panel, 1);
+        verticalLayout.addComponent(panel);
+
+        Panel panelAdditionalPoints = new Panel("Zusatzpunkte berechnen");
+        HorizontalLayout hLAdditionalPoints = new HorizontalLayout();
+        Button calcStatisticAdditionalPoints = new Button("Zusatzpunkte berechnen");
+        calcStatisticAdditionalPoints.addClickListener(e -> {
+            ProgressBar bar = new ProgressBar();
+            bar.setIndeterminate(true);
+            hLAdditionalPoints.addComponent(bar);
+            final UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
+            if (statisticService.calculateFullPointsAfterLastMatch(currentUser)) {
+                bar.setVisible(false);
+                hLAdditionalPoints.addComponent(new Label("Berechnung beendet."));
+            }
+        });
+        hLAdditionalPoints.addComponent(calcStatisticAdditionalPoints);
+        panelAdditionalPoints.setContent(hLAdditionalPoints);
+        verticalLayout.addComponent(panelAdditionalPoints);
     }
 
 }

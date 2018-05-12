@@ -3,7 +3,7 @@ package de.tipgame.backend.data.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "final_result")
+@Table(name = "final_results")
 public class FinalResultEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

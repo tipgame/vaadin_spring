@@ -2,12 +2,9 @@ package de.tipgame.ui.view.admin.component;
 
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import de.tipgame.backend.data.dtos.GameMatchDto;
-import de.tipgame.backend.data.entity.GameMatchEntity;
 import de.tipgame.backend.service.GameMatchService;
-import de.tipgame.backend.service.UserMatchConnectionService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,8 +40,8 @@ public class AdminViewCustomComponent extends CustomComponent {
         List<String> captions = Arrays.asList(
                 "Anpfiff",
                 "Heimmannschaft (lang)",
-                "Heimmannschaft (kurz)",
                 "Auswärtsmannschaft (lang)",
+                "Heimmannschaft (kurz)",
                 "Auswärtsmannschaft (kurz)",
                 "Gruppe",
                 "Runde",

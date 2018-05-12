@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Locale;
 
 @SpringComponent
@@ -46,12 +45,15 @@ public class AdminViewCustomEditor extends VerticalLayout {
         hL1.addComponents(
                 kickOff,
                 longNameHomeTeam,
-                shortNameHomeTeam,
                 longNameAwayTeam);
 
-        HorizontalLayout hL2 = new HorizontalLayout();
-        hL2.addComponents(
-                shortNameAwayTeam,
+        HorizontalLayout hL2_1 = new HorizontalLayout();
+        hL2_1.addComponents(
+                shortNameHomeTeam,
+                shortNameAwayTeam);
+
+        HorizontalLayout hL2_2 = new HorizontalLayout();
+        hL2_2.addComponents(
                 prelimGroup,
                 round);
 
@@ -67,7 +69,8 @@ public class AdminViewCustomEditor extends VerticalLayout {
 
         addComponents(
                 hL1,
-                hL2,
+                hL2_1,
+                hL2_2,
                 hL3,
                 hL4
         );
@@ -81,6 +84,8 @@ public class AdminViewCustomEditor extends VerticalLayout {
     }
 
     private void updateMatch(GameMatchDto gameMatchDto) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.GERMANY);
+        gameMatchDto.setOriginalKickOff(LocalDateTime.parse(gameMatchDto.getKickOff(), formatter));
         gameMatchService.updateGameMatch(gameMatchDto);
         new Notification("Eintrag geändert!",
                 "",
@@ -97,8 +102,18 @@ public class AdminViewCustomEditor extends VerticalLayout {
     }
 
     private void saveMatch(GameMatchDto gameMatchDto) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(new Locale("de"));
+        if (gameMatchDto == null) {
+            gameMatchDto = new GameMatchDto();
+
+            gameMatchDto.setShortNameHomeTeam(shortNameHomeTeam.getValue());
+            gameMatchDto.setShortNameAwayTeam(shortNameAwayTeam.getValue());
+            gameMatchDto.setLongNameHomeTeam(longNameHomeTeam.getValue());
+            gameMatchDto.setLongNameAwayTeam(longNameAwayTeam.getValue());
+            gameMatchDto.setKickOff(kickOff.getValue());
+            gameMatchDto.setPrelimGroup(prelimGroup.getValue());
+            gameMatchDto.setRound(round.getValue());
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.GERMANY);
         gameMatchDto.setOriginalKickOff(LocalDateTime.parse(gameMatchDto.getKickOff(), formatter));
         gameMatchService.saveGameMatch(gameMatchDto);
         new Notification("Eintrag gespeichert!",

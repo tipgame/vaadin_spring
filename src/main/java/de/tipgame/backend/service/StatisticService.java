@@ -2,7 +2,6 @@ package de.tipgame.backend.service;
 
 import de.tipgame.backend.data.entity.*;
 import de.tipgame.backend.processor.PointsProcessor;
-import de.tipgame.backend.utils.TipgameUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,8 +59,6 @@ public class StatisticService {
                     savePoints(points, currentUser.getId());
                 }
             }
-
-            calculateFullPointsAfterLastMatch(currentUser);
         }
         calculateTeamPointsAndRankForAllTeams();
 
@@ -147,24 +144,25 @@ public class StatisticService {
         statisticTimelineService.saveStatisticTimeline(statisticTimelineEntity);
     }
 
-    private void calculateFullPointsAfterLastMatch(UserEntity user) {
+    public boolean calculateFullPointsAfterLastMatch(UserEntity user) {
         Integer points = 0;
-        if (TipgameUtils.isTimeToCalcFinalResults("10.07.2018 00:01")) {
 
-            String winner = user.getWinnerTipp();
-            String tippGermany = user.getGermanyTipp();
+        String winner = user.getWinnerTipp();
+        String tippGermany = user.getGermanyTipp();
 
-            Iterable<FinalResultEntity> finalResults = finalResultService.getFinalResults();
-            for (FinalResultEntity finalResultEntity : finalResults) {
-                if (finalResultEntity.getResultGermany().equalsIgnoreCase(tippGermany)) {
-                    points = points + 10;
-                }
-                if (finalResultEntity.getWinner().equalsIgnoreCase(winner)) {
-                    points = points + 10;
-                }
+        Iterable<FinalResultEntity> finalResults = finalResultService.getFinalResults();
+        for (FinalResultEntity finalResultEntity : finalResults) {
+            if (finalResultEntity.getResultGermany().equalsIgnoreCase(tippGermany)) {
+                points = points + 10;
             }
+            if (finalResultEntity.getWinner().equalsIgnoreCase(winner)) {
+                points = points + 10;
+            }
+
             savePoints(points, user.getId());
 
         }
+
+        return true;
     }
 }

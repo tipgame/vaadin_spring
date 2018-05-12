@@ -14,7 +14,8 @@ import de.tipgame.backend.service.NewsService;
 import de.tipgame.backend.service.StatisticService;
 import de.tipgame.backend.service.TeamService;
 import de.tipgame.backend.service.UserService;
-import de.tipgame.ui.charts.TippgameChart;
+import de.tipgame.ui.charts.TippgameGroupRankChart;
+import de.tipgame.ui.charts.TippgameUserPointsChart;
 import de.tipgame.ui.navigation.NavigationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,7 +33,8 @@ public class HomeView extends HomeViewDesign implements View {
     private StatisticService statisticService;
     private NewsService newsService;
     private VerticalLayout mainLayout;
-    private TippgameChart tippgameChart;
+    private TippgameUserPointsChart tippgameUserPointsChart;
+    private TippgameGroupRankChart tippgameGroupRankChart;
     private TeamService teamService;
 
     @Autowired
@@ -40,13 +42,15 @@ public class HomeView extends HomeViewDesign implements View {
                     UserService userService,
                     StatisticService statisticService,
                     NewsService newsService,
-                    TippgameChart tippgameChart,
+                    TippgameUserPointsChart tippgameUserPointsChart,
+                    TippgameGroupRankChart tippgameGroupRankChart,
                     TeamService teamService) {
         this.userService = userService;
         this.navigationManager = navigationManager;
         this.statisticService = statisticService;
         this.newsService = newsService;
-        this.tippgameChart = tippgameChart;
+        this.tippgameUserPointsChart = tippgameUserPointsChart;
+        this.tippgameGroupRankChart = tippgameGroupRankChart;
         this.teamService = teamService;
     }
 
@@ -58,6 +62,7 @@ public class HomeView extends HomeViewDesign implements View {
         createSalutationLabel();
         createNewsSection();
         createChartStatisticTimelineLayout();
+        createChartTeamRankLayout();
         createRankingLayout();
         this.addComponent(mainLayout);
     }
@@ -78,11 +83,12 @@ public class HomeView extends HomeViewDesign implements View {
         panel.setCaption("Neuigkeiten");
 
         List<NewsEntity> newsEntityList = newsService.getAllNewsOrderdByIdDesc();
-
-        NewsEntity newsEntity = newsEntityList.stream().findFirst().get();
-
         Label newsLabel = new Label();
-        newsLabel.setValue(newsEntity.getTimestamp().toString() + " " + newsEntity.getMessage());
+        if(newsEntityList.stream().findFirst().isPresent()) {
+            NewsEntity newsEntity = newsEntityList.stream().findFirst().get();
+
+            newsLabel.setValue(newsEntity.getTimestamp().toString() + " " + newsEntity.getMessage());
+        }
 
         panel.setContent(newsLabel);
 
@@ -105,7 +111,17 @@ public class HomeView extends HomeViewDesign implements View {
         Panel panel = new Panel();
         VerticalLayout vL = new VerticalLayout();
         panel.setCaption("Punkteverlauf");
-        panel.setContent(createChart());
+        panel.setContent(tippgameUserPointsChart.getChart());
+
+        vL.addComponent(panel);
+        mainLayout.addComponent(vL);
+    }
+
+    private void createChartTeamRankLayout() {
+        Panel panel = new Panel();
+        VerticalLayout vL = new VerticalLayout();
+        panel.setCaption("Teams");
+        panel.setContent(tippgameGroupRankChart.getChart());
 
         vL.addComponent(panel);
         mainLayout.addComponent(vL);
@@ -161,7 +177,7 @@ public class HomeView extends HomeViewDesign implements View {
 
     private String buildToolTipWithTeamMembersForTeam(String userIds) {
         String teamMembersHtmlToolTip = "";
-        if (!userIds.isEmpty()) {
+        if (userIds != null && !userIds.isEmpty()) {
             List<Integer> userIdList = Stream.of(userIds.split(";"))
                     .map(Integer::new)
                     .collect(Collectors.toList());
@@ -175,9 +191,4 @@ public class HomeView extends HomeViewDesign implements View {
 
         return teamMembersHtmlToolTip;
     }
-
-    private Component createChart() {
-        return tippgameChart.getChart();
-    }
-
 }

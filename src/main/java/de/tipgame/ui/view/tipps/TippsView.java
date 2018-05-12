@@ -82,9 +82,11 @@ public class TippsView extends TippsViewDesign implements View {
     }
 
     private void selectFirstEntryOnTippsView(Accordion tippsAccordionBaseLayout) {
-        HorizontalLayout vL = (HorizontalLayout) tippsAccordionBaseLayout.getTab(0).getComponent();
-        Grid component = (Grid) vL.getComponent(0);
-        component.select(component.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));
+        if(tippsAccordionBaseLayout.getTab(0) != null) {
+            HorizontalLayout vL = (HorizontalLayout) tippsAccordionBaseLayout.getTab(0).getComponent();
+            Grid component = (Grid) vL.getComponent(0);
+            component.select(component.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));
+        }
     }
 
     private void buildLayoutForPrelimGroups(Accordion tippsAccordionBaseLayout) {

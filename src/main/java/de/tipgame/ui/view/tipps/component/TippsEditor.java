@@ -1,18 +1,17 @@
 package de.tipgame.ui.view.tipps.component;
 
+import com.vaadin.data.Binder;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.backend.utils.TipgameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.data.Binder;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.themes.ValoTheme;
 
 @SpringComponent
 @UIScope
@@ -44,7 +43,7 @@ public class TippsEditor extends VerticalLayout {
         delete.addClickListener(e -> deleteTipp(gameMatchDto));
     }
 
-    private void deleteTipp (GameMatchDto gameMatchDto) {
+    private void deleteTipp(GameMatchDto gameMatchDto) {
         if (gameMatchDto == null) {
             tippHomeTeam.setValue("");
             tippAwayTeam.setValue("");
@@ -63,17 +62,27 @@ public class TippsEditor extends VerticalLayout {
     private void saveTipp(GameMatchDto gameMatchDto) {
         if (gameMatchDto == null) {
             new Notification("Hinweis: ",
-                    "Bitte wähle in der Liste links eine Begegnung aus für welche der Tipp abgegeben werden soll",
+                    "Bitte wähle in der Liste links eine Begegnung aus für welche der Tipp abgegeben werden soll.",
                     Notification.Type.WARNING_MESSAGE, false)
                     .show(Page.getCurrent());
             return;
         }
-        userMatchConnectionService.saveTipp(gameMatchDto);
 
-        new Notification("Tipp gespeichert!",
-                "",
-                Notification.Type.HUMANIZED_MESSAGE, false)
-                .show(Page.getCurrent());
+        if (!tippAwayTeam.getValue().matches("-?\\d+(\\.\\d+)?") ||
+                !tippHomeTeam.getValue().matches("-?\\d+(\\.\\d+)?")) {
+            new Notification("Achtung: ",
+                    "Bitte in den Ergebnisfeldern nur Zahlen eintragen.",
+                    Notification.Type.WARNING_MESSAGE, false)
+                    .show(Page.getCurrent());
+        } else {
+
+            userMatchConnectionService.saveTipp(gameMatchDto);
+
+            new Notification("Tipp gespeichert!",
+                    "",
+                    Notification.Type.HUMANIZED_MESSAGE, false)
+                    .show(Page.getCurrent());
+        }
     }
 
     public interface ChangeHandler {

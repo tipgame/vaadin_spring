@@ -15,9 +15,9 @@ import com.vaadin.server.BootstrapPageResponse;
  *
  * <pre>
  * {@code
- * <link rel="icon" sizes="96x96" href="VAADIN/themes/apptheme/icon-96.png">
+ * <link rel="icon" sizes="96x96" href="VAADIN/themes/apptheme/ifba.jpg">
  * <link rel="apple-touch-icon" sizes="192x192" href=
-"VAADIN/themes/apptheme/icon-192.png">
+"VAADIN/themes/apptheme/ifba.jpg">
  * }
  * </pre>
  * </p>

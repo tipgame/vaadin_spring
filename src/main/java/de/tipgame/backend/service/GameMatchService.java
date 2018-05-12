@@ -11,10 +11,7 @@ import de.tipgame.backend.repository.RoundOnly;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -99,7 +96,8 @@ public class GameMatchService {
         GameMatchEntity gameMatchEntity = fillGameMatchEntity(gameMatchDto);
         gameMatchEntity.setMatchId(gameMatchDto.getGamcheMatchId());
         matchRepository.save(gameMatchEntity);
-        matchResultRepository.save(fillGameResultEntity(gameMatchDto));
+        if(gameMatchDto.getResultHomeTeam() != null && gameMatchDto.getResultAwayTeam() != null)
+            matchResultRepository.save(fillGameResultEntity(gameMatchDto));
     }
 
     public void saveGameMatch(GameMatchDto gameMatchDto) {
@@ -128,10 +126,10 @@ public class GameMatchService {
     private GameResultEntity fillGameResultEntity(GameMatchDto gameMatchDto) {
         GameResultEntity gameResultEntity = new GameResultEntity();
         gameResultEntity.setGameMatchId(gameMatchDto.getGamcheMatchId());
-        if (!gameMatchDto.getResultAwayTeam().isEmpty())
+        if (gameMatchDto.getResultAwayTeam() != null && !gameMatchDto.getResultAwayTeam().isEmpty())
             gameResultEntity.setResultAwayTeam(Integer.valueOf(gameMatchDto.getResultAwayTeam()));
 
-        if(!gameMatchDto.getResultHomeTeam().isEmpty())
+        if(gameMatchDto.getResultHomeTeam() != null && !gameMatchDto.getResultHomeTeam().isEmpty())
             gameResultEntity.setResultHomeTeam(Integer.valueOf(gameMatchDto.getResultHomeTeam()));
 
         return gameResultEntity;
@@ -142,8 +140,8 @@ public class GameMatchService {
                                            GameResultEntity gameResultEntity) {
         GameMatchDto gameMatchDto = new GameMatchDto();
         gameMatchDto.setFixture(match.getHomeTeamShortName() + " : " + match.getAwayTeamShortName());
-        gameMatchDto.setKickOff(match.getKickOff().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(new Locale("de"))));
+
+        gameMatchDto.setKickOff(match.getKickOff().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
 
         if (userMatchConnectionEntity != null) {
             gameMatchDto.setTippHomeTeam(userMatchConnectionEntity.getResultTippHomeTeam());

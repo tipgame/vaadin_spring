@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 
 @UIScope
 @SpringView
-public class TippgameChart extends AbstractChartView {
+public class TippgameUserPointsChart extends AbstractChartView {
 
     private UserMatchConnectionService userMatchConnectionService;
     private UserService userService;
@@ -41,10 +41,10 @@ public class TippgameChart extends AbstractChartView {
     private MultiValuedMap<String, GameMatchEntity> labelToEntityMap;
     private StatisticTimelineService statisticTimelineService;
 
-    public TippgameChart(UserMatchConnectionService userMatchConnectionService,
-                         UserService userService,
-                         GameMatchService gameMatchService,
-                         StatisticTimelineService statisticTimelineService) {
+    public TippgameUserPointsChart(UserMatchConnectionService userMatchConnectionService,
+                                   UserService userService,
+                                   GameMatchService gameMatchService,
+                                   StatisticTimelineService statisticTimelineService) {
         this.userMatchConnectionService = userMatchConnectionService;
         this.userService = userService;
         this.gameMatchService = gameMatchService;
@@ -56,8 +56,9 @@ public class TippgameChart extends AbstractChartView {
         LineChartConfig lineConfig = new LineChartConfig();
         lineConfig.data()
                 .labelsAsList(setLabels())
-                .addDataset(setUserPointsData(lineConfig))
+                .addDataset(setUserPointsSumData(lineConfig))
                 .addDataset(setDataForPerfectPoints(lineConfig))
+                .addDataset(setUserPointsPerDayData(lineConfig))
                 .and()
                 .options()
                 .responsive(true)
@@ -109,8 +110,8 @@ public class TippgameChart extends AbstractChartView {
 
         List<String> labels = lineChartConfig.data().getLabels();
         List<Double> data = new ArrayList<>();
+        Double points = 0D;
         for (String label : labels) {
-            Double points = 0D;
             final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
             for (GameMatchEntity gameMatchEntity : gameMatchEntities) {
                 points = points + 6D;
@@ -126,9 +127,38 @@ public class TippgameChart extends AbstractChartView {
         return perfectPointsData;
     }
 
-    private LineDataset setUserPointsData(LineChartConfig lineChartConfig) {
+    private LineDataset setUserPointsSumData(LineChartConfig lineChartConfig) {
         LineDataset userPointsData = new LineDataset()
-                .label("Deine Punkte")
+                .label("Deine Gesamtpunkte")
+                .fill(false);
+        List<String> labels = lineChartConfig.data().getLabels();
+        List<Double> data = new ArrayList<>();
+
+        UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
+
+        Double points = 0D;
+        for (String label : labels) {
+            final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
+            for(GameMatchEntity gameMatchEntity : gameMatchEntities) {
+                StatisticTimelineEntity statisticTimelineByUserIdAndMatchId =
+                        statisticTimelineService.getStatisticTimelineByUserIdAndMatchId(currentUser.getId(),
+                                gameMatchEntity.getMatchId());
+                if (statisticTimelineByUserIdAndMatchId != null) {
+                    points = points + statisticTimelineByUserIdAndMatchId.getPoints();
+                }
+            }
+            data.add(points);
+        }
+
+        userPointsData.dataAsList(data);
+        userPointsData.borderColor(ColorUtils.randomColor(0.3));
+        userPointsData.backgroundColor(ColorUtils.randomColor(0.5));
+        return userPointsData;
+    }
+
+    private LineDataset setUserPointsPerDayData(LineChartConfig lineChartConfig) {
+        LineDataset userPointsData = new LineDataset()
+                .label("Deine Punkte für diesen Spieltag")
                 .fill(false);
         List<String> labels = lineChartConfig.data().getLabels();
         List<Double> data = new ArrayList<>();
@@ -136,8 +166,8 @@ public class TippgameChart extends AbstractChartView {
         UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
 
         for (String label : labels) {
-            final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
             Double points = 0D;
+            final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
             for(GameMatchEntity gameMatchEntity : gameMatchEntities) {
                 StatisticTimelineEntity statisticTimelineByUserIdAndMatchId =
                         statisticTimelineService.getStatisticTimelineByUserIdAndMatchId(currentUser.getId(),
