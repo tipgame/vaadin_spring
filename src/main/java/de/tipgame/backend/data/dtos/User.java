@@ -5,6 +5,7 @@ public class User {
     private String firstname;
     private String lastname;
     private Integer points;
+    private String fullname;
 
     public String getLastname() {
         return lastname;
@@ -28,5 +29,13 @@ public class User {
 
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    public String getFullname() {
+        return firstname + " " + lastname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

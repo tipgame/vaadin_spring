@@ -70,7 +70,7 @@ public class HomeView extends HomeViewDesign implements View {
     private void createSalutationLabel() {
         UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
         VerticalLayout vL = new VerticalLayout();
-        Label salutation = new Label("Herzlich willkommen " + currentUser.getFirstname() + " " + currentUser.getLastname());
+        Label salutation = new Label("Herzlich Willkommen " + currentUser.getFirstname() + " " + currentUser.getLastname());
         salutation.addStyleName("h2");
         vL.addComponent(salutation);
         vL.setComponentAlignment(salutation, Alignment.TOP_CENTER);
@@ -133,8 +133,7 @@ public class HomeView extends HomeViewDesign implements View {
 
         Grid<User> grid = new Grid<>();
         grid.setItems(userService.getAllUsersSortedByRank());
-        grid.addColumn(User::getFirstname).setCaption("Vorname");
-        grid.addColumn(User::getLastname).setCaption("Nachname");
+        grid.addColumn(User::getFullname).setCaption("Vorname");
         grid.addColumn(User::getPoints).setCaption("Punkte");
 
         panel.setContent(grid);

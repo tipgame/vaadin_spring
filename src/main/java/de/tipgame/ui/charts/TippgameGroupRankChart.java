@@ -82,17 +82,19 @@ public class TippgameGroupRankChart extends AbstractChartView {
         List<TeamEntity> allTeamsOrderdByPointsDesc = teamService.getAllTeamsOrderdByPointsDesc();
 
         for (TeamEntity team : allTeamsOrderdByPointsDesc) {
-            barChartConfig.data()
-                    .addDataset(
-                            new BarDataset().backgroundColor(
-                                    ColorUtils.randomColor(0.7),
-                                    ColorUtils.randomColor(0.7),
-                                    ColorUtils.randomColor(0.7),
-                                    ColorUtils.randomColor(0.7),
-                                    ColorUtils.randomColor(0.7),
-                                    ColorUtils.randomColor(0.7))
-                                    .label(team.getTeamName())
-                                    .addData(Math.round(team.getPoints() * 100) / 100.00));
+            if(team.getPoints() != null) {
+                barChartConfig.data()
+                        .addDataset(
+                                new BarDataset().backgroundColor(
+                                        ColorUtils.randomColor(0.7),
+                                        ColorUtils.randomColor(0.7),
+                                        ColorUtils.randomColor(0.7),
+                                        ColorUtils.randomColor(0.7),
+                                        ColorUtils.randomColor(0.7),
+                                        ColorUtils.randomColor(0.7))
+                                        .label(team.getTeamName())
+                                        .addData(Math.round(team.getPoints() * 100) / 100.00));
+            }
         }
         barChartConfig.data().labelsAsList(Collections.singletonList(""));
         return barChartConfig;
