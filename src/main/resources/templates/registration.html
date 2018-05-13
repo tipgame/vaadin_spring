@@ -66,10 +66,6 @@
 	      align-items: center;
 	      justify-content: center;
 	    }
-	    #logo {
-	      width:96px;
-        height:96px;
-	    }
 	    #info, #form {
 	      height: 600px;
 	      box-shadow: 0 2px 3px rgba(0,0,0,.2);
@@ -99,11 +95,6 @@
 		}
 		form {
 			max-width: 320px;
-		}
-		label {
-			font-size: 14px;
-			padding: 16px 0 5px 0;
-			display: inline-block;
 		}
 		input[type='text'],
 		input[type='password']
@@ -157,56 +148,90 @@
 			margin:10px;
 		}
 		.validation-message{
-		    font-size=8px;
-		    font-color=red;
+		    font-size:12px;
+		    color:red;
 		}
-	</style>
-    <body>
-        <div id="form">
-            <form autocomplete="off" action="#" th:action="@{/user/register}"
-                  th:object="${registrationDto}" method="post" role="form" id="theform">
-
-                        <label th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
-                               class="validation-message"></label>
-                        <input type="text" th:field="*{firstname}" placeholder="Vorname"/>
-
-                        <label	th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"
-                                  class="validation-message"></label>
-                        <input type="text" th:field="*{lastname}"
-                               placeholder="Nachname"  />
-
-                        <input type="text" th:field="*{email}" placeholder="Email"
-                                /> <label
-                            th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                            class="validation-message"></label>
-
-                        <input type="text" th:field="*{username}" placeholder="Benutzername"
-                                /> <label
-                            th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
-                            class="validation-message"></label>
-
-                        <input type="password" th:field="*{password}"
-                               placeholder="Passwort"  /> <label
-                            th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                            class="validation-message"></label>
-
-                        <input type="password" th:field="*{retypepassword}"
-                               placeholder="Passwort erneut eingeben"  /> <label
-                            th:if="${#fields.hasErrors('retypepassword')}" th:errors="*{retypepassword}"
-                            class="validation-message"></label>
-
-                        <input type="text" th:field="*{registrationcode}"
-                               placeholder="Registrierungscode"  /> <label
-                            th:if="${#fields.hasErrors('registrationcode')}" th:errors="*{registrationcode}"
-                            class="validation-message"></label>
-
-                        <button type="submit" class="btn btn-primary btn-block">Benutzer anlegen</button>
+		.successMessage{
+		    font-size:12px;
+		}
+		.errorMessage{
+		    font-size:12px;
+		    color:red;
+		}
+        #overlay {
+            position: fixed; /* Sit on top of the page content */
+            display: none; /* Hidden by default */
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.2); /* Black background with opacity */
+            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
+        }
+        .centerImage
+        {
+            margin-left: auto;
+	        margin-right: auto;
+	        display: block;
+        }
 
 
-                <span th:utext="${successMessage}"></span>
-                <a class="loginLink" href="/">Zurück zur Login-Seite</a>
+</style>
+<body>
+    <div id="overlay" class="centerImage"><img class="centerImage" src="loading.gif"/></div>
+    <div id="form">
+        <form autocomplete="off" action="#" th:action="@{/user/register}"
+              th:object="${registrationDto}" method="post" role="form" id="theform">
 
-            </form>
-        </div>
-    </body>
+            <label th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
+                class="validation-message"></label>
+            <input type="text" th:field="*{firstname}" placeholder="Vorname"/>
+
+            <label th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"
+                   class="validation-message"></label>
+            <input type="text" th:field="*{lastname}"
+                   placeholder="Nachname"/>
+
+            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                   class="validation-message"></label>
+            <input type="text" th:field="*{email}" placeholder="Email"/>
+
+            <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                   class="validation-message"></label>
+            <input type="text" th:field="*{username}" placeholder="Benutzername"/>
+
+            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                   class="validation-message"></label>
+            <input type="password" th:field="*{password}"
+                   placeholder="Passwort"/>
+
+            <label th:if="${#fields.hasErrors('retypepassword')}" th:errors="*{retypepassword}"
+                   class="validation-message"></label>
+            <input type="password" th:field="*{retypepassword}"
+                   placeholder="Passwort erneut eingeben"/>
+
+            <label th:if="${#fields.hasErrors('registrationcode')}" th:errors="*{registrationcode}"
+                   class="validation-message"></label>
+            <input type="text" th:field="*{registrationcode}"
+                   placeholder="Registrierungscode"/>
+            <button type="submit" class="btn btn-primary btn-block">Benutzer anlegen</button>
+
+            <span class="successMessage" th:utext="${successMessage}"></span>
+            <span class="errorMessage" th:utext="${errorMessage}"></span>
+            <a class="loginLink" href="/">Zurück zur Login-Seite</a>
+
+        </form>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#theform').on('submit', function(e){
+                document.getElementById("overlay").style.display = "block";
+            });
+            document.getElementById("overlay").style.display = "none";
+        });
+    </script>
+</body>
 </html>

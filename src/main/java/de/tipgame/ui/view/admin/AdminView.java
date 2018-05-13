@@ -1,22 +1,23 @@
 package de.tipgame.ui.view.admin;
 
+import com.vaadin.data.Result;
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.Role;
+import de.tipgame.backend.data.entity.DisableElementsEntity;
 import de.tipgame.backend.data.entity.NewsEntity;
 import de.tipgame.backend.data.entity.UserEntity;
-import de.tipgame.backend.service.GameMatchService;
-import de.tipgame.backend.service.NewsService;
-import de.tipgame.backend.service.StatisticService;
-import de.tipgame.backend.service.UserService;
+import de.tipgame.backend.service.*;
 import de.tipgame.ui.view.admin.component.AdminViewCustomComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static java.util.Date.from;
 
@@ -28,17 +29,20 @@ public class AdminView extends AdminViewDesign implements View {
     private StatisticService statisticService;
     private NewsService newsService;
     private UserService userService;
+    private DisableElementsService disableElementsService;
 
     @Autowired
     public AdminView(GameMatchService gameMatchService,
                      StatisticService statisticService,
                      NewsService newsService,
-                     UserService userService) {
+                     UserService userService,
+                     DisableElementsService disableElementsService) {
 
         this.gameMatchService = gameMatchService;
         this.statisticService = statisticService;
         this.newsService = newsService;
         this.userService = userService;
+        this.disableElementsService = disableElementsService;
     }
 
     @PostConstruct
@@ -48,7 +52,117 @@ public class AdminView extends AdminViewDesign implements View {
         createMatchLayout(v);
         createCalcStatisticAdminLayout(v);
         createNewsSection(v);
+        createDisableTippGermanySection(v);
+        createDisableTippWinnerChampionshipSection(v);
+        createDisableRegistrationSection(v);
         this.addComponent(v);
+    }
+
+    private void createDisableRegistrationSection(VerticalLayout verticalLayout) {
+        Panel panel = new Panel();
+        VerticalLayout vL = new VerticalLayout();
+
+        LocalDateTime timeElementShouldBeDisabled = disableElementsService
+                .getTimeElementShouldBeDisabled("registration");
+
+        DateTimeField date = new DateTimeField("Wann soll die Anmeldung gesperrt werden?", timeElementShouldBeDisabled) {
+            @Override
+            protected Result<LocalDateTime> handleUnparsableDateString(
+                    String dateString) {
+                try {
+                    // try to parse with alternative format
+                    LocalDateTime parsedAtServer = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE);
+                    return Result.ok(parsedAtServer);
+                } catch (Exception e) {
+                    return Result.error("Falsche Eingabe");
+                }
+            }
+        };
+
+        date.setDateFormat("dd.MM.yyyy hh:mm");
+        date.setLenient(true);
+
+        date.addValueChangeListener(e -> {
+            saveElementToDisable("registration", e.getValue());
+        });
+
+        vL.addComponent(date);
+        panel.setContent(vL);
+        verticalLayout.addComponent(panel);
+    }
+
+    private void createDisableTippWinnerChampionshipSection(VerticalLayout verticalLayout) {
+        Panel panel = new Panel();
+        VerticalLayout vL = new VerticalLayout();
+
+        LocalDateTime timeElementShouldBeDisabled = disableElementsService.getTimeElementShouldBeDisabled("tippChampionshipWinner");
+
+        DateTimeField date = new DateTimeField("Wann soll der Tipp für den Weltmeister gesperrt werden?", timeElementShouldBeDisabled) {
+            @Override
+            protected Result<LocalDateTime> handleUnparsableDateString(
+                    String dateString) {
+                try {
+                    // try to parse with alternative format
+                    LocalDateTime parsedAtServer = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE);
+                    return Result.ok(parsedAtServer);
+                } catch (Exception e) {
+                    return Result.error("Falsche Eingabe");
+                }
+            }
+        };
+
+        date.setDateFormat("dd.MM.yyyy hh:mm");
+        date.setLenient(true);
+
+        date.addValueChangeListener(e -> {
+            saveElementToDisable("tippChampionshipWinner", e.getValue());
+        });
+
+        vL.addComponent(date);
+        panel.setContent(vL);
+        verticalLayout.addComponent(panel);
+    }
+
+    private void createDisableTippGermanySection(VerticalLayout verticalLayout) {
+        Panel panel = new Panel();
+        VerticalLayout vL = new VerticalLayout();
+
+        LocalDateTime timeElementShouldBeDisabled = disableElementsService.getTimeElementShouldBeDisabled("tippGermany");
+
+        DateTimeField date = new DateTimeField("Wann soll der Tipp für das Ergebnis für Deutschland gesperrt werden?", timeElementShouldBeDisabled) {
+            @Override
+            protected Result<LocalDateTime> handleUnparsableDateString(
+                    String dateString) {
+                try {
+                    // try to parse with alternative format
+                    LocalDateTime parsedAtServer = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE);
+                    return Result.ok(parsedAtServer);
+                } catch (Exception e) {
+                    return Result.error("Falsche Eingabe");
+                }
+            }
+        };
+
+        date.setDateFormat("dd.MM.yyyy hh:mm");
+        date.setLenient(true);
+
+        date.addValueChangeListener(e -> {
+            saveElementToDisable("tippGermany", e.getValue());
+        });
+
+        vL.addComponent(date);
+        panel.setContent(vL);
+        verticalLayout.addComponent(panel);
+    }
+
+    private void saveElementToDisable(String elementToDisable, LocalDateTime timeToDisable) {
+        DisableElementsEntity elementToDisableEntity = disableElementsService.findElementToDisableEntity(elementToDisable);
+        if(elementToDisableEntity == null) {
+            elementToDisableEntity = new DisableElementsEntity();
+            elementToDisableEntity.setElementToDisable(elementToDisable);
+        }
+        elementToDisableEntity.setDateElementIsDisabled(timeToDisable);
+        disableElementsService.saveTimeToDisableElement(elementToDisableEntity);
     }
 
     private void createNewsSection(VerticalLayout verticalLayout) {
@@ -87,6 +201,7 @@ public class AdminView extends AdminViewDesign implements View {
 
     private void createCalcStatisticAdminLayout(VerticalLayout verticalLayout) {
         Panel panel = new Panel("Punkteberechnung");
+        VerticalLayout vL = new VerticalLayout();
         HorizontalLayout hL = new HorizontalLayout();
         Button calcStatistic = new Button("Punkte berechnen");
         calcStatistic.addClickListener(e -> {
@@ -99,11 +214,13 @@ public class AdminView extends AdminViewDesign implements View {
             }
         });
         hL.addComponent(calcStatistic);
-        panel.setContent(hL);
+        vL.addComponent(hL);
+        panel.setContent(vL);
         verticalLayout.addComponent(panel);
 
         Panel panelAdditionalPoints = new Panel("Zusatzpunkte berechnen");
         HorizontalLayout hLAdditionalPoints = new HorizontalLayout();
+        VerticalLayout vLAdditionalPoints = new VerticalLayout();
         Button calcStatisticAdditionalPoints = new Button("Zusatzpunkte berechnen");
         calcStatisticAdditionalPoints.addClickListener(e -> {
             ProgressBar bar = new ProgressBar();
@@ -116,7 +233,9 @@ public class AdminView extends AdminViewDesign implements View {
             }
         });
         hLAdditionalPoints.addComponent(calcStatisticAdditionalPoints);
-        panelAdditionalPoints.setContent(hLAdditionalPoints);
+        vLAdditionalPoints.addComponent(hLAdditionalPoints);
+        panelAdditionalPoints.setContent(vLAdditionalPoints);
+
         verticalLayout.addComponent(panelAdditionalPoints);
     }
 

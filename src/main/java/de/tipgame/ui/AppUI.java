@@ -44,8 +44,8 @@ public class AppUI extends UI implements HasLogger {
         vaadinRequest.getService().setSystemMessagesProvider(
                 (SystemMessagesProvider) systemMessagesInfo -> {
                     CustomizedSystemMessages messages = new CustomizedSystemMessages();
-                    messages.setSessionExpiredCaption("Foo");
-                    messages.setSessionExpiredMessage("Bar");
+                    messages.setSessionExpiredCaption("Die Sitzung ist abgelaufen.");
+                    messages.setSessionExpiredMessage("Bitte neu laden...");
                     return messages;
                 });
 

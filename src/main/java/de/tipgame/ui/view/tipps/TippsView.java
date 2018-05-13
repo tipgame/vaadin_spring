@@ -10,10 +10,10 @@ import com.vaadin.ui.*;
 import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.data.entity.UserEntity;
+import de.tipgame.backend.service.DisableElementsService;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import de.tipgame.backend.service.UserService;
-import de.tipgame.backend.utils.TipgameUtils;
 import de.tipgame.ui.navigation.NavigationManager;
 import de.tipgame.ui.view.tipps.component.TippsCustomComponent;
 import de.tipgame.ui.view.tipps.component.TippsCustomComponentForPrelimGroups;
@@ -42,18 +42,20 @@ public class TippsView extends TippsViewDesign implements View {
     private final GameMatchService gameMatchService;
     private UserMatchConnectionService userMatchConnectionService;
     private UserService userService;
-    private
-    Accordion tippsAccordionBaseLayout = new Accordion();
+    private Accordion tippsAccordionBaseLayout = new Accordion();
+    private DisableElementsService disableElementsService;
 
     @Autowired
     public TippsView(NavigationManager navigationManager,
                      GameMatchService gameMatchService,
                      UserMatchConnectionService userMatchConnectionService,
-                     UserService userService) {
+                     UserService userService,
+                     DisableElementsService disableElementsService) {
         this.gameMatchService = gameMatchService;
         this.navigationManager = navigationManager;
         this.userMatchConnectionService = userMatchConnectionService;
         this.userService = userService;
+        this.disableElementsService = disableElementsService;
     }
 
     @PostConstruct
@@ -215,14 +217,14 @@ public class TippsView extends TippsViewDesign implements View {
         HorizontalLayout hL = new HorizontalLayout();
         ComboBox<String> championshipWinner = createComboboxTippChampionshipWinner();
         championshipWinner.setCaption("Wer wird Weltmeister?");
-        championshipWinner.setEnabled(!TipgameUtils.isTimeToDisable("13.06.2018 23:55"));
+        championshipWinner.setEnabled(!disableElementsService.isTimeToDisableElement("tippChampionshipWinner"));
         hL.addComponent(championshipWinner);
 
         Button saveTippChampionshipWinner = new Button("Tipp speichern", VaadinIcons.CHECK);
-        saveTippChampionshipWinner.setEnabled(!TipgameUtils.isTimeToDisable("13.06.2018 23:55"));
+        saveTippChampionshipWinner.setEnabled(!disableElementsService.isTimeToDisableElement("tippChampionshipWinner"));
         saveTippChampionshipWinner.addClickListener(e -> saveAdditionalTippChampionshipWinner(championshipWinner));
         hL.addComponent(saveTippChampionshipWinner);
-        hL.setComponentAlignment(saveTippChampionshipWinner, Alignment.MIDDLE_LEFT);
+        hL.setComponentAlignment(saveTippChampionshipWinner, Alignment.BOTTOM_LEFT);
         vL.addComponent(hL);
     }
 
@@ -230,14 +232,14 @@ public class TippsView extends TippsViewDesign implements View {
         HorizontalLayout hL = new HorizontalLayout();
         ComboBox<String> tippGermany = createComboboxTippGermany();
         tippGermany.setCaption("Wie weit kommt Deutschland?");
-        tippGermany.setEnabled(!TipgameUtils.isTimeToDisable("13.06.2018 23:55"));
+        tippGermany.setEnabled(!disableElementsService.isTimeToDisableElement("tippGermany"));
         hL.addComponent(tippGermany);
 
         Button saveTippGermany = new Button("Tipp speichern", VaadinIcons.CHECK);
         saveTippGermany.addClickListener(e -> saveAdditionalTippGermany(tippGermany));
-        saveTippGermany.setEnabled(!TipgameUtils.isTimeToDisable("13.06.2018 23:55"));
+        saveTippGermany.setEnabled(!disableElementsService.isTimeToDisableElement("tippGermany"));
         hL.addComponent(saveTippGermany);
-        hL.setComponentAlignment(saveTippGermany, Alignment.MIDDLE_LEFT);
+        hL.setComponentAlignment(saveTippGermany, Alignment.BOTTOM_LEFT);
         vL.addComponent(hL);
     }
 

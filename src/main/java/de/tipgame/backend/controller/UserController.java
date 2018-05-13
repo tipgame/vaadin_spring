@@ -1,31 +1,28 @@
 package de.tipgame.backend.controller;
 
 
+import de.tipgame.backend.data.dtos.RegistrationDto;
 import de.tipgame.backend.data.entity.GameMatchEntity;
 import de.tipgame.backend.data.entity.UserEntity;
-import de.tipgame.backend.data.dtos.RegistrationDto;
 import de.tipgame.backend.data.entity.UserMatchConnectionEntity;
 import de.tipgame.backend.data.entity.UserStatisticEntity;
 import de.tipgame.backend.repository.UserRepository;
 import de.tipgame.backend.repository.UserStatisticRepository;
+import de.tipgame.backend.service.DisableElementsService;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.Registration;
 import javax.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 public class UserController {
@@ -36,18 +33,21 @@ public class UserController {
     private ModelMapper modelMapper;
     private UserMatchConnectionService userMatchConnectionService;
     private UserStatisticRepository userStatisticRepository;
+    private DisableElementsService disableElementsService;
 
     @Autowired
     public UserController(UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
                           GameMatchService gameMatchService,
                           UserMatchConnectionService userMatchConnectionService,
-                          UserStatisticRepository userStatisticRepository) {
+                          UserStatisticRepository userStatisticRepository,
+                          DisableElementsService disableElementsService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.gameMatchService = gameMatchService;
         this.userMatchConnectionService = userMatchConnectionService;
         this.userStatisticRepository = userStatisticRepository;
+        this.disableElementsService = disableElementsService;
         modelMapper = new ModelMapper();
     }
 
@@ -77,6 +77,11 @@ public class UserController {
         if (result.hasErrors()) {
             modelAndView.setViewName("registration");
         }
+        else if (disableElementsService.isTimeToDisableElement("registration")) {
+            modelAndView.addObject("errorMessage", "Die Registrierung ist abgelaufen. Eine neue Registrierung ist nicht mehr möglich.");
+            modelAndView.addObject("registrationDto", new RegistrationDto());
+            modelAndView.setViewName("registration");
+        }
         else {
             modelAndView.addObject("successMessage", "Der Benutzer wurde erfolgreich angelegt.");
             modelAndView.addObject("registrationDto", new RegistrationDto());
@@ -88,6 +93,10 @@ public class UserController {
 
     private Boolean validateRegistration(BindingResult result, RegistrationDto registrationDto) {
         Boolean isRegistrationValid = true;
+
+        if(disableElementsService.isTimeToDisableElement("registration")) {
+            isRegistrationValid = false;
+        }
 
         if(registrationDto.getFirstname() == null || registrationDto.getFirstname().isEmpty()) {
             result.rejectValue("firstname", "error.user","Bitte das Feld ausfüllen.");
@@ -131,7 +140,7 @@ public class UserController {
             result.rejectValue("registrationcode", "error.user","Bitte das Feld ausfüllen.");
             isRegistrationValid = false;
         }
-        else if (!registrationDto.getRegistrationcode().equals("A")) {
+        else if (!registrationDto.getRegistrationcode().equals("xdr1TG5?")) {
             result.rejectValue("registrationcode", "error.user","Der Code für die Registrierung stimmt nicht.");
             isRegistrationValid = false;
         }
