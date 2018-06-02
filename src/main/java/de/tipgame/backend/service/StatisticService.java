@@ -41,7 +41,7 @@ public class StatisticService {
     }
 
     public boolean startCalculation() {
-        Integer points = 0;
+
         gameMatchs = gameMatchService.getGameResultMapForFinishedGames();
 
         final List<UserEntity> allUsers = userService.findAllUsers();
@@ -51,9 +51,9 @@ public class StatisticService {
                 List<UserMatchConnectionEntity> allTippsFromUser =
                         userMatchConnectionService.getAllTippsFromUserByMatchIds(currentUser.getId(),
                                 new ArrayList<>(gameMatchs.keySet()));
-
+                Integer points = 0;
                 for (UserMatchConnectionEntity userMatchConnection : allTippsFromUser) {
-                    points = points + computePoints(userMatchConnection);
+                    points = computePoints(userMatchConnection);
                     userMatchConnection.setAlreadyProcessed(true);
                     userMatchConnectionService.saveUserMatchConnection(userMatchConnection);
                     savePoints(points, currentUser.getId());

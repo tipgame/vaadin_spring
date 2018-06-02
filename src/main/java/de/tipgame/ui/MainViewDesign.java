@@ -28,6 +28,8 @@ public class MainViewDesign extends HorizontalLayout {
     protected Button tipps;
     protected Button logout;
     protected Button admin;
+    protected Button teamOverview;
+    protected Button statistic;
     protected VerticalLayout content;
 
     public MainViewDesign() {

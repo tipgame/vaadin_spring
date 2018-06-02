@@ -3,11 +3,8 @@ package de.tipgame.ui.charts;
 import com.byteowls.vaadin.chartjs.ChartJs;
 import com.byteowls.vaadin.chartjs.config.BarChartConfig;
 import com.byteowls.vaadin.chartjs.data.BarDataset;
-import com.byteowls.vaadin.chartjs.options.InteractionMode;
 import com.byteowls.vaadin.chartjs.options.Position;
-import com.byteowls.vaadin.chartjs.options.scale.Axis;
-import com.byteowls.vaadin.chartjs.options.scale.CategoryScale;
-import com.byteowls.vaadin.chartjs.options.scale.LinearScale;
+import com.byteowls.vaadin.chartjs.options.elements.Rectangle;
 import com.byteowls.vaadin.chartjs.utils.ColorUtils;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
@@ -31,8 +28,10 @@ public class TippgameGroupRankChart extends AbstractChartView {
     @Override
     public Component getChart() {
         BarChartConfig barChartConfig = new BarChartConfig();
+        barChartConfig.horizontal();
         barChartConfig = addTeamRankData(barChartConfig);
-        barChartConfig.data()
+        barChartConfig
+                .data()
                 .and()
                 .options()
                 .responsive(true)
@@ -40,32 +39,16 @@ public class TippgameGroupRankChart extends AbstractChartView {
                 .display(true)
                 .text("Punkte der Teams")
                 .and()
-                .tooltips()
-                .mode(InteractionMode.INDEX)
-                .intersect(false)
+                .elements()
+                .rectangle()
+                .borderWidth(2)
+                .borderColor("rgb(0, 255, 0)")
+                .borderSkipped(Rectangle.RectangleEdge.LEFT)
                 .and()
-                .hover()
-                .mode(InteractionMode.NEAREST)
-                .intersect(true)
                 .and()
-                .scales()
-                .add(Axis.X, new CategoryScale()
-                        .display(true)
-                        .scaleLabel()
-                        .display(true)
-                        .labelString("Team")
-                        .and()
-                        .position(Position.BOTTOM))
-                .add(Axis.Y, new LinearScale()
-                        .display(true)
-                        .scaleLabel()
-                        .display(true)
-                        .labelString("Punkte")
-                        .and()
-                        .ticks()
-                        .suggestedMin(0)
-                        .and()
-                        .position(Position.LEFT))
+                .legend()
+                .fullWidth(false)
+                .position(Position.LEFT)
                 .and()
                 .done();
 
@@ -82,7 +65,7 @@ public class TippgameGroupRankChart extends AbstractChartView {
         List<TeamEntity> allTeamsOrderdByPointsDesc = teamService.getAllTeamsOrderdByPointsDesc();
 
         for (TeamEntity team : allTeamsOrderdByPointsDesc) {
-            if(team.getPoints() != null) {
+            if (team.getPoints() != null) {
                 barChartConfig.data()
                         .addDataset(
                                 new BarDataset().backgroundColor(

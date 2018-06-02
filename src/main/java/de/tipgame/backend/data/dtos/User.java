@@ -6,6 +6,7 @@ public class User {
     private String lastname;
     private Integer points;
     private String fullname;
+    private String username;
 
     public String getLastname() {
         return lastname;
@@ -37,5 +38,13 @@ public class User {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

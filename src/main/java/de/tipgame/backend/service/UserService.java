@@ -72,6 +72,7 @@ public class UserService {
         user.setFirstname(userEntity.getFirstname());
         user.setLastname(userEntity.getLastname());
         user.setPoints(userStatisticEntity.getPoints());
+        user.setUsername(userEntity.getUsername());
         return user;
     }
 

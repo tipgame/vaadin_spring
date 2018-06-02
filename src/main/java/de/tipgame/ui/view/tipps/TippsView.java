@@ -1,14 +1,11 @@
 package de.tipgame.ui.view.tipps;
 
-import com.vaadin.data.Result;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import de.tipgame.app.security.SecurityUtils;
-import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.data.entity.UserEntity;
 import de.tipgame.backend.service.DisableElementsService;
 import de.tipgame.backend.service.GameMatchService;
@@ -17,13 +14,10 @@ import de.tipgame.backend.service.UserService;
 import de.tipgame.ui.navigation.NavigationManager;
 import de.tipgame.ui.view.tipps.component.TippsCustomComponent;
 import de.tipgame.ui.view.tipps.component.TippsCustomComponentForPrelimGroups;
+import de.tipgame.ui.view.tipps.component.TippsEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -63,50 +57,53 @@ public class TippsView extends TippsViewDesign implements View {
         setResponsive(true);
         VerticalLayout verticalBaseLayout = new VerticalLayout();
         buildTippsLayout();
-        verticalBaseLayout.addComponents(buildFilterLayout(), tippsAccordionBaseLayout);
-
+//      verticalBaseLayout.addComponents(buildFilterLayout(), tippsAccordionBaseLayout);
+        verticalBaseLayout.addComponents(tippsAccordionBaseLayout);
+        Accordion additionalTippsAccordionLayout = new Accordion();
+        buildAdditionalTippsLayout(additionalTippsAccordionLayout);
+        verticalBaseLayout.addComponent(additionalTippsAccordionLayout);
         this.addComponent(verticalBaseLayout);
     }
 
-    private HorizontalLayout buildFilterLayout() {
-        HorizontalLayout hL = new HorizontalLayout();
-
-        DateField date = new DateField("Filter über Datum") {
-            @Override
-            protected Result<LocalDate> handleUnparsableDateString(
-                    String dateString) {
-                try {
-                    // try to parse with alternative format
-                    LocalDate parsedAtServer = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
-                    return Result.ok(parsedAtServer);
-                } catch (DateTimeParseException e) {
-                    return Result.error("Falsche Eingabe");
-                }
-            }
-        };
-
-        date.setDateFormat("dd.MM.yyyy");
-        date.setLenient(true);
-
-        date.addValueChangeListener(e -> filterTippViewByDay(e.getValue()));
-        hL.addComponent(date);
-
-        TextField freeFilterTextField = new TextField("Filter über Land");
-        freeFilterTextField.addValueChangeListener(s -> filterByFreeTextField(s.getValue()));
-        hL.addComponent(freeFilterTextField);
-
-        final Button button = new Button("Filter entfernen");
-        button.setIcon(VaadinIcons.TRASH);
-        button.addClickListener(s -> {
-            date.setValue(null);
-            freeFilterTextField.setValue("");
-        });
-
-        hL.addComponent(button);
-        hL.setComponentAlignment(button, Alignment.BOTTOM_CENTER);
-
-        return hL;
-    }
+//    private ResponsiveLayout buildFilterLayout() {
+//        ResponsiveLayout responsiveLayout = new ResponsiveLayout();
+//        ResponsiveRow row = responsiveLayout.addRow();
+//
+//        DateField date = new DateField("Filter über Datum") {
+//            @Override
+//            protected Result<LocalDate> handleUnparsableDateString(
+//                    String dateString) {
+//                try {
+//                    // try to parse with alternative format
+//                    LocalDate parsedAtServer = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
+//                    return Result.ok(parsedAtServer);
+//                } catch (DateTimeParseException e) {
+//                    return Result.error("Falsche Eingabe");
+//                }
+//            }
+//        };
+//
+//        date.setDateFormat("dd.MM.yyyy");
+//        date.setLenient(true);
+//
+//        date.addValueChangeListener(e -> filterTippViewByDay(e.getValue()));
+//
+//        TextField freeFilterTextField = new TextField("Filter über Land");
+//        freeFilterTextField.addValueChangeListener(s -> filterByFreeTextField(s.getValue()));
+//
+//        final Button button = new Button("Filter entfernen");
+//        button.setIcon(VaadinIcons.TRASH);
+//        button.addClickListener(s -> {
+//            date.setValue(null);
+//            freeFilterTextField.setValue("");
+//        });
+//
+//        row.addColumn().withDisplayRules(12,6,4,4).withComponent(date);
+//        row.addColumn().withDisplayRules(12,6,4,4).withComponent(freeFilterTextField);
+//        row.withAlignment(Alignment.BOTTOM_CENTER).addColumn().withDisplayRules(12,6,4,4).withComponent(button);
+//
+//        return responsiveLayout;
+//    }
 
     private void buildTippsLayout() {
         List<String> rounds = gameMatchService.getDistinctRounds();
@@ -125,70 +122,84 @@ public class TippsView extends TippsViewDesign implements View {
 
         selectFirstEntryOnTippsView(tippsAccordionBaseLayout);
         tippsAccordionBaseLayout.addSelectedTabChangeListener(e -> {
-            if (e.getTabSheet().getSelectedTab() instanceof HorizontalLayout) {
-                HorizontalLayout vL = (HorizontalLayout) e.getTabSheet().getSelectedTab();
-                Grid component = (Grid) vL.getComponent(0);
-                component.select(component.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));
+            VerticalLayout vL = (VerticalLayout) e.getTabSheet().getSelectedTab();
+            if(vL.getComponent(0) instanceof  Grid) {
+                Grid grid = (Grid) vL.getComponent(0);
+                try {
+                    grid.select(grid.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));
+                } catch (Exception e1)
+                {
+                    if(vL.getComponent(1) instanceof TippsEditor) {
+                        TippsEditor tippsEditor = (TippsEditor) vL.getComponent(1);
+                        tippsEditor.editTipp(null);
+                    }
+                }
+
             }
         });
-
-        buildAdditionalTippsLayout(tippsAccordionBaseLayout);
     }
 
-    private void filterTippViewByDay(LocalDate selectedValue) {
-        Iterator<Component> tabs = tippsAccordionBaseLayout.iterator();
-        while (tabs.hasNext()) {
-            final Component next = tabs.next();
-            if (next instanceof HorizontalLayout) {
-                try {
-                    HorizontalLayout vL = (HorizontalLayout) next;
-                    Grid grid = (Grid) vL.getComponent(0);
-                    ListDataProvider<GameMatchDto> dataProvider = (ListDataProvider<GameMatchDto>) grid.getDataProvider();
-                    dataProvider.setFilter(GameMatchDto::getKickOff, s -> filterByDate(s, selectedValue));
-                } catch (Exception e) {
-
-                }
-            }
-        }
-    }
-
-    private void filterByFreeTextField(String inputValue) {
-        Iterator<Component> tabs = tippsAccordionBaseLayout.iterator();
-        while (tabs.hasNext()) {
-            final Component next = tabs.next();
-            if (next instanceof HorizontalLayout) {
-                try {
-                    HorizontalLayout vL = (HorizontalLayout) next;
-                    Grid grid = (Grid) vL.getComponent(0);
-                    ListDataProvider<GameMatchDto> dataProvider = (ListDataProvider<GameMatchDto>) grid.getDataProvider();
-                    dataProvider.setFilter(gameMatchDto -> filterByTeam(gameMatchDto, inputValue));
-                } catch (Exception e) {
-
-                }
-            }
-        }
-    }
-
-    private Boolean filterByTeam(GameMatchDto gameMatchDto, String inputValue) {
-        if (inputValue.isEmpty())
-            return true;
-        else
-            return gameMatchDto.getLongNameHomeTeam().equalsIgnoreCase(inputValue)
-                    || gameMatchDto.getLongNameAwayTeam().equalsIgnoreCase(inputValue);
-    }
-
-    private Boolean filterByDate(String kickOff, LocalDate selectedValue) {
-        if (selectedValue == null)
-            return true;
-
-        LocalDate kickOffDate = LocalDate.parse(kickOff, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-
-        return kickOffDate.compareTo(selectedValue) == 0;
-    }
+//    private void filterTippViewByDay(LocalDate selectedValue) {
+//        for (Component next : tippsAccordionBaseLayout) {
+//            if (next instanceof VerticalLayout) {
+//                try {
+//                    VerticalLayout vL = (VerticalLayout) next;
+//                    Grid grid = (Grid) vL.getComponent(0);
+//                    ListDataProvider<GameMatchDto> dataProvider = (ListDataProvider<GameMatchDto>) grid.getDataProvider();
+//                    dataProvider.setFilter(GameMatchDto::getKickOff, s -> filterByDate(s, selectedValue));
+//
+//                    if (vL.getComponent(1) instanceof TippsEditor) {
+//                        TippsEditor tippsEditor = (TippsEditor) vL.getComponent(1);
+//                        tippsEditor.editTipp(null);
+//                    }
+//                } catch (Exception e) {
+//                    //Do nothing
+//                }
+//            }
+//        }
+//    }
+//
+//    private void filterByFreeTextField(String inputValue) {
+//        for (Component next : tippsAccordionBaseLayout) {
+//            if (next instanceof VerticalLayout) {
+//                try {
+//                    VerticalLayout vL = (VerticalLayout) next;
+//                    Grid grid = (Grid) vL.getComponent(0);
+//                    ListDataProvider<GameMatchDto> dataProvider = (ListDataProvider<GameMatchDto>) grid.getDataProvider();
+//                    dataProvider.setFilter(gameMatchDto -> filterByTeam(gameMatchDto, inputValue));
+//
+//                    if (vL.getComponent(1) instanceof TippsEditor) {
+//                        TippsEditor tippsEditor = (TippsEditor) vL.getComponent(1);
+//                        tippsEditor.editTipp(null);
+//                    }
+//
+//                } catch (Exception e) {
+//                    //Do nothing
+//                }
+//            }
+//        }
+//    }
+//
+//    private Boolean filterByTeam(GameMatchDto gameMatchDto, String inputValue) {
+//        if (inputValue.isEmpty())
+//            return true;
+//        else
+//            return gameMatchDto.getLongNameHomeTeam().contains(inputValue)
+//                    || gameMatchDto.getLongNameAwayTeam().contains(inputValue);
+//    }
+//
+//    private Boolean filterByDate(String kickOff, LocalDate selectedValue) {
+//        if (selectedValue == null)
+//            return true;
+//
+//        LocalDate kickOffDate = LocalDate.parse(kickOff, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+//
+//        return kickOffDate.compareTo(selectedValue) == 0;
+//    }
 
     private void selectFirstEntryOnTippsView(Accordion tippsAccordionBaseLayout) {
         if (tippsAccordionBaseLayout.getTab(0) != null) {
-            HorizontalLayout vL = (HorizontalLayout) tippsAccordionBaseLayout.getTab(0).getComponent();
+            VerticalLayout vL = (VerticalLayout) tippsAccordionBaseLayout.getTab(0).getComponent();
             Grid component = (Grid) vL.getComponent(0);
             component.select(component.getDataCommunicator().fetchItemsWithRange(0, 1).get(0));
         }

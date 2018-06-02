@@ -27,6 +27,7 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,31 +99,32 @@ public class TippgameUserPointsChart extends AbstractChartView {
         ChartJs chart = new ChartJs(lineConfig);
         chart.setWidth(100, Unit.PERCENTAGE);
         chart.setHeight(30, Unit.PERCENTAGE);
-        chart.setJsLoggingEnabled(true);
+        chart.setJsLoggingEnabled(false);
 
         return chart;
     }
 
     private LineDataset setDataForPerfectPoints(LineChartConfig lineChartConfig) {
         LineDataset perfectPointsData = new LineDataset()
-                .label("Perfekte Punkteausbeute")
+                .label("Maximale Punkte für diesen Spieltag")
                 .fill(false);
 
         List<String> labels = lineChartConfig.data().getLabels();
         List<Double> data = new ArrayList<>();
-        Double points = 0D;
+        final List<GameMatchEntity> allMatches = gameMatchService.getAllMatches();
+
         for (String label : labels) {
-            final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
-            for (GameMatchEntity gameMatchEntity : gameMatchEntities) {
-                points = points + 6D;
-            }
+            Double points = allMatches.stream().filter(
+                    e -> e.getKickOff().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")).equalsIgnoreCase(label)
+            ).collect(Collectors.toList()).size() * 6D;
+
             data.add(points);
         }
 
         perfectPointsData.dataAsList(data);
 
-        perfectPointsData.borderColor(ColorUtils.randomColor(0.3));
-        perfectPointsData.backgroundColor(ColorUtils.randomColor(0.5));
+        perfectPointsData.borderColor(ColorUtils.randomColor(0.1));
+        perfectPointsData.backgroundColor(ColorUtils.randomColor(0.2));
 
         return perfectPointsData;
     }
@@ -139,7 +141,7 @@ public class TippgameUserPointsChart extends AbstractChartView {
         Double points = 0D;
         for (String label : labels) {
             final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
-            for(GameMatchEntity gameMatchEntity : gameMatchEntities) {
+            for (GameMatchEntity gameMatchEntity : gameMatchEntities) {
                 StatisticTimelineEntity statisticTimelineByUserIdAndMatchId =
                         statisticTimelineService.getStatisticTimelineByUserIdAndMatchId(currentUser.getId(),
                                 gameMatchEntity.getMatchId());
@@ -152,7 +154,7 @@ public class TippgameUserPointsChart extends AbstractChartView {
 
         userPointsData.dataAsList(data);
         userPointsData.borderColor(ColorUtils.randomColor(0.3));
-        userPointsData.backgroundColor(ColorUtils.randomColor(0.5));
+        userPointsData.backgroundColor(ColorUtils.randomColor(0.4));
         return userPointsData;
     }
 
@@ -168,7 +170,7 @@ public class TippgameUserPointsChart extends AbstractChartView {
         for (String label : labels) {
             Double points = 0D;
             final Collection<GameMatchEntity> gameMatchEntities = labelToEntityMap.get(label);
-            for(GameMatchEntity gameMatchEntity : gameMatchEntities) {
+            for (GameMatchEntity gameMatchEntity : gameMatchEntities) {
                 StatisticTimelineEntity statisticTimelineByUserIdAndMatchId =
                         statisticTimelineService.getStatisticTimelineByUserIdAndMatchId(currentUser.getId(),
                                 gameMatchEntity.getMatchId());
@@ -180,8 +182,8 @@ public class TippgameUserPointsChart extends AbstractChartView {
         }
 
         userPointsData.dataAsList(data);
-        userPointsData.borderColor(ColorUtils.randomColor(0.3));
-        userPointsData.backgroundColor(ColorUtils.randomColor(0.5));
+        userPointsData.borderColor(ColorUtils.randomColor(0.5));
+        userPointsData.backgroundColor(ColorUtils.randomColor(0.6));
         return userPointsData;
     }
 
@@ -196,11 +198,15 @@ public class TippgameUserPointsChart extends AbstractChartView {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
 
-        for(GameMatchEntity gameMatchEntity : allMatchesById) {
+        for (GameMatchEntity gameMatchEntity : allMatchesById) {
             labelToEntityMap.put(String.format("%s", gameMatchEntity.getKickOff().format(formatter)), gameMatchEntity);
         }
 
-         return new ArrayList<>(labelToEntityMap.keySet());
+        return labelToEntityMap
+                .keySet()
+                .stream()
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
     }
 
 }

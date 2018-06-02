@@ -1,7 +1,7 @@
 package de.tipgame.backend.data.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "news")
@@ -12,7 +12,7 @@ public class NewsEntity {
     private int id;
 
     private String message;
-    private Date timestamp;
+    private LocalDateTime timestamp;
 
     public int getId() {
         return id;
@@ -30,11 +30,11 @@ public class NewsEntity {
         this.message = message;
     }
 
-    public Date getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 }

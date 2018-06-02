@@ -2,33 +2,31 @@ package de.tipgame.ui.view.tipps.component;
 
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import de.tipgame.backend.data.dtos.GameMatchDto;
 import de.tipgame.backend.service.GameMatchService;
 import de.tipgame.backend.service.UserMatchConnectionService;
 
 public class TippsCustomComponent extends CustomComponent {
 
-    protected Grid<GameMatchDto> grid;
+    Grid<GameMatchDto> grid;
     private TippsEditor tippsEditor;
-    private HorizontalLayout mainLayout;
-    private UserMatchConnectionService userMatchConnectionService;
     GameMatchService gameMatchService;
     String filterArgumentForGettingAllMatches;
 
     public TippsCustomComponent(UserMatchConnectionService userMatchConnectionService,
                                 GameMatchService gameMatchService,
                                 String filterArgumentForGettingAllMatches) {
-        this.userMatchConnectionService = userMatchConnectionService;
         this.gameMatchService = gameMatchService;
         this.tippsEditor = new TippsEditor(userMatchConnectionService);
         this.filterArgumentForGettingAllMatches = filterArgumentForGettingAllMatches;
     }
 
-    public HorizontalLayout init() {
+    public VerticalLayout init() {
         grid = new Grid<>(GameMatchDto.class);
-        mainLayout = new HorizontalLayout(grid, tippsEditor);
+        VerticalLayout mainLayout = new VerticalLayout(grid, tippsEditor);
 
+        grid.setWidth(100, Unit.PERCENTAGE);
         grid.setColumns("kickOff", "fixture", "tipp", "resultGame");
         grid.getColumn("fixture").setDescriptionGenerator(GameMatchDto::getFixtureLongNameTooltip);
 
@@ -41,8 +39,9 @@ public class TippsCustomComponent extends CustomComponent {
             tippsEditor.editTipp(e.getValue());
         });
 
-        tippsEditor.setChangeHandler(() -> {
-            listMatches();
+        tippsEditor.setChangeHandler(gameMatchDto -> {
+            if(gameMatchDto != null)
+                listMatches();
         });
 
         listMatches();

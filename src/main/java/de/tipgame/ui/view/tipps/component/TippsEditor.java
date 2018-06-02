@@ -1,5 +1,7 @@
 package de.tipgame.ui.view.tipps.component;
 
+import com.jarektoro.responsivelayout.ResponsiveLayout;
+import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.data.Binder;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
@@ -19,22 +21,43 @@ public class TippsEditor extends VerticalLayout {
     private GameMatchDto gameMatchDto;
     private UserMatchConnectionService userMatchConnectionService;
 
-    TextField tippHomeTeam = new TextField("Ergebnis Heimmanschaft");
-    TextField tippAwayTeam = new TextField("Ergebnis Auswärtsmannschaft");
+    private TextField tippHomeTeam = new TextField("Heimmanschaft");
+    private TextField tippAwayTeam = new TextField("Auswärtsmannschaft");
 
-    Button save = new Button("Speichern", VaadinIcons.CHECK);
-    Button delete = new Button("Löschen", VaadinIcons.TRASH);
-    CssLayout actions = new CssLayout(save, delete);
+    private Button save = new Button("Speichern", VaadinIcons.CHECK);
+    private Button delete = new Button("Löschen", VaadinIcons.TRASH);
+    private CssLayout actions = new CssLayout(save, delete) {
+        @Override
+        protected String getCss(Component c) {
+            if (c instanceof Button) {
+                return "margin: 5px";
+            }
+            return null;
+        }
+    };
 
-    Binder<GameMatchDto> binder = new Binder<>(GameMatchDto.class);
+    private Binder<GameMatchDto> binder = new Binder<>(GameMatchDto.class);
 
     @Autowired
-    public TippsEditor(UserMatchConnectionService userMatchConnectionService) {
+    TippsEditor(UserMatchConnectionService userMatchConnectionService) {
         this.userMatchConnectionService = userMatchConnectionService;
-        addComponents(tippHomeTeam, tippAwayTeam, actions);
+
+        ResponsiveLayout responsiveLayout = new ResponsiveLayout();
+        ResponsiveRow row = responsiveLayout.addRow();
+
+        row.addColumn()
+                .withDisplayRules(12,2,2,2)
+                .withComponent(tippHomeTeam);
+        row.addColumn()
+                .withDisplayRules(12,4,4,4)
+                .withComponent(tippAwayTeam);
+
+        tippHomeTeam.setWidth(50, Unit.PIXELS);
+        tippAwayTeam.setWidth(50, Unit.PIXELS);
+        this.addComponents(responsiveLayout, actions);
 
         binder.bindInstanceFields(this);
-        setSpacing(true);
+
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
         save.addClickListener(e -> saveTipp(gameMatchDto));
@@ -60,7 +83,7 @@ public class TippsEditor extends VerticalLayout {
     private void saveTipp(GameMatchDto gameMatchDto) {
         if (gameMatchDto == null) {
             new Notification("Hinweis: ",
-                    "Bitte wähle in der Liste links eine Begegnung aus für welche der Tipp abgegeben werden soll.",
+                    "Bitte wähle in der Liste eine Begegnung aus für welche der Tipp abgegeben werden soll. Evtl. musst du den Filter wieder entfernen.",
                     Notification.Type.WARNING_MESSAGE, false)
                     .show(Page.getCurrent());
             return;
@@ -84,17 +107,22 @@ public class TippsEditor extends VerticalLayout {
     }
 
     public interface ChangeHandler {
-        void onChange();
+        void onChange(GameMatchDto gameMatchDto);
     }
 
     public final void editTipp(GameMatchDto gameMatchDto) {
         if (gameMatchDto == null) {
             tippAwayTeam.setValue("");
             tippHomeTeam.setValue("");
+            save.setEnabled(false);
+            delete.setEnabled(false);
             return;
         }
-        tippHomeTeam.setCaption("Ergebnis für " + gameMatchDto.getLongNameHomeTeam());
-        tippAwayTeam.setCaption("Ergebnis für " + gameMatchDto.getLongNameAwayTeam());
+
+        save.setEnabled(true);
+        delete.setEnabled(true);
+        tippHomeTeam.setCaption(gameMatchDto.getLongNameHomeTeam());
+        tippAwayTeam.setCaption(gameMatchDto.getLongNameAwayTeam());
 
         tippAwayTeam.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
         tippHomeTeam.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
@@ -105,9 +133,9 @@ public class TippsEditor extends VerticalLayout {
         binder.setBean(gameMatchDto);
     }
 
-    public void setChangeHandler(ChangeHandler h) {
-        save.addClickListener(e -> h.onChange());
-        delete.addClickListener(e -> h.onChange());
+    void setChangeHandler(ChangeHandler h) {
+        save.addClickListener(e -> h.onChange(gameMatchDto));
+        delete.addClickListener(e -> h.onChange(gameMatchDto));
     }
 
 }

@@ -15,11 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static java.util.Date.from;
 
 
 @Secured(Role.ADMIN)
@@ -179,7 +176,7 @@ public class AdminView extends AdminViewDesign implements View {
                     newsField.getValue().equalsIgnoreCase("Neuigkeit eingeben"))) {
                 NewsEntity newsEntity = new NewsEntity();
                 newsEntity.setMessage(newsField.getValue());
-                newsEntity.setTimestamp(from(Instant.now()));
+                newsEntity.setTimestamp(LocalDateTime.now());
                 this.newsService.saveNews(newsEntity);
             }
         });

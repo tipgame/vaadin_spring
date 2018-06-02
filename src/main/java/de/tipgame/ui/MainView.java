@@ -11,6 +11,8 @@ import com.vaadin.ui.UI;
 import de.tipgame.ui.navigation.NavigationManager;
 import de.tipgame.ui.view.admin.AdminView;
 import de.tipgame.ui.view.home.HomeView;
+import de.tipgame.ui.view.statistic.StatisticView;
+import de.tipgame.ui.view.teamOverview.TeamOverviewView;
 import de.tipgame.ui.view.tipps.TippsView;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,6 +39,8 @@ public class MainView extends MainViewDesign implements ViewDisplay {
     public void init() {
         attachNavigation(home, HomeView.class);
         attachNavigation(tipps, TippsView.class);
+        attachNavigation(teamOverview, TeamOverviewView.class);
+        attachNavigation(statistic, StatisticView.class);
         attachNavigation(admin, AdminView.class);
 
         logout.addClickListener(e -> logout());

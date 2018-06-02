@@ -20,6 +20,7 @@ import de.tipgame.ui.navigation.NavigationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,16 +62,17 @@ public class HomeView extends HomeViewDesign implements View {
         mainLayout = new VerticalLayout();
         createSalutationLabel();
         createNewsSection();
+        createRankingLayout();
         createChartStatisticTimelineLayout();
         createChartTeamRankLayout();
-        createRankingLayout();
+
         this.addComponent(mainLayout);
     }
 
     private void createSalutationLabel() {
         UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
         VerticalLayout vL = new VerticalLayout();
-        Label salutation = new Label("Herzlich Willkommen " + currentUser.getFirstname() + " " + currentUser.getLastname());
+        Label salutation = new Label("Hallo " + currentUser.getFirstname());
         salutation.addStyleName("h2");
         vL.addComponent(salutation);
         vL.setComponentAlignment(salutation, Alignment.TOP_CENTER);
@@ -84,10 +86,9 @@ public class HomeView extends HomeViewDesign implements View {
 
         List<NewsEntity> newsEntityList = newsService.getAllNewsOrderdByIdDesc();
         Label newsLabel = new Label();
-        if(newsEntityList.stream().findFirst().isPresent()) {
+        if (newsEntityList.stream().findFirst().isPresent()) {
             NewsEntity newsEntity = newsEntityList.stream().findFirst().get();
-
-            newsLabel.setValue(newsEntity.getTimestamp().toString() + " " + newsEntity.getMessage());
+            newsLabel.setValue(newsEntity.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " : " + newsEntity.getMessage());
         }
 
         panel.setContent(newsLabel);
@@ -98,10 +99,8 @@ public class HomeView extends HomeViewDesign implements View {
     }
 
     private void createRankingLayout() {
-        HorizontalLayout hL = new HorizontalLayout();
         VerticalLayout vL = new VerticalLayout();
-        hL.addComponentsAndExpand(createPanelAndGridForUserRanking(), createPanelAndGridForTeamRanking());
-        vL.addComponent(hL);
+        vL.addComponentsAndExpand(createPanelAndGridForUserRanking(), createPanelAndGridForTeamRanking());
 
         mainLayout.addComponent(vL);
 
@@ -132,23 +131,35 @@ public class HomeView extends HomeViewDesign implements View {
         panel.setCaption("Ranking der Teilnehmer");
 
         Grid<User> grid = new Grid<>();
+        grid.setWidth(100, Unit.PERCENTAGE);
         grid.setItems(userService.getAllUsersSortedByRank());
-        grid.addColumn(User::getFullname).setCaption("Vorname");
-        grid.addColumn(User::getPoints).setCaption("Punkte");
+        grid.addColumn(User::getFullname).setCaption("Name")
+                .setStyleGenerator((StyleGenerator<User>) this::getCssClassIfGridCellShouldBeMarked);
+        grid.addColumn(User::getPoints).setCaption("Punkte")
+                .setStyleGenerator((StyleGenerator<User>) this::getCssClassIfGridCellShouldBeMarked);
+
 
         panel.setContent(grid);
 
         return panel;
     }
 
+    private String getCssClassIfGridCellShouldBeMarked(User user) {
+        final UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
+        if (user.getUsername().equalsIgnoreCase(currentUser.getUsername()))
+            return "markUserInGrid";
+        else
+            return "";
+    }
+
     private Panel createPanelAndGridForTeamRanking() {
         Panel panel = new Panel();
         panel.setCaption("Ranking der Teams");
-
+        panel.setResponsive(true);
         Grid<TeamDto> grid = new Grid<>(TeamDto.class);
 
         grid.setItems(createTeamDtos());
-
+        grid.setWidth(100, Unit.PERCENTAGE);
         grid.setColumns("teamName", "points");
         grid.getColumn("teamName").setCaption("Team");
         grid.getColumn("points").setCaption("Punkte");
