@@ -1,5 +1,7 @@
 package de.tipgame.ui.view.home;
 
+import com.jarektoro.responsivelayout.ResponsiveLayout;
+import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.navigator.View;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
@@ -63,10 +65,29 @@ public class HomeView extends HomeViewDesign implements View {
         createSalutationLabel();
         createNewsSection();
         createRankingLayout();
-        createChartStatisticTimelineLayout();
-        createChartTeamRankLayout();
-
+        createChartLayouts();
         this.addComponent(mainLayout);
+    }
+
+    private void createChartLayouts() {
+        ResponsiveLayout responsiveLayout = new ResponsiveLayout();
+        ResponsiveRow row = responsiveLayout.addRow();
+
+        row
+                .withHorizontalSpacing(true)
+                .withVerticalSpacing(true)
+                .addColumn()
+                .withDisplayRules(12, 6, 6, 6)
+                .withComponent(createChartStatisticTimelineLayout());
+
+        row
+                .withHorizontalSpacing(true)
+                .withVerticalSpacing(true)
+                .addColumn()
+                .withDisplayRules(12, 6, 6, 6)
+                .withComponent(createChartTeamRankLayout());
+
+        mainLayout.addComponent(responsiveLayout);
     }
 
     private void createSalutationLabel() {
@@ -99,31 +120,45 @@ public class HomeView extends HomeViewDesign implements View {
     }
 
     private void createRankingLayout() {
-        VerticalLayout vL = new VerticalLayout();
-        vL.addComponentsAndExpand(createPanelAndGridForUserRanking(), createPanelAndGridForTeamRanking());
+        ResponsiveLayout responsiveLayout = new ResponsiveLayout();
+        ResponsiveRow row = responsiveLayout.addRow();
 
-        mainLayout.addComponent(vL);
+        row
+                .withHorizontalSpacing(true)
+                .withVerticalSpacing(true)
+                .addColumn()
+                .withDisplayRules(12, 6, 6, 6)
+                .withComponent(createPanelAndGridForUserRanking());
+
+        row
+                .withHorizontalSpacing(true)
+                .withVerticalSpacing(true)
+                .addColumn()
+                .withDisplayRules(12, 6, 6, 6)
+                .withComponent(createPanelAndGridForTeamRanking());
+
+        mainLayout.addComponent(responsiveLayout);
 
     }
 
-    private void createChartStatisticTimelineLayout() {
+    private Panel createChartStatisticTimelineLayout() {
         Panel panel = new Panel();
         VerticalLayout vL = new VerticalLayout();
         panel.setCaption("Punkteverlauf");
         panel.setContent(tippgameUserPointsChart.getChart());
 
         vL.addComponent(panel);
-        mainLayout.addComponent(vL);
+        return panel;
     }
 
-    private void createChartTeamRankLayout() {
+    private Panel createChartTeamRankLayout() {
         Panel panel = new Panel();
         VerticalLayout vL = new VerticalLayout();
         panel.setCaption("Teams");
         panel.setContent(tippgameGroupRankChart.getChart());
 
         vL.addComponent(panel);
-        mainLayout.addComponent(vL);
+        return panel;
     }
 
     private Panel createPanelAndGridForUserRanking() {
@@ -194,7 +229,8 @@ public class HomeView extends HomeViewDesign implements View {
 
             List<UserEntity> userEntities = userService.findByUserIdIn(userIdList);
 
-            teamMembersHtmlToolTip = userEntities.stream()
+            teamMembersHtmlToolTip = "Mitglieder: <br>";
+            teamMembersHtmlToolTip += userEntities.stream()
                     .map(e -> e.getFirstname() + " " + e.getLastname())
                     .collect(Collectors.joining("<br>"));
         }

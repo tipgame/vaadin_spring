@@ -13,7 +13,7 @@ public class TipgameUtils {
         try {
             Calendar cal = Calendar.getInstance(); // creates calendar
             cal.setTime(new Date()); // sets calendar time/date
-            cal.add(Calendar.HOUR_OF_DAY, 0); // adds one hour
+            cal.add(Calendar.HOUR_OF_DAY, 2); // adds one hour
             Date date = cal.getTime();
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");

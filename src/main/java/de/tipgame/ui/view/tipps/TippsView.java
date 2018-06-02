@@ -32,7 +32,6 @@ import java.util.stream.Stream;
 @SpringView
 public class TippsView extends TippsViewDesign implements View {
 
-    private NavigationManager navigationManager;
     private final GameMatchService gameMatchService;
     private UserMatchConnectionService userMatchConnectionService;
     private UserService userService;
@@ -46,7 +45,6 @@ public class TippsView extends TippsViewDesign implements View {
                      UserService userService,
                      DisableElementsService disableElementsService) {
         this.gameMatchService = gameMatchService;
-        this.navigationManager = navigationManager;
         this.userMatchConnectionService = userMatchConnectionService;
         this.userService = userService;
         this.disableElementsService = disableElementsService;
@@ -58,8 +56,10 @@ public class TippsView extends TippsViewDesign implements View {
         VerticalLayout verticalBaseLayout = new VerticalLayout();
         buildTippsLayout();
 //      verticalBaseLayout.addComponents(buildFilterLayout(), tippsAccordionBaseLayout);
+        tippsAccordionBaseLayout.setCaption("Tipps der Begegnungen");
         verticalBaseLayout.addComponents(tippsAccordionBaseLayout);
         Accordion additionalTippsAccordionLayout = new Accordion();
+        additionalTippsAccordionLayout.setCaption("Zusätzliche Tipps");
         buildAdditionalTippsLayout(additionalTippsAccordionLayout);
         verticalBaseLayout.addComponent(additionalTippsAccordionLayout);
         this.addComponent(verticalBaseLayout);

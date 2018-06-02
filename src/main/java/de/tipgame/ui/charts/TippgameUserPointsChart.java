@@ -24,6 +24,7 @@ import de.tipgame.backend.service.UserService;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -196,7 +197,7 @@ public class TippgameUserPointsChart extends AbstractChartView {
                 .map(UserMatchConnectionEntity::getGameMatchId)
                 .collect(Collectors.toList()));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         for (GameMatchEntity gameMatchEntity : allMatchesById) {
             labelToEntityMap.put(String.format("%s", gameMatchEntity.getKickOff().format(formatter)), gameMatchEntity);
@@ -205,7 +206,7 @@ public class TippgameUserPointsChart extends AbstractChartView {
         return labelToEntityMap
                 .keySet()
                 .stream()
-                .sorted(Comparator.naturalOrder())
+                .sorted(Comparator.comparing(e -> LocalDate.parse(e, formatter)))
                 .collect(Collectors.toList());
     }
 

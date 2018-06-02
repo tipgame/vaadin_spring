@@ -4692,10 +4692,6 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 16px;
 }
 
-.apptheme .v-grid-cell.markUserInGrid {
-    background-color:red;
-}
-
 .apptheme .v-grid-cell.frozen {
 	position: relative;
 	z-index: 1;
@@ -15413,6 +15409,10 @@ div.v-layout.v-horizontal.v-widget {
 
 .apptheme .app-shell[width-range~="1001px-"] .navigation-bar {
 	background-image: url('bg.jpg');
+}
+
+.apptheme .v-grid-cell.markUserInGrid {
+	background-color: red;
 }
 
 .apptheme .v-errorindicator {

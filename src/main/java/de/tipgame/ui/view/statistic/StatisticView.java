@@ -19,20 +19,20 @@ public class StatisticView extends StatisticViewDesign implements View {
 
         ThemeResource resource = new ThemeResource("images/Statistic_1.png");
         Image image = new Image("Platzierungen", resource);
-        vL.addComponent(image);
+        vL.addComponents(image);
 
         ThemeResource resource1 = new ThemeResource("images/Statistic_2.png");
         Image image1 = new Image("Top 10 Platzierungen", resource1);
-        vL.addComponent(image1);
+        vL.addComponents(image1);
 
         ThemeResource resource2 = new ThemeResource("images/Statistic_3.png");
         Image image2 = new Image("Punktestatistik", resource2);
-        vL.addComponent(image2);
+        vL.addComponents(image2);
 
         ThemeResource resource3 = new ThemeResource("images/Statistic_4.png");
         Image image3 = new Image("Teamstatistik", resource3);
-        vL.addComponent(image3);
+        vL.addComponents(image3);
 
-        this.addComponentsAndExpand(vL);
+        this.addComponents(vL);
     }
 }

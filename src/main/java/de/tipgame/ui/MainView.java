@@ -12,7 +12,7 @@ import de.tipgame.ui.navigation.NavigationManager;
 import de.tipgame.ui.view.admin.AdminView;
 import de.tipgame.ui.view.home.HomeView;
 import de.tipgame.ui.view.statistic.StatisticView;
-import de.tipgame.ui.view.teamOverview.TeamOverviewView;
+import de.tipgame.ui.view.teamoverview.TeamOverviewView;
 import de.tipgame.ui.view.tipps.TippsView;
 import org.springframework.beans.factory.annotation.Autowired;
 
