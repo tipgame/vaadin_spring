@@ -17,21 +17,45 @@ public class StatisticView extends StatisticViewDesign implements View {
         this.setSizeFull();
         VerticalLayout vL = new VerticalLayout();
 
-        ThemeResource resource = new ThemeResource("images/Statistic_1.png");
-        Image image = new Image("Platzierungen", resource);
+        ThemeResource resource = new ThemeResource("images/1.png");
+        Image image = new Image("<h2>Platzierungen seit 1998</h2>", resource);
+        image.setCaptionAsHtml(true);
         vL.addComponents(image);
 
-        ThemeResource resource1 = new ThemeResource("images/Statistic_2.png");
-        Image image1 = new Image("Top 10 Platzierungen", resource1);
-        vL.addComponents(image1);
+        resource = new ThemeResource("images/2.png");
+        image = new Image("", resource);
+        vL.addComponents(image);
 
-        ThemeResource resource2 = new ThemeResource("images/Statistic_3.png");
-        Image image2 = new Image("Punktestatistik", resource2);
-        vL.addComponents(image2);
+        resource = new ThemeResource("images/3.png");
+        image = new Image("", resource);
+        vL.addComponents(image);
 
-        ThemeResource resource3 = new ThemeResource("images/Statistic_4.png");
-        Image image3 = new Image("Teamstatistik", resource3);
-        vL.addComponents(image3);
+        resource = new ThemeResource("images/4.png");
+        image = new Image("", resource);
+        vL.addComponents(image);
+
+        resource = new ThemeResource("images/5.png");
+        image = new Image("<h2>Top 10 Platzierungen</h2>", resource);
+        image.setCaptionAsHtml(true);
+        vL.addComponents(image);
+
+        resource = new ThemeResource("images/6.png");
+        image = new Image("", resource);
+        vL.addComponents(image);
+
+        resource = new ThemeResource("images/7.png");
+        image = new Image("<h2>Aktuelle Weltrangliste</h2>", resource);
+        image.setCaptionAsHtml(true);
+        vL.addComponents(image);
+
+        resource = new ThemeResource("images/8.png");
+        image = new Image("", resource);
+        vL.addComponents(image);
+
+        resource = new ThemeResource("images/9.png");
+        image = new Image("<h2>Teamstatistik 2016</h2>", resource);
+        image.setCaptionAsHtml(true);
+        vL.addComponents(image);
 
         this.addComponents(vL);
     }

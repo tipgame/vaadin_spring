@@ -8,7 +8,6 @@ import com.byteowls.vaadin.chartjs.options.Position;
 import com.byteowls.vaadin.chartjs.options.scale.Axis;
 import com.byteowls.vaadin.chartjs.options.scale.CategoryScale;
 import com.byteowls.vaadin.chartjs.options.scale.LinearScale;
-import com.byteowls.vaadin.chartjs.utils.ColorUtils;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
@@ -99,7 +98,7 @@ public class TippgameUserPointsChart extends AbstractChartView {
 
         ChartJs chart = new ChartJs(lineConfig);
         chart.setWidth(100, Unit.PERCENTAGE);
-        chart.setHeight(30, Unit.PERCENTAGE);
+        //chart.setHeight(30, Unit.PERCENTAGE);
         chart.setJsLoggingEnabled(false);
 
         return chart;
@@ -124,8 +123,13 @@ public class TippgameUserPointsChart extends AbstractChartView {
 
         perfectPointsData.dataAsList(data);
 
-        perfectPointsData.borderColor(ColorUtils.randomColor(0.1));
-        perfectPointsData.backgroundColor(ColorUtils.randomColor(0.2));
+        perfectPointsData.borderColor("rgb(4, 4, 206)");
+        perfectPointsData.backgroundColor("rgb(4, 4, 206)");
+
+        perfectPointsData.pointBackgroundColor("rgb(4, 4, 206)");
+        perfectPointsData.pointBorderColor("rgb(4, 4, 206)");
+        perfectPointsData.pointHoverBackgroundColor("rgb(4, 4, 206)");
+        perfectPointsData.pointHoverBorderColor("rgb(4, 4, 206)");
 
         return perfectPointsData;
     }
@@ -154,8 +158,13 @@ public class TippgameUserPointsChart extends AbstractChartView {
         }
 
         userPointsData.dataAsList(data);
-        userPointsData.borderColor(ColorUtils.randomColor(0.3));
-        userPointsData.backgroundColor(ColorUtils.randomColor(0.4));
+        userPointsData.borderColor("rgb(158, 158, 158)");
+        userPointsData.backgroundColor("rgb(158, 158, 158)");
+
+        userPointsData.pointBackgroundColor("rgb(158, 158, 158)");
+        userPointsData.pointBorderColor("rgb(158, 158, 158)");
+        userPointsData.pointHoverBackgroundColor("rgb(158, 158, 158)");
+        userPointsData.pointHoverBorderColor("rgb(158, 158, 158)");
         return userPointsData;
     }
 
@@ -183,8 +192,13 @@ public class TippgameUserPointsChart extends AbstractChartView {
         }
 
         userPointsData.dataAsList(data);
-        userPointsData.borderColor(ColorUtils.randomColor(0.5));
-        userPointsData.backgroundColor(ColorUtils.randomColor(0.6));
+
+        userPointsData.borderColor("rgb(244, 232, 102)");
+        userPointsData.backgroundColor("rgb(244, 232, 102)");
+        userPointsData.pointBackgroundColor("rgb(244, 232, 102)");
+        userPointsData.pointBorderColor("rgb(244, 232, 102)");
+        userPointsData.pointHoverBackgroundColor("rgb(244, 232, 102)");
+        userPointsData.pointHoverBorderColor("rgb(244, 232, 102)");
         return userPointsData;
     }
 

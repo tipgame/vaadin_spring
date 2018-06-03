@@ -5,6 +5,10 @@ import de.tipgame.backend.repository.DisableElementsRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 @Service
 public class DisableElementsService {
@@ -22,7 +26,15 @@ public class DisableElementsService {
     public Boolean isTimeToDisableElement(String elementToDisable) {
          DisableElementsEntity elementToDisableEntity = disableElementsRepository.findByElementToDisable(elementToDisable);
 
-         LocalDateTime now = LocalDateTime.now();
+        Calendar cal = Calendar.getInstance(); // creates calendar
+        cal.setTime(new Date()); // sets calendar time/date
+        cal.add(Calendar.HOUR_OF_DAY, 2); // adds one hour
+
+        TimeZone tz = cal.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+
+        LocalDateTime now = LocalDateTime.ofInstant(cal.toInstant(), zid);
+
 
          if(elementToDisableEntity != null && elementToDisableEntity.getDateElementIsDisabled() != null)
              return now.compareTo(elementToDisableEntity.getDateElementIsDisabled()) > 0;

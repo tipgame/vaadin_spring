@@ -7,6 +7,7 @@ public class User {
     private Integer points;
     private String fullname;
     private String username;
+    private Integer rank;
 
     public String getLastname() {
         return lastname;
@@ -46,5 +47,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

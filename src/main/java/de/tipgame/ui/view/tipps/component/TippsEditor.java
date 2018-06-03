@@ -46,10 +46,10 @@ public class TippsEditor extends VerticalLayout {
         ResponsiveRow row = responsiveLayout.addRow();
 
         row.addColumn()
-                .withDisplayRules(12,2,2,2)
+                .withDisplayRules(12,3,3,3)
                 .withComponent(tippHomeTeam);
         row.addColumn()
-                .withDisplayRules(12,4,4,4)
+                .withDisplayRules(12,3,3,3)
                 .withComponent(tippAwayTeam);
 
         tippHomeTeam.setWidth(50, Unit.PIXELS);
@@ -97,6 +97,8 @@ public class TippsEditor extends VerticalLayout {
                     .show(Page.getCurrent());
         } else {
 
+            gameMatchDto.setTippHomeTeam(tippHomeTeam.getValue());
+            gameMatchDto.setTippAwayTeam(tippAwayTeam.getValue());
             userMatchConnectionService.saveTipp(gameMatchDto);
 
             new Notification("Tipp gespeichert!",
@@ -104,6 +106,8 @@ public class TippsEditor extends VerticalLayout {
                     Notification.Type.HUMANIZED_MESSAGE, false)
                     .show(Page.getCurrent());
         }
+
+        binder.setBean(gameMatchDto);
     }
 
     public interface ChangeHandler {
@@ -119,18 +123,19 @@ public class TippsEditor extends VerticalLayout {
             return;
         }
 
-        save.setEnabled(true);
-        delete.setEnabled(true);
+        save.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
+        delete.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
         tippHomeTeam.setCaption(gameMatchDto.getLongNameHomeTeam());
         tippAwayTeam.setCaption(gameMatchDto.getLongNameAwayTeam());
 
+        tippHomeTeam.setValue(gameMatchDto.getTippHomeTeam());
+        tippAwayTeam.setValue(gameMatchDto.getTippAwayTeam());
+
         tippAwayTeam.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
         tippHomeTeam.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
-        save.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
-        delete.setEnabled(!TipgameUtils.isTimeToDisable(gameMatchDto.getKickOff()));
+
 
         this.gameMatchDto = gameMatchDto;
-        binder.setBean(gameMatchDto);
     }
 
     void setChangeHandler(ChangeHandler h) {

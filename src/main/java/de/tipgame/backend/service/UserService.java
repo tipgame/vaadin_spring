@@ -60,6 +60,10 @@ public class UserService {
                 .sorted(Comparator.comparing(User::getPoints).reversed())
                 .collect(Collectors.toList());
 
+        for(int i = 0; i<users.size(); i++) {
+            users.get(i).setRank(i+1);
+        }
+
         return users;
     }
 
@@ -67,8 +71,10 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    private User buildUserDtoFromEntities(UserStatisticEntity userStatisticEntity, UserEntity userEntity) {
+    private User buildUserDtoFromEntities(UserStatisticEntity userStatisticEntity,
+                                          UserEntity userEntity) {
         User user = new User();
+
         user.setFirstname(userEntity.getFirstname());
         user.setLastname(userEntity.getLastname());
         user.setPoints(userStatisticEntity.getPoints());

@@ -77,14 +77,16 @@ public class HomeView extends HomeViewDesign implements View {
                 .withHorizontalSpacing(true)
                 .withVerticalSpacing(true)
                 .addColumn()
-                .withDisplayRules(12, 6, 6, 6)
+                .withDisplayRules(12, 12, 12, 12)
                 .withComponent(createChartStatisticTimelineLayout());
 
-        row
+        ResponsiveRow row1 = responsiveLayout.addRow();
+
+        row1
                 .withHorizontalSpacing(true)
                 .withVerticalSpacing(true)
                 .addColumn()
-                .withDisplayRules(12, 6, 6, 6)
+                .withDisplayRules(12, 12, 12, 12)
                 .withComponent(createChartTeamRankLayout());
 
         mainLayout.addComponent(responsiveLayout);
@@ -113,6 +115,7 @@ public class HomeView extends HomeViewDesign implements View {
         }
 
         panel.setContent(newsLabel);
+        newsLabel.setCaptionAsHtml(true);
 
         vL.addComponent(panel);
         mainLayout.addComponent(vL);
@@ -144,7 +147,7 @@ public class HomeView extends HomeViewDesign implements View {
     private Panel createChartStatisticTimelineLayout() {
         Panel panel = new Panel();
         VerticalLayout vL = new VerticalLayout();
-        panel.setCaption("Punkteverlauf");
+        panel.setCaption("Persönlicher Punkteverlauf");
         panel.setContent(tippgameUserPointsChart.getChart());
 
         vL.addComponent(panel);
@@ -168,6 +171,8 @@ public class HomeView extends HomeViewDesign implements View {
         Grid<User> grid = new Grid<>();
         grid.setWidth(100, Unit.PERCENTAGE);
         grid.setItems(userService.getAllUsersSortedByRank());
+        grid.addColumn(User::getRank).setCaption("Platz")
+                .setStyleGenerator((StyleGenerator<User>) this::getCssClassIfGridCellShouldBeMarked);
         grid.addColumn(User::getFullname).setCaption("Name")
                 .setStyleGenerator((StyleGenerator<User>) this::getCssClassIfGridCellShouldBeMarked);
         grid.addColumn(User::getPoints).setCaption("Punkte")
