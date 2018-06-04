@@ -60,8 +60,18 @@ public class UserService {
                 .sorted(Comparator.comparing(User::getPoints).reversed())
                 .collect(Collectors.toList());
 
+        Integer rank = 0;
+        Integer previousUserPoints = -1;
         for(int i = 0; i<users.size(); i++) {
-            users.get(i).setRank(i+1);
+
+            if(previousUserPoints != users.get(i).getPoints()) {
+                previousUserPoints = users.get(i).getPoints();
+                rank += 1;
+            }
+            users.get(i).setRank(rank);
+
+
+
         }
 
         return users;

@@ -5,6 +5,8 @@ import com.byteowls.vaadin.chartjs.config.BarChartConfig;
 import com.byteowls.vaadin.chartjs.data.BarDataset;
 import com.byteowls.vaadin.chartjs.options.Position;
 import com.byteowls.vaadin.chartjs.options.elements.Rectangle;
+import com.byteowls.vaadin.chartjs.options.scale.Axis;
+import com.byteowls.vaadin.chartjs.options.scale.LinearScale;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
@@ -40,6 +42,16 @@ public class TippgameGroupRankChart extends AbstractChartView {
                 .text("Punkte der Teams")
                 .and()
                 .scales()
+                .add(Axis.X, new LinearScale()
+                        .display(true)
+                        .scaleLabel()
+                        .display(true)
+                        .labelString("Punkte")
+                        .and()
+                        .ticks()
+                        .suggestedMin(0)
+                        .and()
+                        .position(Position.LEFT))
                 .and()
                 .elements()
                 .rectangle()
