@@ -4,11 +4,9 @@ import com.vaadin.data.Result;
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import de.tipgame.app.security.SecurityUtils;
 import de.tipgame.backend.data.Role;
 import de.tipgame.backend.data.entity.DisableElementsEntity;
 import de.tipgame.backend.data.entity.NewsEntity;
-import de.tipgame.backend.data.entity.UserEntity;
 import de.tipgame.backend.service.*;
 import de.tipgame.ui.view.admin.component.AdminViewCustomComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +74,7 @@ public class AdminView extends AdminViewDesign implements View {
             }
         };
 
-        date.setDateFormat("dd.MM.yyyy hh:mm");
+        date.setDateFormat("dd.MM.yyyy HH:mm");
         date.setLenient(true);
 
         date.addValueChangeListener(e -> {
@@ -108,7 +106,7 @@ public class AdminView extends AdminViewDesign implements View {
             }
         };
 
-        date.setDateFormat("dd.MM.yyyy hh:mm");
+        date.setDateFormat("dd.MM.yyyy HH:mm");
         date.setLenient(true);
 
         date.addValueChangeListener(e -> {
@@ -140,7 +138,7 @@ public class AdminView extends AdminViewDesign implements View {
             }
         };
 
-        date.setDateFormat("dd.MM.yyyy hh:mm");
+        date.setDateFormat("dd.MM.yyyy HH:mm");
         date.setLenient(true);
 
         date.addValueChangeListener(e -> {
@@ -223,8 +221,7 @@ public class AdminView extends AdminViewDesign implements View {
             ProgressBar bar = new ProgressBar();
             bar.setIndeterminate(true);
             hLAdditionalPoints.addComponent(bar);
-            final UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
-            if (statisticService.calculateFullPointsAfterLastMatch(currentUser)) {
+            if (statisticService.calculateFullPointsAfterLastMatch()) {
                 bar.setVisible(false);
                 hLAdditionalPoints.addComponent(new Label("Berechnung beendet."));
             }

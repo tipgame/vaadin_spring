@@ -72,7 +72,7 @@ public class StatisticService {
             String[] userIDs = team.getUserIds().split(";");
             Float sumOfPoints = 0F;
             for (String userId : userIDs) {
-                sumOfPoints = sumOfPoints + getAllPointsForUser(Integer.parseInt(userId));
+                sumOfPoints = sumOfPoints + getAllPointsForUser(Integer.parseInt(userId.trim()));
             }
 
             if (userIDs.length > 0) {
@@ -144,23 +144,31 @@ public class StatisticService {
         statisticTimelineService.saveStatisticTimeline(statisticTimelineEntity);
     }
 
-    public boolean calculateFullPointsAfterLastMatch(UserEntity user) {
+    public boolean calculateFullPointsAfterLastMatch() {
+
+        final List<UserEntity> allUsers = userService.findAllUsers();
         Integer points = 0;
 
-        String winner = user.getWinnerTipp();
-        String tippGermany = user.getGermanyTipp();
+        for (UserEntity user : allUsers) {
 
-        Iterable<FinalResultEntity> finalResults = finalResultService.getFinalResults();
-        for (FinalResultEntity finalResultEntity : finalResults) {
-            if (finalResultEntity.getResultGermany().equalsIgnoreCase(tippGermany)) {
-                points = points + 10;
+            String winner = user.getWinnerTipp();
+            String tippGermany = user.getGermanyTipp();
+
+            Iterable<FinalResultEntity> finalResults = finalResultService.getFinalResults();
+            for (FinalResultEntity finalResultEntity : finalResults) {
+                if (finalResultEntity.getResultGermany().equalsIgnoreCase(tippGermany)) {
+                    points = points + 10;
+                }
+                if (finalResultEntity.getWinner().equalsIgnoreCase(winner)) {
+                    points = points + 10;
+                }
+
+                if (points > 0) {
+                    savePoints(points, user.getId());
+                    points = 0;
+                }
+
             }
-            if (finalResultEntity.getWinner().equalsIgnoreCase(winner)) {
-                points = points + 10;
-            }
-
-            savePoints(points, user.getId());
-
         }
 
         return true;

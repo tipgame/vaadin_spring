@@ -52,9 +52,11 @@ public class UserService {
 
         Map<Integer, UserEntity> userEntityMap = userRepository.findAll()
                 .stream()
+                .filter(user -> !(user.getUsername().equalsIgnoreCase("deleted")))
                 .collect(Collectors.toMap(UserEntity::getId, Function.identity()));
 
         List<User> users = userStatisticEntities.stream()
+                .filter(userStatisticEntity -> userEntityMap.get(userStatisticEntity.getUserId()) != null)
                 .map(userStatisticEntity -> buildUserDtoFromEntities(userStatisticEntity,
                         userEntityMap.get(userStatisticEntity.getUserId())))
                 .sorted(Comparator.comparing(User::getPoints).reversed())
@@ -64,7 +66,7 @@ public class UserService {
         Integer previousUserPoints = -1;
         for(int i = 0; i<users.size(); i++) {
 
-            if(previousUserPoints != users.get(i).getPoints()) {
+            if(!(previousUserPoints.equals(users.get(i).getPoints()))) {
                 previousUserPoints = users.get(i).getPoints();
                 rank += 1;
             }

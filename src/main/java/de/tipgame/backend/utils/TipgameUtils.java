@@ -16,7 +16,7 @@ public class TipgameUtils {
             cal.add(Calendar.HOUR_OF_DAY, 2); // adds one hour
             Date date = cal.getTime();
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
             Date parsedDate = dateFormat.parse(timeToDisable);
             if (date.compareTo(parsedDate) == 0 || date.compareTo(parsedDate) > 0)
             {

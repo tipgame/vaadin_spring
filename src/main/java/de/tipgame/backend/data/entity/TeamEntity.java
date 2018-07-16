@@ -17,6 +17,8 @@ public class TeamEntity {
     private String userIds;
     @Column(name="team_name")
     private String teamName;
+    @Column(name="team_captain")
+    private Integer teamCaptain;
 
     public int getId() {
         return id;
@@ -66,4 +68,11 @@ public class TeamEntity {
         this.teamName = teamName;
     }
 
+    public Integer getTeamCaptain() {
+        return teamCaptain;
+    }
+
+    public void setTeamCaptain(Integer teamCaptain) {
+        this.teamCaptain = teamCaptain;
+    }
 }

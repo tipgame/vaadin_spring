@@ -200,7 +200,8 @@ public class HomeView extends HomeViewDesign implements View {
 
         grid.setItems(createTeamDtos());
         grid.setWidth(100, Unit.PERCENTAGE);
-        grid.setColumns("teamName", "points");
+        grid.setColumns("rank", "teamName", "points");
+        grid.getColumn("rank").setCaption("Platz");
         grid.getColumn("teamName").setCaption("Team");
         grid.getColumn("points").setCaption("Punkte");
         grid.getColumn("teamName").setDescriptionGenerator(TeamDto::getTeamMembers, ContentMode.HTML);
@@ -218,28 +219,35 @@ public class HomeView extends HomeViewDesign implements View {
             TeamDto teamDto = new TeamDto();
             teamDto.setTeamName(team.getTeamName());
             teamDto.setPoints(team.getPoints());
-            teamDto.setTeamMembers(buildToolTipWithTeamMembersForTeam(team.getUserIds()));
+            teamDto.setRank(team.getRank());
+            teamDto.setTeamMembers(buildToolTipWithTeamMembersForTeam(team.getUserIds(), team));
             teamDtos.add(teamDto);
         }
 
         return teamDtos;
     }
 
-    private String buildToolTipWithTeamMembersForTeam(String userIds) {
+    private String buildToolTipWithTeamMembersForTeam(String userIds, TeamEntity team) {
         String teamMembersHtmlToolTip = "";
         if (userIds != null && !userIds.isEmpty()) {
             List<Integer> userIdList = Stream.of(userIds.split(";"))
-                    .map(Integer::new)
+                    .map(e -> Integer.valueOf(e.trim()))
                     .collect(Collectors.toList());
 
             List<UserEntity> userEntities = userService.findByUserIdIn(userIdList);
 
             teamMembersHtmlToolTip = "Mitglieder: <br>";
             teamMembersHtmlToolTip += userEntities.stream()
-                    .map(e -> e.getFirstname() + " " + e.getLastname())
+                    .map(e -> e.getFirstname() + " " + e.getLastname() + " "+returnCaptain(e, team))
                     .collect(Collectors.joining("<br>"));
         }
 
         return teamMembersHtmlToolTip;
+    }
+
+    private String returnCaptain(UserEntity userEntity, TeamEntity team) {
+        if(userEntity.getId() == team.getTeamCaptain())
+            return "(C)";
+        return "";
     }
 }

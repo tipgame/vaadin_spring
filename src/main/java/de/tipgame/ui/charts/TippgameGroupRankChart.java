@@ -13,9 +13,7 @@ import com.vaadin.ui.Component;
 import de.tipgame.backend.data.entity.TeamEntity;
 import de.tipgame.backend.service.TeamService;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @UIScope
@@ -76,32 +74,28 @@ public class TippgameGroupRankChart extends AbstractChartView {
 
 
     private BarChartConfig addTeamRankData(BarChartConfig barChartConfig) {
-        List<String> teamColor = new ArrayList<>();
-        teamColor.add("rgb(209, 12, 12)");
-        teamColor.add("rgb(209, 153, 11)");
-        teamColor.add("rgb(176, 209, 11)");
-        teamColor.add("rgb(47, 209, 11)");
-        teamColor.add("rgb(11, 209, 189)");
-        teamColor.add("rgb(11, 110, 209)");
-        teamColor.add("rgb(83, 11, 209)");
-        teamColor.add("rgb(209, 11, 209)");
+
+        Map<String, String> teamColorMap = new HashMap<>();
+        teamColorMap.put("Bavaria", "rgb(209, 12, 12)");
+        teamColorMap.put("Bauherren-Chaos 2018", "rgb(209, 153, 11)");
+        teamColorMap.put("Karlsruhe Patriots", "rgb(176, 209, 11)");
+        teamColorMap.put("Stiftung Wadentest", "rgb(47, 209, 11)");
+        teamColorMap.put("Skat Beach Boys", "rgb(11, 209, 189)");
+        teamColorMap.put("Dreamteam Karlsruhe", "rgb(11, 110, 209)");
+        teamColorMap.put("JAMBO", "rgb(83, 11, 209)");
+
         List<TeamEntity> allTeamsOrderedByPointsDesc = teamService.getAllTeamsOrderdByPointsDesc();
 
-        Integer index = 0;
         for (TeamEntity team : allTeamsOrderedByPointsDesc) {
             if (team.getPoints() != null) {
                 barChartConfig.data()
                         .addDataset(
-                                new BarDataset().backgroundColor(teamColor.get(index))
-                                        .borderColor(teamColor.get(index))
-                                        .hoverBackgroundColor(teamColor.get(index))
-                                        .hoverBorderColor(teamColor.get(index))
+                                new BarDataset().backgroundColor(teamColorMap.get(team.getTeamName()))
+                                        .borderColor(teamColorMap.get(team.getTeamName()))
+                                        .hoverBackgroundColor(teamColorMap.get(team.getTeamName()))
+                                        .hoverBorderColor(teamColorMap.get(team.getTeamName()))
                                         .label(team.getTeamName())
                                         .addData(Math.round(team.getPoints() * 100) / 100.00));
-                if(index < allTeamsOrderedByPointsDesc.size())
-                    index += 1;
-                else
-                    index = 0;
             }
         }
         barChartConfig.data().labelsAsList(Collections.singletonList(""));
